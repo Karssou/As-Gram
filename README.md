@@ -1,5 +1,5 @@
 # social-media
-## Powered by ![Vue.js](https://img.shields.io/badge/Powered%20by-Vue.js-%234FC08D)
+![Vue.js](https://img.shields.io/badge/Powered%20by-Vue.js-%234FC08D) ![Node.js](https://img.shields.io/badge/Powered%20by-Node.js-%234FC08D) ![Vite](https://img.shields.io/badge/Powered%20by-Vite-%234FC08D)
  
 
 Salut
