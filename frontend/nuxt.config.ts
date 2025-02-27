@@ -6,5 +6,6 @@ export default defineNuxtConfig({
     "@/assets/styles/main.scss",
     "@/assets/styles/variables.scss",
     "@/assets/styles/fonts.scss",
+    "@/assets/styles/reset.scss",
   ],
 });

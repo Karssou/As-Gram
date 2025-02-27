@@ -1,0 +1,40 @@
+#auth-container {
+  display: flex;
+  flex-direction: column;
+
+  width: 20vw;
+  height: 50vh;
+  border: 2px solid #2a8eff;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px;
+  background-color: #f5f5f5;
+
+  #auth-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 10%;
+    padding-top: 10%;
+    h1 {
+      font-family: "Roboto", sans-serif;
+      text-transform: uppercase;
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+  }
+
+  #auth-content {
+    flex: 2 0 70%;
+  }
+
+  #auth-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0 1 10%;
+
+    span {
+      font-size: 14px;
+    }
+  }
+}
