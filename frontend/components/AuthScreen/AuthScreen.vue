@@ -1,4 +1,10 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const IsLogin = ref(true);
+
+const ToggleAuthScreen = () => {
+  IsLogin.value = !IsLogin.value;
+};
+</script>
 
 <template>
   <div id="auth-container">
@@ -7,11 +13,19 @@
     </div>
 
     <div id="auth-content">
-      <AuthScreenLoginScreen />
+      <AuthScreenLoginScreen v-if="IsLogin" />
+      <AuthScreenRegisterScreen v-else />
     </div>
 
     <div id="auth-footer">
-      <span>Pas encore de compte ? <a href="">Créer un compte</a></span>
+      <span v-if="IsLogin"
+        >Pas encore de compte ?
+        <a href="" @click.prevent="ToggleAuthScreen">Créer un compte</a></span
+      >
+      <span v-else
+        >Déjà un compte ?
+        <a href="" @click.prevent="ToggleAuthScreen">Connectez-vous</a></span
+      >
     </div>
   </div>
 </template>

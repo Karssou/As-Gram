@@ -2,12 +2,12 @@
 
 <template>
   <div id="page-header">
-    <NuxtLink class="navigation btn" to="/">Page Index</NuxtLink>
+    <NuxtLink class="navigation-btn" to="/">Page Index</NuxtLink>
   </div>
   <div id="auth-page-content">
     <AuthScreen />
   </div>
 </template>
 <style lang="scss" scoped>
-@use "authentification.scss";
+@use "styles/authentification.scss";
 </style>
