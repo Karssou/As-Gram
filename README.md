@@ -1,8 +1,8 @@
-# social-media
-![Vue.js](https://img.shields.io/badge/Powered%20by-Vue.js-%234FC08D) ![Node.js](https://img.shields.io/badge/Powered%20by-Node.js-%234FC08D) ![Vite](https://img.shields.io/badge/Powered%20by-Vite-%234FC08D)
+# **AS - Gram**
 
- 
-Un réseau social moderne permettant aux utilisateurs de se connecter, de partager des publications et d'interagir en temps réel.
+
+
+Un **réseau social moderne** permettant aux utilisateurs de se **connecter**, de **partager** des **publications**, et **d'interagir** en **temps réel**. Notre plateforme offre une expérience utilisateur **intuitive** et **sécurisée**, avec des fonctionnalités telles que la **messagerie instantanée**, **les groupes de discussion**. Que vous souhaitiez **rester en contact avec vos amis** ou **participer à des discussions passionnantes**, notre réseau social est conçu pour répondre à **vos** besoins.
 
 
 ## Equipe de Développement 
