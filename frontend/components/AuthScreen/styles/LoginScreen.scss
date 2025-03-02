@@ -1,0 +1,36 @@
+#login-form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5%;
+  justify-content: space-evenly;
+
+  .auth-form-input {
+    width: 60%;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    font-family: "Roboto", sans-serif;
+  }
+
+  #login-submit-btn {
+    width: 60%;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2a8eff;
+    color: white;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+    transition: all 0.25s ease;
+
+    &:hover {
+      background-color: #1c4e87;
+      cursor: pointer;
+    }
+  }
+}
