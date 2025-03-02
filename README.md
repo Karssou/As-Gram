@@ -69,3 +69,8 @@ Un **réseau social moderne** permettant aux utilisateurs de se **connecter**, d
    - Allez sur votre copie du projet sur GitHub.
    - Vous verrez un message vous suggérant de créer une "Pull Request" pour la branche que vous venez de pousser. Cliquez sur le bouton pour créer une Pull Request.
    - Remplissez le formulaire avec des détails sur vos modifications et soumettez-le.
+
+#Petite aide 
+
+Pour ajouter une îcone, il suffit de se rendre sur [ce site](https://icones.js.org)
+cliquez sur l'icone que vous souhaitez puis copier le code dans votre balise <icone/>
