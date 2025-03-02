@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { RouterLink } from "vue-router";
-import { useAuthStore } from "~/store/auth";
+import { useAuthStore } from "~/stores/auth";
 
 const auth = useAuthStore();
 
@@ -10,9 +9,8 @@ const form = ref({
 });
 
 async function Login() {
-  await auth.login(form.value);
-  form.value = { email: "", password: "" };
-  await navigateTo("/");
+  const request = await auth.login(form.value);
+  console.log(request);
 }
 </script>
 

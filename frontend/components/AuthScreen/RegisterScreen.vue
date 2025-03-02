@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useAuthStore } from "~/store/auth";
+import { useAuthStore } from "~/stores/auth";
 
 const auth = useAuthStore();
 
@@ -10,9 +10,8 @@ const form = ref({
 });
 
 async function Register() {
-  await auth.register(form.value);
-  form.value = { username: "", email: "", password: "" };
-  await navigateTo("/");
+  const request = await auth.register(form.value);
+  console.log(request);
 }
 </script>
 

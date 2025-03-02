@@ -1,16 +1,11 @@
 <script lang="ts" setup>
-import { useAuthStore } from "~/store/auth";
+import { useAuthStore } from "~/stores/auth";
 
 const auth = useAuthStore();
 
 async function logout() {
   await auth.logout();
-  await navigateTo("/authentification");
 }
-
-onMounted(() => {
-  auth.me;
-});
 </script>
 
 <template>
@@ -20,8 +15,8 @@ onMounted(() => {
 
   <button @click.prevent="logout">LOG-OUT</button>
 
-  <div v-if="auth.user">
-    <h1>Salut {{ auth.user }}</h1>
+  <div v-if="auth.isAuthenticated">
+    <h1>Salut {{ auth.user?.username }}</h1>
   </div>
 
   <div v-else>
