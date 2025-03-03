@@ -1,7 +1,10 @@
 <script lang="ts" setup></script>
 
 <template>
-  <h1>Salut</h1>
+  <main>
+    <ButtonsBaseButton class="button" text="Salut" />
+  
+  </main>
 </template>
 
 <style lang="scss" scoped>

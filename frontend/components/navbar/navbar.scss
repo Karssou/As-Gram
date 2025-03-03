@@ -2,13 +2,14 @@
   position: absolute;
   top: 25px;
   left: 25px;
-  width: 60px;
+  max-width: 60px;
+  width: 100%;
   display: flex;
-  padding: 10px;
+  padding: 10px 5px;
   height: fit-content;
   border-radius: 15px;
   background-color: rgb(33, 32, 32);
-  transition: width 0.5s ease;
+  transition: all 0.3s ease;
 
   #navbar {
     width: 100%;
@@ -42,22 +43,33 @@
         line-height: 0;
         text-transform: uppercase;
         border-radius: 5px;
+        transition: background 0.3s ease;
 
         &:hover {
           background-color: #bbbbbb;
+
+          .nav-span {
+            color: black;
+          }
+
+          .nav-icon {
+            color: black;
+          }
         }
 
         .nav-span {
+          margin-left: 10px;
           display: none;
           line-height: 0;
-          font-family: "Roboto", sans-serif;
+          font-family: "Ubuntu", sans-serif;
+          transition: all 0.3s ease;
         }
       }
     }
   }
 
   &:hover {
-    width: fit-content;
+    max-width: 200px;
     #navbar {
       .nav-link {
         .nav-linker {

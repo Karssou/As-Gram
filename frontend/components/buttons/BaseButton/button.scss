@@ -1,0 +1,23 @@
+#button {
+  padding: 10px;
+  border-radius: 7px;
+  border: none;
+  background-color: rgb(247, 247, 247);
+  width: clamp(50px, 100px, 150px);
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  .span-btn {
+    color: black;
+    font-weight: bold;
+    font-family: "roboto", sans-serif;
+    text-transform: uppercase;
+    font-size: 14px;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: #0072bb;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.4);
+    transform: scale(1.025);
+  }
+}

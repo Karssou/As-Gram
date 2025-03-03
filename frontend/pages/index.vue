@@ -9,9 +9,6 @@ async function logout() {
 </script>
 
 <template>
-  <NuxtLink class="navigation btn" to="/authentification"
-    >Page Authentification <icon name="ri:account-circle-fill"
-  /></NuxtLink>
   <button @click.prevent="logout">LOG-OUT</button>
 </template>
 
