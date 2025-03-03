@@ -9,13 +9,7 @@ async function logout() {
 </script>
 
 <template>
-  <NuxtLink class="navigation btn" to="/authentification"
-    >Page Authentification</NuxtLink
-  >
-  
-
   <button @click.prevent="logout">LOG-OUT</button>
-
 </template>
 
 <style lang="scss" scoped>
