@@ -1,21 +1,21 @@
 <script lang="ts" setup>
 import { useAuthStore } from "~/stores/auth";
 
-const auth = useAuthStore();
+const { login } = HandleAuth();
 
 const form = ref({
   email: "",
   password: "",
 });
 
-async function Login() {
-  const request = await auth.login(form.value);
+async function LoginAttempt() {
+  const request = await login(form.value);
   console.log(request);
 }
 </script>
 
 <template>
-  <form @submit.prevent="Login" id="login-form">
+  <form @submit.prevent="LoginAttempt" id="login-form">
     <input
       type="text"
       id="auth-login-email"

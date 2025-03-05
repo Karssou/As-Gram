@@ -1,9 +1,4 @@
 <script lang="ts" setup>
-const authstore = useAuthStore();
-const test = () => {
-  console.log(authstore.salut());
-};
-
 const props = defineProps({
   text: {
     type: String,
@@ -13,7 +8,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <button @click="test" id="button">
+  <button id="button">
     <span class="span-btn">{{ text }}</span>
   </button>
 </template>

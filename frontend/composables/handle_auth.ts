@@ -2,11 +2,7 @@ export function HandleAuth() {
   const authstore = useAuthStore();
 
   function authenticate(result: any) {
-    if (result.token) {
-      authstore.token = result.token;
-    } else {
-      console.error("[AUTH ERROR] Données invalides reçues", result);
-    }
+    authstore.token = result.token;
   }
 
   // FONCTION DE LOG-IN
@@ -32,5 +28,17 @@ export function HandleAuth() {
     }
   }
 
-  return { login, register };
+  async function salut() {
+    const request = await ApiCall("GET", "/salut");
+    console.log(request);
+    return request;
+  }
+
+  async function logout() {
+    const request = ApiCall("DELETE", "/logout");
+    authstore.token = null;
+    return request;
+  }
+
+  return { login, register, salut, logout };
 }

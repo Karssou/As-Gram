@@ -1,14 +1,10 @@
 <script lang="ts" setup>
 import { useAuthStore } from "~/stores/auth";
 
-const auth = useAuthStore();
+const { logout } = HandleAuth();
 
-const info = await auth.me();
-
-console.log(info);
-
-async function logout() {
-  auth.logout();
+async function Logout() {
+  console.log(logout());
 }
 </script>
 
