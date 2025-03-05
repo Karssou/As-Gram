@@ -4,48 +4,60 @@ import type { HttpContext } from '@adonisjs/core/http'
 
 export default class AuthController {
   // Fonction pour le REGISTER
-  public async register({ request, response }: HttpContext) {
-    const data = await request.validateUsing(registerValidator)
-    const user = await User.create(data)
-    const token = await User.accessTokens.create(user, ['*'])
-    return response.status(201).json({
-      message: 'Utilisateur créé avec succès',
-      user: {
-        id: user.id,
-        name: user.username,
-        email: user.email,
-        created_at: user.createdAt,
-      },
-      token: token.value,
-    })
+
+  async register({ request, response }: HttpContext) {
+    try {
+      const data = await request.validateUsing(registerValidator)
+      const user = await User.create(data)
+
+      return (
+        await User.accessTokens.create(user, ['*'], {
+          expiresIn: '1min',
+        }),
+        response.status(201).json({
+          message: 'Utilisateur créé avec succès',
+        })
+      )
+    } catch (error) {
+      return response.json({
+        messages: 'Création échouée',
+        Erreur: error,
+      })
+    }
   }
-
   // Fonction pour le LOGIN
-  public async login({ request, response }: HttpContext) {
-    const { email, password } = await request.validateUsing(LoginValidator)
-    const user = await User.verifyCredentials(email, password)
-    const token = await User.accessTokens.create(user, ['*'])
+  async login({ request, response }: HttpContext) {
+    try {
+      const { email, password } = await request.validateUsing(LoginValidator)
+      const user = await User.verifyCredentials(email, password)
+      const token = await User.accessTokens.create(user, ['*'], {
+        expiresIn: '1min',
+      })
 
-    return response.json({
-      message: 'Connexion réussie',
-      user: {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        created_at: user.createdAt,
-      },
-      token: token.value,
-    })
+      return response.status(200).header('bearer').json({
+        expireat: token.expiresAt,
+      })
+    } catch (error) {
+      return response.json({
+        messages: 'Connexion échouée',
+        Erreur: error,
+      })
+    }
   }
 
   // Fonction pour le LOGOUT
-  public async logout({ auth }: HttpContext) {
-    const user = auth.user!
-    await User.accessTokens.delete(user, user.currentAccessToken.identifier)
+  async logout({ auth, response }: HttpContext) {
+    try {
+      const user = auth.user!
+      await User.accessTokens.delete(user, user.currentAccessToken.identifier)
+      return { message: 'success ' }
+    } catch (error) {
+      console.error(error)
+      return response.status(500).json({ message: 'Erreur lors de la déconnexion' })
+    }
   }
 
-  // Fonction pour récupérer les infos du user
-  public async me({ auth }: HttpContext) {
+  async me({ auth }: HttpContext) {
     await auth.check()
     return {
       user: auth.user,

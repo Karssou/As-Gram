@@ -3,6 +3,10 @@ import { useAuthStore } from "~/stores/auth";
 
 const auth = useAuthStore();
 
+const info = await auth.me();
+
+console.log(info);
+
 async function logout() {
   auth.logout();
 }
