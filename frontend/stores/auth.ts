@@ -17,7 +17,7 @@ export const useAuthStore = defineStore("auth", () => {
     useCookie<string | null>("token_expiration", { default: () => null })
   );
 
-  const isAuthenticated = computed(() => !!token.value);
+  const isAuthenticated = computed(() => !!token);
 
   async function api(
     method: string,
@@ -41,12 +41,14 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   function authenticate(result: AuthResult) {
-    if (result.token) {
-      token.value = result.token;
-      tokenTimestamp.value = result.expireat;
+    const authHeader = useRequestHeader("authorization");
+    console.log(authHeader);
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      token.value = authHeader.replace("Bearer ", ""); // Stockage du token sans "Bearer "
     } else {
-      console.error("[AUTH ERROR] Données invalides reçues", result);
+      console.error("[AUTH ERROR] Aucun token reçu dans le header.");
     }
+    tokenTimestamp.value = result.expireat;
   }
 
   async function login(payload: Record<string, any>) {
