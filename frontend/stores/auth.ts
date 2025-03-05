@@ -1,73 +1,54 @@
-import { defineStore } from "pinia";
-import { computed } from "vue";
-import { useCookie } from "#app";
-
 interface User {
   id: number;
-  name: string;
-  email: string;
+  name?: string;
+  email?: string;
 }
 
 interface AuthResult {
+  message: string;
+  id: number;
   token: string;
-  user: User;
+  expireat: string;
 }
 
 export const useAuthStore = defineStore("auth", () => {
-  // Utilisation des cookies pour le stockage persistant côté client et serveur
-  const token = useCookie<string | null>("token", { default: () => null });
-  const user = useCookie<User | null>("user", { default: () => null });
+  const token = ref(useCookie<string | null>("token", { default: () => null }));
+  const tokenTimestamp = ref(
+    useCookie<string | null>("token_expiration", { default: () => null })
+  );
 
   const isAuthenticated = computed(() => !!token.value);
 
-  // Fonction API générique pour faciliter les appels
   async function api(
     method: string,
     url: string,
     payload: Record<string, any> = {}
   ) {
-    try {
-      console.log(`[API] ${method} ${url}`, payload);
+    const response = await fetch(`http://localhost:3333${url}`, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token.value}`,
+      },
+      body: method !== "GET" ? JSON.stringify(payload) : null,
+    });
 
-      const response = await fetch(`http://localhost:3333${url}`, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token.value ? `Bearer ${token.value}` : "",
-        },
-        body: method !== "GET" ? JSON.stringify(payload) : null,
-      });
-
-      if (!response.ok) {
-        throw new Error(`Erreur HTTP ${response.status}`);
-      }
-
-      return response.json();
-    } catch (error) {
-      console.error("[API ERROR]", error);
-      throw error;
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP ${response.status}`);
     }
+
+    return response.json();
   }
 
-  // Authentification réussie : stockage du token et de l'utilisateur via les cookies
   function authenticate(result: AuthResult) {
-    console.log("[AUTH] Avant stockage", result);
-
-    if (result.token && result.user) {
+    if (result.token) {
       token.value = result.token;
-      user.value = result.user;
-
-      console.log("[AUTH] Après stockage", {
-        token: token.value,
-        user: user.value,
-      });
-      console.log("[AUTH] Utilisateur authentifié :", user.value);
+      tokenTimestamp.value = result.expireat;
     } else {
       console.error("[AUTH ERROR] Données invalides reçues", result);
     }
   }
 
-  // Connexion
   async function login(payload: Record<string, any>) {
     try {
       const result = await api("POST", "/login", payload);
@@ -79,7 +60,6 @@ export const useAuthStore = defineStore("auth", () => {
     }
   }
 
-  // Inscription
   async function register(payload: Record<string, any>) {
     try {
       const result = await api("POST", "/register", payload);
@@ -90,18 +70,30 @@ export const useAuthStore = defineStore("auth", () => {
     }
   }
 
-  // Déconnexion : suppression des cookies
   function logout() {
     token.value = null;
-    user.value = null;
     console.log("[AUTH] Utilisateur déconnecté");
   }
 
-  // Récupération des informations de l'utilisateur depuis les cookies
-  function me() {
-    console.log("[ME] Récupération de l'utilisateur :", user.value);
-    return user.value;
+  async function me() {
+    const request = await api("GET", "/me");
+    return request;
   }
 
-  return { user, token, isAuthenticated, login, register, logout, me };
+  async function salut() {
+    const request = await api("GET", "/salut");
+    console.log(request);
+    return request;
+  }
+
+  return {
+    token,
+    isAuthenticated,
+    login,
+    register,
+    logout,
+    tokenTimestamp,
+    me,
+    salut,
+  };
 });
