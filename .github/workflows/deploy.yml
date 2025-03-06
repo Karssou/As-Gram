@@ -1,0 +1,24 @@
+name: 🚀 Déploiement sur VPS
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Récupérer le dépôt
+        uses: actions/checkout@v3
+
+      - name: 🔑 Configurer SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 	82.29.175.212 >> ~/.ssh/known_hosts
+
+      - name: 🚀 Déployer sur le serveur
+        run: |
+          ssh alexandre@	82.29.175.212 "cd /home/user/nom_du_projet && git pull origin main && npm install && pm2 restart all"
