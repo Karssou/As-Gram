@@ -3,9 +3,10 @@ import { Icon } from "#components";
 
 const links = {
   auth: { path: "/authentification", icon: "ri:user-3-line" },
-  laboratory: { path: "/laboratory", icon: "ri:ink-bottle-line" },
+  labo: { path: "/laboratory", icon: "ri:ink-bottle-line" },
   index: { path: "/", icon: "ri:indeterminate-circle-fill" },
   friends: { path: "/friends", icon: "ri:user-add-line" },
+  profile: { path: "/profil/[id]", icon: "ri:user-settings-line" },
 };
 </script>
 

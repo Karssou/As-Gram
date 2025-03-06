@@ -1,0 +1,25 @@
+#page-content {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  #content {
+    width: 500px;
+    height: 300px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 15px;
+    border: 2px solid white;
+
+    h1 {
+      font-family: "Lato", sans-serif;
+      color: white;
+    }
+  }
+}
