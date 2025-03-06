@@ -5,10 +5,12 @@ const props = defineProps({
     required: true,
   },
 });
+
+const { salut } = HandleAuth();
 </script>
 
 <template>
-  <button id="button">
+  <button id="button" @click="salut">
     <span class="span-btn">{{ text }}</span>
   </button>
 </template>
