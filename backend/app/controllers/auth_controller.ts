@@ -12,7 +12,7 @@ export default class AuthController {
 
       return (
         await User.accessTokens.create(user, ['*'], {
-          expiresIn: '1min',
+          expiresIn: '30days',
         }),
         response.status(201).json({
           message: 'Utilisateur créé avec succès',
@@ -32,7 +32,7 @@ export default class AuthController {
       const user = await User.verifyCredentials(email, password)
 
       return await User.accessTokens.create(user, ['*'], {
-        expiresIn: '1min',
+        expiresIn: '30days',
       })
     } catch (error) {
       return response.json({

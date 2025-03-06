@@ -1,5 +1,6 @@
 export function HandleAuth() {
   const authstore = useAuthStore();
+  const userstore = useUserStore();
 
   function authenticate(result: any) {
     authstore.token = result.token;
@@ -37,6 +38,7 @@ export function HandleAuth() {
   async function logout() {
     const request = ApiCall("DELETE", "/logout");
     authstore.token = null;
+    userstore.user = null;
     return request;
   }
 
