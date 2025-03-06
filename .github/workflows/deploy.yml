@@ -17,8 +17,26 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H 	82.29.175.212 >> ~/.ssh/known_hosts
-
-      - name: 🚀 Déployer sur le serveur
+          ssh-keyscan -H 82.29.175.212 >> ~/.ssh/known_hosts
+          
+      - name: 🚀 Déployer Backend  
+        if: contains(github.event.head_commit.modified, 'backend/')
         run: |
-          ssh alexandre@	82.29.175.212 "cd /home/user/nom_du_projet && git pull origin main && npm install && pm2 restart all"
+           ssh alexandre@82.29.175.212 << 'EOF'
+              cd /home/user/As-Gram/backend
+              git pull origin main
+              npm install
+              pm2 restart backend
+            EOF      
+            
+      - name: 🚀 Déployer Frontend
+        if: contains(github.event.head_commit.modified, 'frontend/')
+        run: |
+          ssh user@82.29.175.212 << 'EOF'
+            cd /home/user/As-Gram/frontend
+            git pull origin main
+            npm install
+            npm run build
+            pm2 restart frontend
+          EOF
+      
