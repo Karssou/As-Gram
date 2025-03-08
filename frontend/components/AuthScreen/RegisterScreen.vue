@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { useAuthStore } from "~/stores/auth";
 
-const auth = useAuthStore();
+const { register } = HandleAuth();
+const authstore = useAuthStore();
 
 const form = ref({
   username: "",
@@ -9,14 +10,17 @@ const form = ref({
   password: "",
 });
 
-async function Register() {
-  const request = await auth.register(form.value);
-  console.log(request);
+async function RegisterAttempt() {
+  try {
+    await register(form.value);
+  } catch (error) {
+    console.log("[AUTH ERROR]", error);
+  }
 }
 </script>
 
 <template>
-  <form @submit.prevent="Register" id="register-form">
+  <form @submit.prevent="RegisterAttempt" id="register-form">
     <input
       type="text"
       id="auth-register-username"
