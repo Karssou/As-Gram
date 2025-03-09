@@ -1,9 +1,14 @@
 export function HandleAuth() {
   const authstore = useAuthStore();
   const userstore = useUserStore();
+  const { addNotification, removeNotification } = useNotificationStore();
 
   function authenticate(result: any) {
-    authstore.token = result.token;
+    if (result?.token) {
+      authstore.token = result.token;
+    } else {
+      console.error("[AUTH ERROR] Aucun token reçu !");
+    }
   }
 
   // FONCTION DE LOG-IN
@@ -30,9 +35,12 @@ export function HandleAuth() {
   }
 
   async function salut() {
-    const request = await ApiCall("GET", "/salut");
-    console.log(request);
-    return request;
+    try {
+      const request = await ApiCall("GET", "/salut");
+      return request;
+    } catch (error: any) {
+      addNotification(error, "error");
+    }
   }
 
   async function logout() {

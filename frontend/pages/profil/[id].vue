@@ -24,20 +24,52 @@ interface User {
   email: string;
   created_at: string;
   friends: Array<any>;
+  fullName: string;
 }
 const user = computed(() => userstore.user || null);
 </script>
 
 <template>
   <div id="page-content">
-    <div id="content">
-      <h1>Profil de {{ user?.username || "Username Non Accessible" }}</h1>
+    <div id="panel-gestion-user">
+      <div id="header-panel">
+        <h1>{{ user?.username }}</h1>
+      </div>
+      <div id="content-panel">
+        <form @submit.prevent="" id="form-content-panel">
+          <label for="full-name"> Nom Complet :</label>
+          <input
+            type="text"
+            id="full-name"
+            class="input-panel-gestion"
+            placeholder="Votre nom Complet"
+          />
 
-      <h1>Création le : {{}}</h1>
+          <label for="email"> Votre Email</label>
+          <input
+            type="text"
+            id="email"
+            class="input-panel-gestion"
+            placeholder="Votre email"
+          />
 
-      <h1>Amis :</h1>
+          <label for="password"> Votre mot de passe</label>
+          <input
+            type="password"
+            id="password"
+            class="input-panel-gestion"
+            placeholder="Votre mot de passe"
+          />
 
-      <h1>Email : {{ user?.email }}</h1>
+          <label for="pseudo"> Pseudo : </label>
+          <input
+            type="text"
+            id="pseudo"
+            class="input-panel-gestion"
+            placeholder="Pseudonyme"
+          />
+        </form>
+      </div>
     </div>
   </div>
 </template>

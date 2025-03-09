@@ -20,6 +20,8 @@ export async function ApiCall<T = unknown>(
   } catch (error: any) {
     if (error.response && error.response.status === 401) {
       console.warn("Utilisateur non authentifié. Redirection...");
+      const notifstore = useNotificationStore();
+      notifstore.addNotification("Salut c'est pas bien", "error");
       return null;
     }
     console.error("[API ERROR]", error);

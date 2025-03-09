@@ -9,6 +9,7 @@
 
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
+const FriendsController = () => import('#controllers/friends_controller')
 
 const AuthController = () => import('#controllers/auth_controller')
 
@@ -21,3 +22,17 @@ router
     return { message: 'salut' }
   })
   .use(middleware.auth())
+
+// FRIENDS
+
+router
+  .group(() => {
+    router.get('/index/friends', [FriendsController, 'index'])
+    router.get('/index/request', [FriendsController, 'pendingRequests'])
+    router.post('/request', [FriendsController, 'store'])
+    router.post('/accept', [FriendsController, 'accept'])
+    router.post('/declined', [FriendsController, 'decline'])
+    router.post('/remove', [FriendsController, 'destroy'])
+  })
+  .use(middleware.auth())
+  .prefix('/friends')

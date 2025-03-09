@@ -2,4 +2,8 @@
 import DevNavbar from "~/components/navbar/DevNavbar.vue";
 </script>
 
-<template><DevNavbar /> <NuxtPage /></template>
+<template>
+  <DevNavbar />
+  <NuxtPage />
+  <TemporaryNotifications />
+</template>

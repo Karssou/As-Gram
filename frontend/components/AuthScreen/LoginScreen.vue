@@ -2,6 +2,7 @@
 import { useAuthStore } from "~/stores/auth";
 
 const { login } = HandleAuth();
+const authstore = useAuthStore();
 
 const form = ref({
   email: "",
@@ -9,8 +10,13 @@ const form = ref({
 });
 
 async function LoginAttempt() {
-  const request = await login(form.value);
-  console.log(request);
+  if (!authstore.token) {
+    try {
+      await login(form.value);
+    } catch (error) {
+      console.error("[AUTH LOGIN]", error);
+    }
+  }
 }
 </script>
 

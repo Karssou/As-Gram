@@ -4,20 +4,14 @@ import type { HttpContext } from '@adonisjs/core/http'
 
 export default class AuthController {
   // Fonction pour le REGISTER
-
   async register({ request, response }: HttpContext) {
     try {
       const data = await request.validateUsing(registerValidator)
       const user = await User.create(data)
 
-      return (
-        await User.accessTokens.create(user, ['*'], {
-          expiresIn: '30days',
-        }),
-        response.status(201).json({
-          message: 'Utilisateur créé avec succès',
-        })
-      )
+      return await User.accessTokens.create(user, ['*'], {
+        expiresIn: '30days',
+      })
     } catch (error) {
       return response.json({
         messages: 'Création échouée',

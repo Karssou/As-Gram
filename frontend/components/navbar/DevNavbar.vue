@@ -7,6 +7,10 @@ const links = {
   index: { path: "/", icon: "ri:indeterminate-circle-fill" },
   friends: { path: "/friends", icon: "ri:user-add-line" },
   profile: { path: "/profil/[id]", icon: "ri:user-settings-line" },
+  notifications: {
+    path: "/notifications/[id]",
+    icon: "ri:notification-2-line",
+  },
 };
 </script>
 

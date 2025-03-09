@@ -1,0 +1,25 @@
+#page {
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 2% auto;
+  max-width: 2500px;
+  align-items: center;
+  gap: 15px;
+  justify-content: flex-start;
+
+  h1 {
+    color: white;
+    font-size: 24px;
+    text-transform: uppercase;
+    font-family: "Lato", sans-serif;
+  }
+
+  #user-notification-container {
+    border: 2px solid white;
+    width: 50%;
+    border-radius: 15px;
+    height: 100%;
+  }
+}
