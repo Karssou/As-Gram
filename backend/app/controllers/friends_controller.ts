@@ -85,14 +85,44 @@ export default class FriendsController {
     return response.ok({ message: 'Demande refusée.' })
   }
 
-  public async index({ auth, response }: HttpContext) {
-    const friends = await Friendship.query()
-      .where(function (query) {
-        query.where('sender_id', auth.user!.id).orWhere('receiver_id', auth.user!.id)
-      })
-      .where('status', 'accepted')
+  public async index({ auth }: HttpContext) {
+    const userId = auth.user!.id
 
-    return response.ok(friends)
+    const friendRequests = await Friendship.query()
+      .where('sender_id', userId)
+      .orWhere('receiver_id', userId)
+      .preload('sender', (query) => query.select('id', 'username'))
+      .preload('receiver', (query) => query.select('id', 'username'))
+
+    // Organiser les données en trois catégories
+    const pending = friendRequests
+      .filter((req) => req.senderId === userId && req.status === 'pending')
+      .map((req) => ({
+        id: req.id,
+        created_at: req.createdAt,
+        receiver: { id: req.receiver.id, username: req.receiver.username },
+      }))
+
+    const received = friendRequests
+      .filter((req) => req.receiverId === userId && req.status === 'pending')
+      .map((req) => ({
+        id: req.id,
+        created_at: req.createdAt,
+        sender: { id: req.sender.id, username: req.sender.username },
+      }))
+
+    const friends = friendRequests
+      .filter((req) => req.status === 'accepted')
+      .map((req) => {
+        const friend = req.senderId === userId ? req.receiver : req.sender
+        return {
+          id: req.id,
+          created_at: req.createdAt,
+          friend: { id: friend.id, username: friend.username },
+        }
+      })
+
+    return { pending, received, friends }
   }
 
   public async pendingRequests({ auth, response }: HttpContext) {

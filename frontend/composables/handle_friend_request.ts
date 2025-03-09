@@ -1,17 +1,8 @@
 import Index from "~/pages/index.vue";
 
 export function HandleFriendRequest() {
-  const { friends, PendingRequest } = storeToRefs(useFriendStore());
+  const { Friends, Pending, Received } = storeToRefs(useFriendStore());
   const { addNotification } = useNotificationStore();
-
-  async function fetchFriends() {
-    try {
-      const result: any = ApiCall("GET", "/friends/index/friends");
-      friends.value = result.friends;
-    } catch (error) {
-      return console.log("Ca a pas marché [DEMANDE d'AMI]");
-    }
-  }
 
   async function sendRequest(receiver_pseudo: string) {
     const request = await ApiCall("POST", "/friends/request", {
@@ -26,8 +17,28 @@ export function HandleFriendRequest() {
   }
 
   async function indexRequest() {
-    const request: any = await ApiCall("GET", "/friends/index/request");
-    PendingRequest.value = request;
+    const request: any = await ApiCall("GET", "/friends/index/friends");
+
+    Pending.value = request.pending.map((req: any) => ({
+      id: req.id,
+      createdAt: new Date(req.created_at),
+      username: req.receiver.username,
+      userId: req.receiver.id,
+    }));
+
+    Received.value = request.received.map((req: any) => ({
+      id: req.id,
+      createdAt: new Date(req.created_at),
+      username: req.sender.username,
+      userId: req.sender.id,
+    }));
+
+    Friends.value = request.friends.map((req: any) => ({
+      id: req.id,
+      createdAt: new Date(req.created_at),
+      username: req.friend.username,
+      userId: req.friend.id,
+    }));
   }
 
   async function declineRequest(pseudo: any, panelId: number) {
@@ -40,9 +51,9 @@ export function HandleFriendRequest() {
       return;
     }
 
-    const index = PendingRequest.value.findIndex((item) => item.id === panelId);
+    const index = Pending.value.findIndex((item) => item.id === panelId);
     if (index !== -1) {
-      PendingRequest.value.splice(index, 1);
+      Pending.value.splice(index, 1);
     }
   }
 
@@ -62,7 +73,6 @@ export function HandleFriendRequest() {
   }
 
   return {
-    fetchFriends,
     sendRequest,
     indexRequest,
     declineRequest,

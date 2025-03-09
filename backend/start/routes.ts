@@ -25,6 +25,10 @@ router
 
 // FRIENDS
 
+router.get('/salut/salut', () => {
+  return 'Reussi'
+})
+
 router
   .group(() => {
     router.get('/index/friends', [FriendsController, 'index'])
