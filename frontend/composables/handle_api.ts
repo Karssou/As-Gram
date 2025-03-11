@@ -2,13 +2,12 @@ export async function ApiCall<T = unknown>(
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD" | "OPTIONS",
   url: string,
   payload: Record<string, any> = {}
-): Promise<T | null> {
+): Promise<T | { error: string; message?: string }> {
+  const authstore = useAuthStore();
+  const config = useRuntimeConfig();
+  const token = authstore.token;
   try {
-    const authstore = useAuthStore();
-    const config = useRuntimeConfig();
-    const token = authstore.token;
-
-    return await $fetch<T>(url, {
+    const response = await $fetch<T>(url, {
       baseURL: config.public.apiBase,
       method,
       headers: {
@@ -17,14 +16,13 @@ export async function ApiCall<T = unknown>(
       },
       body: method !== "GET" && method !== "HEAD" ? payload : undefined,
     });
+
+    return response;
   } catch (error: any) {
-    if (error.response && error.response.status === 401) {
-      console.warn("Utilisateur non authentifié. Redirection...");
-      const notifstore = useNotificationStore();
-      notifstore.addNotification("Salut c'est pas bien", "error");
-      return null;
+    if (error?.response) {
+      if (error.response?._data) {
+        return error.response._data;
+      }
     }
-    console.error("[API ERROR]", error);
-    return null;
   }
 }

@@ -1,16 +1,12 @@
 <script lang="ts" setup>
 const isOpen = ref(false);
 
-// const props = defineProps<{
-//   username: string;
-// }>();
+const { deleteFriend } = HandleFriendRequest();
+
+defineProps<{ id: number; panelid: number }>();
 
 const togglePanel = () => {
   isOpen.value = !isOpen.value;
-};
-
-const RemoveFriend = (username: string) => {
-  console.log(`Suppression de l'ami avec le pseudo : ${username}`);
 };
 </script>
 
@@ -20,7 +16,7 @@ const RemoveFriend = (username: string) => {
 
     <div v-if="isOpen" id="panel-instructions">
       <ul class="list-instruction">
-        <li class="instructions">
+        <li class="instructions" @click="deleteFriend(id, panelid)">
           <Icon name="ri:delete-bin-7-line" class="icon-btn" />
           <span> Supprimer</span>
         </li>

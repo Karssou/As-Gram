@@ -1,21 +1,25 @@
 <script lang="ts" setup>
+import { formatDate } from "@vueuse/core";
+import { timeAgo } from "~/app/utils/FormatDate";
+
 const { Pending } = storeToRefs(useFriendStore());
 </script>
 
 <template>
-  <div v-if="Pending.length > 0" id="request-container">
-    <div v-for="pend in Pending" :key="pend.id" id="request-friend">
+  <div v-if="Pending.length > 0" id="pending-container">
+    <div v-for="pend in Pending" :key="pend.id" id="request-pending">
       <div id="profile-pics"></div>
       <h1>{{ pend.username }}</h1>
-      <FriendsFriendPanelAccessoryFriendMoreBTN />
+
+      <p style="color: white">{{ pend }}</p>
     </div>
   </div>
 
-  <div v-else id="nofriends">
+  <div v-else class="nofriends">
     <h1>Vous n'avez pas de demande en attentes : (</h1>
   </div>
 </template>
 
 <style lang="scss" scoped>
-@use "Friends.scss";
+@use "panel.scss";
 </style>

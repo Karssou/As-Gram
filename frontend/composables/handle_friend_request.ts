@@ -4,16 +4,16 @@ export function HandleFriendRequest() {
   const { Friends, Pending, Received } = storeToRefs(useFriendStore());
   const { addNotification } = useNotificationStore();
 
-  async function sendRequest(receiver_pseudo: string) {
-    const request = await ApiCall("POST", "/friends/request", {
-      receiver_pseudo: receiver_pseudo,
+  async function sendRequest(id: number) {
+    console.log(id);
+    const request: any = await ApiCall("POST", "/friends/request", {
+      receiver_id: id,
     });
-    if (!request) {
-      addNotification(
-        "[FRIEND REQUEST] La requête n'a pas été envoyée",
-        "error"
-      );
+
+    if (request.status === "success") {
     }
+
+    addNotification(request.message, request.status);
   }
 
   async function indexRequest() {
@@ -41,35 +41,64 @@ export function HandleFriendRequest() {
     }));
   }
 
-  async function declineRequest(pseudo: any, panelId: number) {
-    const request = await ApiCall("POST", "/friends/declined", {
-      sender_pseudo: pseudo,
+  async function declineRequest(id: number, panelId: number) {
+    const request: any = await ApiCall("POST", "/friends/declined", {
+      sender_id: id,
     });
 
-    if (!request) {
-      addNotification("La demande n'a pas été décliné", "error");
-      return;
-    }
+    addNotification(request.message, request.status);
 
-    const index = Pending.value.findIndex((item) => item.id === panelId);
-    if (index !== -1) {
-      Pending.value.splice(index, 1);
+    if (request.response.status === "success") {
+      const index = Received.value.findIndex((item) => item.id === panelId);
+      if (index !== -1) {
+        Received.value.splice(index, 1);
+      }
     }
   }
 
-  async function acceptRequest(pseudo: string) {
-    try {
-      const request: any = await ApiCall("POST", "friends/accept", {
-        sender_pseudo: pseudo,
-      });
+  async function acceptRequest(id: number, panelId: number) {
+    const request: any = await ApiCall("POST", "friends/accept", {
+      sender_id: id,
+    });
 
-      if (!request) {
-        return addNotification("La requête n'a pas marché", "error");
-      }
-      return addNotification(request, "success");
-    } catch (error: any) {
-      return addNotification(error, "error");
+    if (request.response.status === "success") {
+      const moveToFriends = (panelId: number) => {
+        const index = Received.value.findIndex((item) => item.id === panelId);
+        if (index !== -1) {
+          const [movedItem] = Friends.value.splice(index, 1);
+          Friends.value.push(movedItem);
+        }
+      };
     }
+
+    addNotification(request.message, request.error);
+  }
+
+  async function searchFriends(query: string) {
+    if (!query) return [];
+
+    try {
+      return await ApiCall(
+        "GET",
+        `/friends/search?q=${encodeURIComponent(query)}`
+      );
+    } catch (error) {
+      console.error("Erreur lors de la recherche d'amis :", error);
+      return [];
+    }
+  }
+
+  async function deleteFriend(id: number, panelId: number) {
+    const request: any = await ApiCall("POST", "/friends/remove", {
+      friend_id: id,
+    });
+
+    const index = Friends.value.findIndex((item) => item.id === panelId);
+    if (index !== -1) {
+      Friends.value.splice(index, 1);
+    }
+
+    addNotification(request.message, request.status);
   }
 
   return {
@@ -77,5 +106,7 @@ export function HandleFriendRequest() {
     indexRequest,
     declineRequest,
     acceptRequest,
+    searchFriends,
+    deleteFriend,
   };
 }

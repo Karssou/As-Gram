@@ -17,7 +17,7 @@ onMounted(async () => {
   <main>
     <!-- <ButtonsBaseButton class="button" text="Salut" @click="salut" />
     <ButtonsBaseButton class="button" text="Bonjour" @click="bonjour" /> -->
-
+    <FriendsAddFriend />
     <FriendsRequestContainer />
   </main>
 </template>
