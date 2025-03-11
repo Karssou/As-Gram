@@ -9,9 +9,20 @@ async function Logout() {
 </script>
 
 <template>
-  <button @click.prevent="logout">LOG-OUT</button>
+  <main id="page-content">
+    <ButtonsUserDisconnect />
+  </main>
 </template>
 
 <style lang="scss" scoped>
-@use "styles/index.scss";
+#page-content {
+  width: 60vw;
+  max-width: 1000px;
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
 </style>

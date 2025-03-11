@@ -8,20 +8,10 @@ const form = ref({
   email: "",
   password: "",
 });
-
-async function LoginAttempt() {
-  if (!authstore.token) {
-    try {
-      await login(form.value);
-    } catch (error) {
-      console.error("[AUTH LOGIN]", error);
-    }
-  }
-}
 </script>
 
 <template>
-  <form @submit.prevent="LoginAttempt" id="login-form">
+  <form @submit.prevent="login(form)" id="login-form">
     <input
       type="text"
       id="auth-login-email"

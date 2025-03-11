@@ -1,5 +1,3 @@
-import Index from "~/pages/index.vue";
-
 export function HandleFriendRequest() {
   const { Friends, Pending, Received } = storeToRefs(useFriendStore());
   const { addNotification } = useNotificationStore();
@@ -21,21 +19,21 @@ export function HandleFriendRequest() {
 
     Pending.value = request.pending.map((req: any) => ({
       id: req.id,
-      createdAt: new Date(req.created_at),
+      createdAt: req.created_at,
       username: req.receiver.username,
       userId: req.receiver.id,
     }));
 
     Received.value = request.received.map((req: any) => ({
       id: req.id,
-      createdAt: new Date(req.created_at),
+      createdAt: req.created_at,
       username: req.sender.username,
       userId: req.sender.id,
     }));
 
     Friends.value = request.friends.map((req: any) => ({
       id: req.id,
-      createdAt: new Date(req.created_at),
+      createdAt: req.created_at,
       username: req.friend.username,
       userId: req.friend.id,
     }));

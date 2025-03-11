@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { formatDate } from "@vueuse/core";
 import { timeAgo } from "~/app/utils/FormatDate";
 
 const { Pending } = storeToRefs(useFriendStore());
+console.log(Pending);
 </script>
 
 <template>
@@ -11,7 +11,7 @@ const { Pending } = storeToRefs(useFriendStore());
       <div id="profile-pics"></div>
       <h1>{{ pend.username }}</h1>
 
-      <p style="color: white">{{ pend }}</p>
+      <p style="color: white">Envoyé  {{ timeAgo(pend.createdAt) }}</p>
     </div>
   </div>
 
