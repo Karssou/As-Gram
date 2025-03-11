@@ -1,45 +1,11 @@
 #page-content {
-  width: 70vw;
-  height: 100vh;
+  width: 60vw;
+  min-height: 100vh;
+  height: 100%;
+  max-width: 1000px;
   margin: 0 auto;
 
   display: flex;
-  align-items: center;
   justify-content: center;
-
-  #panel-gestion-user {
-    width: 70%;
-    background-color: rgb(48, 48, 48);
-    height: 70%;
-    border-radius: 15px;
-    border: 4px solid rgb(193, 193, 193);
-    box-sizing: border-box;
-
-    #header-panel {
-      padding: 15px;
-      width: 100%;
-      background-color: red;
-      flex: 1 1 40%;
-      h1 {
-        font-size: 34px;
-        font-family: "Montserrat", sans-serif;
-        font-weight: 600;
-        color: white;
-        text-transform: uppercase;
-        text-align: center;
-      }
-    }
-
-    #content-panel {
-      width: 100%;
-      height: 100%;
-      flex: 2 0 80%;
-      background-color: blue;
-
-      #form-content-panel {
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
+  align-items: center;
 }

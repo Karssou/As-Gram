@@ -1,16 +1,21 @@
 export const useFriendStore = defineStore("friends", () => {
-  const friends = ref([]);
-  const PendingRequest = ref([]) as unknown as Array<{
-    [x: string]: any;
+  interface FriendRequest {
     id: number;
     senderId: number;
     receiverId: number;
     status: string;
-    createdAt: string;
     created_at: number;
-  }>;
+    username: string;
+    CreatedAt: number;
+  }
+
+  const Pending = ref<FriendRequest[]>([]);
+  const Received = ref<FriendRequest[]>([]);
+  const Friends = ref<FriendRequest[]>([]);
+
   return {
-    friends,
-    PendingRequest,
+    Received,
+    Friends,
+    Pending,
   };
 });

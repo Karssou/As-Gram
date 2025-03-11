@@ -25,10 +25,14 @@ router
 
 // FRIENDS
 
+router.get('/salut/salut', () => {
+  return 'Reussi'
+})
+
 router
   .group(() => {
+    router.get('/search', [FriendsController, 'search'])
     router.get('/index/friends', [FriendsController, 'index'])
-    router.get('/index/request', [FriendsController, 'pendingRequests'])
     router.post('/request', [FriendsController, 'store'])
     router.post('/accept', [FriendsController, 'accept'])
     router.post('/declined', [FriendsController, 'decline'])

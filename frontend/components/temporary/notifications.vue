@@ -4,7 +4,7 @@ const { notifications } = storeToRefs(useNotificationStore());
 
 const IconNotifications = {
   error: "ri:error-warning-fill",
-  success: "ri:check-fill",
+  success: "ri:checkbox-circle-fill",
 };
 
 const RemoveNotif = (notifid: number) => {
@@ -14,19 +14,21 @@ const RemoveNotif = (notifid: number) => {
 
 <template>
   <div id="notifications-container">
-    <div v-for="notif in notifications" :key="notif.id" id="notification">
-      <Icon
-        :name="IconNotifications[notif.type]"
-        :style="{
-          '--notif-icon-color': notif.type === 'error' ? 'red' : 'green',
-        }"
-        id="notif-icon"
-      />
-      <h1 id="notif-title">{{ notif.message }}</h1>
-      <button @click="RemoveNotif(notif.id)" id="notif-remove-btn">
-        <Icon name="ri:close-line" id="notif-icon-btn" />
-      </button>
-    </div>
+    <TransitionGroup name="notification-move" tag="div">
+      <div v-for="notif in notifications" :key="notif.id" id="notification">
+        <Icon
+          :name="IconNotifications[notif.type]"
+          :style="{
+            '--notif-icon-color': notif.type === 'error' ? 'red' : 'green',
+          }"
+          id="notif-icon"
+        />
+        <h1 id="notif-title">{{ notif.message }}</h1>
+        <button @click="RemoveNotif(notif.id)" id="notif-remove-btn">
+          <Icon name="ri:close-line" id="notif-icon-btn" />
+        </button>
+      </div>
+    </TransitionGroup>
   </div>
 </template>
 

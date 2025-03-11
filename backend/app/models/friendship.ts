@@ -1,5 +1,12 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeSave, belongsTo, column } from '@adonisjs/lucid/orm'
+import {
+  BaseModel,
+  beforeFetch,
+  beforeFind,
+  beforeSave,
+  belongsTo,
+  column,
+} from '@adonisjs/lucid/orm'
 import * as relations from '@adonisjs/lucid/types/relations'
 import User from './user.js'
 
@@ -16,7 +23,7 @@ export default class Friendship extends BaseModel {
   @column()
   declare status: 'pending' | 'accepted' | 'declined'
 
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare createdAt: DateTime
 
   public serializeExtras() {
@@ -34,5 +41,13 @@ export default class Friendship extends BaseModel {
   @beforeSave()
   public static convertDatesToMillis(friendship: Friendship) {
     friendship.createdAt = DateTime.fromMillis(friendship.createdAt?.toMillis() || Date.now())
+  }
+
+  @beforeFind()
+  @beforeFetch()
+  public static convertMillisToDateTime(friendship: Friendship) {
+    if (friendship.createdAt) {
+      friendship.createdAt = DateTime.fromMillis(friendship.createdAt.toMillis())
+    }
   }
 }

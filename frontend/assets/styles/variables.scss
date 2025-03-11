@@ -1,4 +1,75 @@
 // COULEURS
+
+$color-background-black: #1e1e1e;
+$color-background-black-similar: #1e1e24;
+$color-background-black-similar-hovered: #1c1c21;
+$color-background-black2: #121212;
+$color-blue-black: #0b132b;
+$color-black: #0a0908;
+$color-grey-light: #2b2c28;
+$color-black-darkblue: #161925;
+
+// Fond secondaires
+$color-panel: #252525;
+$color-panel-secondary: #303030;
+// Texte
+$color-text: #e0e0e0;
+$color-text-secondary: #b0b0b0;
+$color-text-disabled: #757575;
+// Bordure | Séparateurs
+$color-border-discret: #404040;
+$color-border: #606060;
+// Buttons
+$color-button-darkblue: #3f51b5;
+$color-button-blue: #2196f3;
+$color-button-red: #d32f2f;
+$color-button-red-hover: #7a1616;
+$color-button-alert: #ffc107;
+// Feedback
 $color-success: #4caf50;
 $color-error: #ff5252;
-$color-background-black: #1e1e1e;
+$color-alert: #ffc107;
+$color-warning: #d32f2f;
+$color-info: #1976d2;
+$color-alert-secondary: #ff9800;
+// Effets & surbrillance
+
+// Gradient
+
+@mixin gradient-black {
+  background: rgb(18, 18, 18);
+  background: linear-gradient(
+    209deg,
+    rgba(18, 18, 18, 1) 0%,
+    rgba(30, 30, 30, 1) 48%,
+    rgba(37, 37, 37, 1) 100%
+  );
+}
+
+@mixin gradient-blue-leger {
+  background: rgb(18, 18, 18);
+  background: linear-gradient(
+    160deg,
+    rgb(27, 26, 26) 0%,
+    rgb(30, 30, 46) 50%,
+    rgb(39, 39, 77) 100%
+  );
+}
+
+@mixin gradient-neon {
+  background: linear-gradient(135deg, #181818, #222831, #3d4975, #662d91);
+}
+
+@mixin gradient-glass {
+  background: radial-gradient(circle, #1b1b1f, #2a2a33, #39404f);
+}
+
+@mixin gradient-button {
+  background: linear-gradient(90deg, #3f51b5, #2196f3, #00bcd4);
+}
+
+// DROP SHADOW
+
+@mixin shadow-light {
+  box-shadow: rgba(38, 37, 39, 0.15) 0px 48px 100px 0px;
+}

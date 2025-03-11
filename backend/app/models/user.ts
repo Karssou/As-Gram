@@ -4,6 +4,9 @@ import { compose } from '@adonisjs/core/helpers'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
+import { Url } from 'url'
+import { URLOptions } from '@vinejs/vine/types'
+import type { TimestampKeywords } from '@adonisjs/core/types/logger'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -26,11 +29,23 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column({ serializeAs: null })
   declare password: string
 
+  @column()
+  declare bio: string
+
+  @column()
+  declare avatar: string
+
+  @column()
+  declare birthdate: 'female' | 'male'
+
+  @column()
+  declare lastLogin: TimestampKeywords
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime | null
+  @column.dateTime({ autoCreate: true })
+  declare updatedAt: DateTime
 
   static accessTokens = DbAccessTokensProvider.forModel(User, {
     expiresIn: '1min',

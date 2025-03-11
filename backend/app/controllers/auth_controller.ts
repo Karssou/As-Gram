@@ -14,8 +14,8 @@ export default class AuthController {
       })
     } catch (error) {
       return response.json({
-        messages: 'Création échouée',
-        Erreur: error,
+        messages: error,
+        status: 'error',
       })
     }
   }
@@ -30,8 +30,8 @@ export default class AuthController {
       })
     } catch (error) {
       return response.json({
-        messages: 'Connexion échouée',
-        Erreur: error,
+        messages: error,
+        status: 'error',
       })
     }
   }
@@ -41,10 +41,10 @@ export default class AuthController {
     try {
       const user = auth.user!
       await User.accessTokens.delete(user, user.currentAccessToken.identifier)
-      return { message: 'success ' }
+      return response.ok({ status: 'success', message: 'Vous êtes déonnecté' })
     } catch (error) {
       console.error(error)
-      return response.status(500).json({ message: 'Erreur lors de la déconnexion' })
+      return response.status(500).badRequest({ message: error, status: 'error' })
     }
   }
 

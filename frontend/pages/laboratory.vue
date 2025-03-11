@@ -1,9 +1,24 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const { salut } = HandleAuth();
+const { addNotification } = useNotificationStore();
+const { indexRequest } = HandleFriendRequest();
+
+async function bonjour() {
+  await ApiCall("GET", "/salut/salut");
+  return addNotification("Actions parfaitement réussi", "success");
+}
+
+onMounted(async () => {
+  await indexRequest();
+});
+</script>
 
 <template>
   <main>
-    <ButtonsBaseButton class="button" text="Salut" />
-  
+    <!-- <ButtonsBaseButton class="button" text="Salut" @click="salut" />
+    <ButtonsBaseButton class="button" text="Bonjour" @click="bonjour" /> -->
+    <FriendsAddFriend />
+    <FriendsRequestContainer />
   </main>
 </template>
 
