@@ -30,7 +30,7 @@ export default class AuthController {
       })
     } catch (error) {
       return response.json({
-        messages: error,
+        message: error,
         status: 'error',
       })
     }

@@ -1,24 +1,31 @@
 <script lang="ts" setup>
+import { icons } from "@/app/utils/icons";
+import ArrowBottomIcon from "~/components/Icons/ArrowBottomIcon.vue";
+
 const { salut } = HandleAuth();
 const { addNotification } = useNotificationStore();
 const { indexRequest } = HandleFriendRequest();
 
-async function bonjour() {
-  await ApiCall("GET", "/salut/salut");
-  return addNotification("Actions parfaitement réussi", "success");
-}
-
 onMounted(async () => {
   await indexRequest();
 });
+
+const test = [
+  { value: "Salut", label: "Bonjour" },
+  { value: "Caca", label: "Salut" },
+];
+const selectedRole = ref("");
 </script>
 
 <template>
   <main>
-    <!-- <ButtonsBaseButton class="button" text="Salut" @click="salut" />
-    <ButtonsBaseButton class="button" text="Bonjour" @click="bonjour" /> -->
-    <FriendsAddFriend />
-    <FriendsRequestContainer />
+    <p>Rôle sélectionné : {{ selectedRole }}</p>
+    <InputsSelectBox
+      :options="test"
+      className="custom"
+      v-model="selectedRole"
+    />
+    
   </main>
 </template>
 

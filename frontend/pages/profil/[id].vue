@@ -1,16 +1,15 @@
 <script lang="ts" setup>
 const { fetchUserInformations } = HandleUser();
+import { UserProfileUserInformation } from "#components";
 import { onMounted } from "vue";
 
 const userstore = useUserStore();
 
 onMounted(async () => {
-  if (!userstore.user) {
-    const response: any = await fetchUserInformations();
-    const userdata = response?.user;
-    if (userdata) {
-      userstore.user = userdata;
-    }
+  const response: any = await fetchUserInformations();
+  const userdata = response?.user;
+  if (userdata) {
+    userstore.user = userdata;
   }
 });
 </script>

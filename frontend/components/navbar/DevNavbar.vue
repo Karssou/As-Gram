@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { Icon } from "#components";
+import { icons } from "@/app/utils/icons";
 
 const links = {
   auth: { path: "/authentification", icon: "ri:user-3-line" },
-  labo: { path: "/laboratory", icon: "ri:ink-bottle-line" },
-  index: { path: "/", icon: "ri:indeterminate-circle-fill" },
-  friends: { path: "/friends", icon: "ri:user-add-line" },
-  profile: { path: "/profil/[id]", icon: "ri:user-settings-line" },
+  labo: { path: "/laboratory", icon: "test" },
+  index: { path: "/", icon: "home" },
+  friends: { path: "/friends", icon: "friend" },
+  profile: { path: "/profil/[id]", icon: "usermanage" },
 };
 </script>
 
@@ -15,7 +15,11 @@ const links = {
     <nav id="navbar">
       <li v-for="(link, key) in links" :key="key" class="nav-link">
         <NuxtLink class="nav-linker" :to="link.path">
-          <Icon :name="link.icon" class="nav-icon" />
+          <component
+            :is="icons[link.icon]"
+            class="nav-icon"
+            v-if="icons[link.icon]"
+          />
           <span class="nav-span">{{ key }}</span>
         </NuxtLink>
       </li>
