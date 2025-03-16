@@ -1,11 +1,9 @@
 import { DateTime } from 'luxon'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeFetch, beforeFind, beforeSave, column } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
-import { Url } from 'url'
-import { URLOptions } from '@vinejs/vine/types'
 import type { TimestampKeywords } from '@adonisjs/core/types/logger'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
@@ -30,21 +28,24 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare password: string
 
   @column()
-  declare bio: string
+  declare biography: string | null
 
   @column()
-  declare avatar: string
+  declare avatar: string | null
 
   @column()
-  declare birthdate: 'female' | 'male'
+  declare birthdate: string | null
 
   @column()
   declare lastLogin: TimestampKeywords
 
-  @column.dateTime({ autoCreate: true })
+  @column()
+  declare gender: 'female' | 'male'
+
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare createdAt: DateTime
 
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
   static accessTokens = DbAccessTokensProvider.forModel(User, {

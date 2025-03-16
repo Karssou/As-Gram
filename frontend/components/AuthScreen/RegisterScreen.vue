@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 import { useAuthStore } from "~/stores/auth";
 
+const { addNotification } = useNotificationStore();
 const { register } = HandleAuth();
 const authstore = useAuthStore();
+
+const errors = ref<string[]>([]);
 
 const form = ref({
   username: "",
@@ -12,9 +15,15 @@ const form = ref({
 
 async function RegisterAttempt() {
   try {
-    await register(form.value);
-  } catch (error) {
-    console.log("[AUTH ERROR]", error);
+    const request: any = await register(form.value);
+    if (request.status === "error") {
+      errors.value.push(request.messages);
+      return;
+    }
+
+    addNotification("Compte crée avec succès", "success");
+  } catch (error: any) {
+    addNotification(error, "success");
   }
 }
 </script>
@@ -28,6 +37,9 @@ async function RegisterAttempt() {
       placeholder="Nom d'utilisateur"
       v-model="form.username"
     />
+
+    <label v-if="errors.length > 0" for="auth-register-username"> </label>
+
     <input
       type="text"
       id="auth-register-email"

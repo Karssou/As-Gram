@@ -10,17 +10,13 @@ export default class AuthMiddleware {
       guards?: (keyof Authenticators)[]
     } = {}
   ) {
-    // await ctx.auth.authenticateUsing(options.guards, { loginRoute: this.redirectTo })
-    // return next()
-
     try {
       await ctx.auth.authenticateUsing(options.guards)
       return await next()
     } catch (error) {
-      console.error("Erreur d'authentification", error)
-
       return ctx.response.unauthorized({
-        messages: 'Accès non autorisé. Veuillez vous connecter',
+        status: 'error',
+        message: 'Accès non autorisé. Veuillez vous connecter',
       })
     }
   }

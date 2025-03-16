@@ -2,9 +2,13 @@ export const useUserStore = defineStore("user", () => {
   interface User {
     id: string;
     username: string;
+    password: string;
     email: string;
-    created_at: string;
-    friends: Array<any>;
+    createdAt: number;
+    fullName: string;
+    biography?: string;
+    gender?: string;
+    birthdate?: string;
   }
 
   const user = ref(

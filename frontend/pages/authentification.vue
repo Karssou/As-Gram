@@ -1,4 +1,8 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+definePageMeta({
+  middleware: "check-auth",
+});
+</script>
 
 <template>
   <div id="auth-page-content">

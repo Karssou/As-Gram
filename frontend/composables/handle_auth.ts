@@ -1,7 +1,7 @@
 export function HandleAuth() {
   const authstore = useAuthStore();
   const userstore = useUserStore();
-  const { addNotification, removeNotification } = useNotificationStore();
+  const { addNotification } = useNotificationStore();
 
   function authenticate(result: any) {
     if (result?.token) {
@@ -11,26 +11,22 @@ export function HandleAuth() {
     }
   }
 
-  // FONCTION DE LOG-IN
   async function login(payload: Record<string, any>) {
-    try {
-      const result = await ApiCall("POST", "/login", payload);
+    const result: any = await ApiCall("POST", "/login", payload);
+
+    if (result.status === "error") {
+      return result;
+    } else {
       authenticate(result);
-      console.log("[LOGIN RESPONSE]", result);
-    } catch (error) {
-      console.error("[LOGIN ERROR]", error);
-      throw error;
     }
   }
 
-  // FONCTION REGISTER
   async function register(payload: Record<string, any>) {
-    try {
-      const result = await ApiCall("POST", "/register", payload);
+    const result: any = await ApiCall("POST", "/register", payload);
+    if (result.status === "error" && result.message) {
+      addNotification(result.message, "error");
+    } else {
       authenticate(result);
-    } catch (error) {
-      console.error("[REGISTER ERROR]", error);
-      throw error;
     }
   }
 

@@ -9,25 +9,26 @@
 
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
+const UserController = () => import('#controllers/users_controller')
 const FriendsController = () => import('#controllers/friends_controller')
-
 const AuthController = () => import('#controllers/auth_controller')
 
-router.post('/register', [AuthController, 'register']).as('auth.register')
-router.post('/login', [AuthController, 'login']).as('auth.login')
-router.delete('/logout', [AuthController, 'logout']).as('auth.logout').use(middleware.auth())
-router.get('/me', [AuthController, 'me']).as('auth.me')
+router.group(() => {
+  router.post('/register', [AuthController, 'register']).as('auth.register')
+  router.post('/login', [AuthController, 'login']).as('auth.login')
+  router.delete('/logout', [AuthController, 'logout']).as('auth.logout').use(middleware.auth())
+})
+
 router
-  .get('/salut', async () => {
-    return { message: 'salut' }
+  .group(() => {
+    router.post('/avatar', [UserController, 'updateAvatar'])
+    router.patch('/update-information', [UserController, 'updateInformation'])
+    router.get('/me', [AuthController, 'me']).as('auth.me')
   })
+  .prefix('/user')
   .use(middleware.auth())
 
 // FRIENDS
-
-router.get('/salut/salut', () => {
-  return 'Reussi'
-})
 
 router
   .group(() => {
