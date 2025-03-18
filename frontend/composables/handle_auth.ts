@@ -30,15 +30,6 @@ export function HandleAuth() {
     }
   }
 
-  async function salut() {
-    try {
-      const request = await ApiCall("GET", "/salut");
-      return request;
-    } catch (error: any) {
-      addNotification(error, "error");
-    }
-  }
-
   async function logout() {
     const request = ApiCall("DELETE", "/logout");
     authstore.token = null;
@@ -46,5 +37,5 @@ export function HandleAuth() {
     return request;
   }
 
-  return { login, register, salut, logout };
+  return { login, register, logout };
 }

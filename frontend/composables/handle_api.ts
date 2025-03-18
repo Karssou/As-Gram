@@ -2,7 +2,7 @@ export async function ApiCall<T = unknown>(
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD" | "OPTIONS",
   url: string,
   payload: Record<string, any> = {}
-): Promise<T | { status: string; message: string; } | undefined> {
+): Promise<T | { status: string; message: string } | undefined> {
   const authstore = useAuthStore();
   const config = useRuntimeConfig();
   const token = authstore.token;

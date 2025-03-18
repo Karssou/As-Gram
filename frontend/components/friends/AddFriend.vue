@@ -35,6 +35,7 @@ function lala(id: number) {
 
 <template>
   <div id="add-friend-panel">
+    <h1>Ajouter un ami</h1>
     <div id="search-container">
       <input
         type="text"
@@ -90,8 +91,17 @@ function lala(id: number) {
   height: 250px;
   padding: 15px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  h1 {
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    padding: 15px;
+    color: $color-text;
+    font-size: clamp(20px, 26px, 35px);
+  }
 
   #search-container {
     width: 60%;

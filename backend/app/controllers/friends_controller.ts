@@ -6,12 +6,10 @@ export default class FriendsController {
   public async store({ request, response, auth }: HttpContext) {
     const receiver = request.input('receiver_id')
 
-    // Si existe pas
     if (!receiver) {
       return response.notFound({ status: 'error', message: 'Utilisateur non trouvé' })
     }
 
-    // Si on essaie de s'envoyer à soi même
     if (auth.user!.id === receiver) {
       return response.badRequest({
         status: 'error',

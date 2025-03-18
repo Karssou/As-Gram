@@ -33,11 +33,7 @@ const GenderOptions = [
           </div>
           <div class="input-container">
             <span class="span-input"> Modifier votre bio </span>
-            <textarea
-              name="area-bio"
-              id="area-bio"
-              v-model="profileForm.biography"
-            >
+            <textarea name="area-bio" v-model="profileForm.biography">
             </textarea>
           </div>
           <div class="input-container">

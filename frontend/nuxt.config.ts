@@ -5,7 +5,7 @@ export default defineNuxtConfig({
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
     },
   },
-  modules: ["@pinia/nuxt", "@nuxtjs/google-fonts", "@nuxt/icon"],
+  modules: ["@pinia/nuxt", "@nuxtjs/google-fonts", "@nuxt/icon", "@nuxt/fonts"],
 
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },

@@ -59,17 +59,22 @@ export function HandleFriendRequest() {
       sender_id: id,
     });
 
-    if (request.response.status === "success") {
+    console.log("Réponse de l'API :", request); // Vérifie ce que tu reçois
+
+    if (request?.status === "success") {
       const moveToFriends = (panelId: number) => {
         const index = Received.value.findIndex((item) => item.id === panelId);
         if (index !== -1) {
-          const [movedItem] = Friends.value.splice(index, 1);
+          const [movedItem] = Received.value.splice(index, 1); // Corrigé ici
           Friends.value.push(movedItem);
         }
       };
-    }
 
-    addNotification(request.message, request.error);
+      moveToFriends(panelId);
+      addNotification(request.message, request.status);
+    } else {
+      addNotification("Une erreur s'est produite", "error");
+    }
   }
 
   async function searchFriends(query: string) {

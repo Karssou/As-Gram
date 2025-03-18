@@ -2,9 +2,10 @@
 import { icons } from "~/app/utils/icons";
 
 const links: any = {
-  labo: { path: "/laboratory", name: "Laboratoire" },
   index: { path: "/", name: "Accueil", icon: "home" },
-  friends: { path: "/friends", name: "Amis" },
+  labo: { path: "/laboratory", name: "Laboratoire", icon: "labo" },
+  message: { path: "/message", name: "Messagerie", icon: "message" },
+  friends: { path: "/friends", name: "Amis", icon: "friend" },
 };
 </script>
 
@@ -12,12 +13,14 @@ const links: any = {
   <nav id="navbar">
     <ul id="nav-list">
       <li class="nav-elements" v-for="(link, key) in links" :key="key">
-        <component
-          class="nav-icon"
-          v-if="icons[link.icon]"
-          :is="icons[link.icon]"
-        />
-        <NuxtLink class="nav-link" :to="link.path"> {{ link.name }}</NuxtLink>
+        <NuxtLink class="nav-link" :to="link.path">
+          <component
+            class="nav-icon"
+            v-if="icons[link.icon]"
+            :is="icons[link.icon]"
+          />
+          <span class="nav-element-span"> {{ link.name }}</span></NuxtLink
+        >
       </li>
     </ul>
   </nav>
@@ -27,28 +30,46 @@ const links: any = {
 #navbar {
   width: 100%;
   height: 100%;
-  max-width: 150px;
-  max-height: 50vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
-  background-color: red;
+  max-width: 250px;
+
+  max-height: 30vh;
 
   #nav-list {
     width: 100%;
-    background-color: blue;
     height: 100%;
     display: flex;
+    align-items: center;
+    justify-content: center;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-around;
+    gap: 15px;
 
     .nav-elements {
-      background: green;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      height: 55px;
+      width: 80%;
+
+      .nav-link {
+        width: 100%;
+        transition: all 0.125s ease;
+        border-radius: 7px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 5px 10px;
+        text-decoration: none;
+        color: white;
+        font-family: "Ubuntu", sans-serif;
+
+        &:hover {
+          background: white;
+          color: black;
+        }
+
+        .nav-icon {
+          font-size: 24px;
+          margin-right: 10px;
+        }
+      }
     }
   }
 }

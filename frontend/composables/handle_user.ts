@@ -1,10 +1,12 @@
 export function HandleUser() {
-  const { user } = useUserStore();
+  const userstore = useUserStore();
 
   async function fetchUserInformations() {
     try {
-      const request = await ApiCall("GET", "user/me");
-      return request;
+      const request: any = await ApiCall("GET", "user/me");
+      if (request.user) {
+        userstore.user = request.user;
+      }
     } catch (error) {
       console.error("Erreur lors de la récupération de l'utilisateur", error);
     }

@@ -7,6 +7,7 @@ export const useFriendStore = defineStore("friends", () => {
     created_at: number;
     username: string;
     CreatedAt: number;
+    userId: number;
   }
 
   const Pending = ref<FriendRequest[]>([]);

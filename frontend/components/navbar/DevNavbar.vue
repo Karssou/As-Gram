@@ -2,11 +2,11 @@
 import { icons } from "@/app/utils/icons";
 
 const links = {
-  auth: { path: "/authentification", icon: "ri:user-3-line" },
-  labo: { path: "/laboratory", icon: "test" },
+  auth: { path: "/authentification", icon: "user" },
+  labo: { path: "/laboratory", icon: "labo" },
   index: { path: "/", icon: "home" },
   friends: { path: "/friends", icon: "friend" },
-  profile: { path: "/profil/[id]", icon: "usermanage" },
+  profile: { path: "/profil/[id]", icon: "manageaccount" },
 };
 </script>
 
