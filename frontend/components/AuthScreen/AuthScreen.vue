@@ -31,5 +31,49 @@ const ToggleAuthScreen = () => {
 </template>
 
 <style lang="scss" scoped>
-@use "styles/AuthScreen.scss";
+@use "@/assets/styles/variables.scss" as *;
+
+#auth-container {
+  display: flex;
+  flex-direction: column;
+
+  width: clamp(10vw, 600px, 700px);
+  height: clamp(80vh, 60vh, 1200px);
+  border: 2px solid $color-border;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px;
+  background-color: $color-panel;
+
+  #auth-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 10%;
+    padding-top: 10%;
+    h1 {
+      font-family: sans-serif;
+      text-transform: uppercase;
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: 0.5;
+      color: $color-text;
+    }
+  }
+
+  #auth-content {
+    flex: 2 0 70%;
+  }
+
+  #auth-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0 1 10%;
+
+    span {
+      font-size: 14px;
+      color: $color-text;
+    }
+  }
+}
 </style>

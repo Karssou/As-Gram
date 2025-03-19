@@ -15,15 +15,20 @@ export function HandleAuth() {
     const result: any = await ApiCall("POST", "/login", payload);
 
     if (result.status === "error") {
-      return result;
+      if (result.message) {
+        addNotification(result.message, result.status);
+      }
     } else {
+      if (result.message) {
+        addNotification(result.message, result.status);
+      }
       authenticate(result);
     }
   }
 
   async function register(payload: Record<string, any>) {
     const result: any = await ApiCall("POST", "/register", payload);
-    if (result.status === "error" && result.message) {
+    if (result.status === "error") {
       addNotification(result.message, "error");
     } else {
       authenticate(result);
@@ -31,10 +36,16 @@ export function HandleAuth() {
   }
 
   async function logout() {
-    const request = ApiCall("DELETE", "/logout");
-    authstore.token = null;
-    userstore.user = null;
-    return request;
+    const result: any = ApiCall("DELETE", "/logout");
+
+    if (result.status === "error") {
+      addNotification(result.message, "error");
+    } else {
+      addNotification(result.message, "success");
+
+      authstore.token = null;
+      userstore.user = null;
+    }
   }
 
   return { login, register, logout };
