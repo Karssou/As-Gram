@@ -7,6 +7,7 @@ const links = {
   index: { path: "/", icon: "home" },
   friends: { path: "/friends", icon: "friend" },
   profile: { path: "/profil/[id]", icon: "manageaccount" },
+  message: { path: "/message", icon: "message" },
 };
 </script>
 

@@ -11,7 +11,7 @@ console.log(Pending);
       <div id="profile-pics"></div>
       <h1>{{ pend.username }}</h1>
 
-      <p style="color: white">Envoyé  {{ timeAgo(pend.createdAt) }}</p>
+      <p >Envoyé {{ timeAgo(pend.createdAt) }}</p>
     </div>
   </div>
 

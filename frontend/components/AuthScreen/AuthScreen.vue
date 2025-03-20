@@ -37,8 +37,8 @@ const ToggleAuthScreen = () => {
   display: flex;
   flex-direction: column;
 
-  width: clamp(10vw, 600px, 700px);
-  height: clamp(80vh, 60vh, 1200px);
+  width: min(90vw, 700px);
+  height: max(60vh, 700px);
   border: 2px solid $color-border;
   border-radius: 12px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px;
@@ -73,6 +73,10 @@ const ToggleAuthScreen = () => {
     span {
       font-size: 14px;
       color: $color-text;
+
+      a {
+        color: rgb(255, 255, 255);
+      }
     }
   }
 }

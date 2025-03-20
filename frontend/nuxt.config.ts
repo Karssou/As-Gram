@@ -7,6 +7,13 @@ export default defineNuxtConfig({
   },
   modules: ["@pinia/nuxt", "@nuxtjs/google-fonts", "@nuxt/icon", "@nuxt/fonts"],
 
+  googleFonts: {
+    families: {
+      Roboto: true,
+      Inter: "200..700",
+    },
+  },
+
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
   css: [

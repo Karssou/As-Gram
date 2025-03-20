@@ -9,6 +9,8 @@ async function Attemptupdate() {
   await updateUserInformations(profileForm.value);
 }
 
+const birthdate = ref("");
+
 const GenderOptions = [
   { value: "male", label: "Homme" },
   { value: "female", label: "Femme" },
@@ -39,13 +41,15 @@ const GenderOptions = [
           <div class="input-container">
             <span class="span-input"> Votre genre </span>
             <InputsSelectBox
-              v-model="profileForm.gender"
+              :v-model="profileForm.gender"
               :options="GenderOptions"
               className="input-gender"
             />
           </div>
           <div class="input-container">
-            <span class="span-input"> Votre date de naissance </span>
+            <span class="span-input">
+              Votre date de naissance : {{ birthdate }}
+            </span>
             <input
               type="date"
               v-model="profileForm.birthdate"
@@ -161,7 +165,10 @@ const GenderOptions = [
 
           .input-birthdate {
             width: 300px;
-            height: fit-content;
+            font-family: "LAto", sans-serif;
+            color: white;
+            font-size: 16px;
+            line-height: 1;
           }
 
           textarea {
