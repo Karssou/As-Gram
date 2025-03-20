@@ -8,7 +8,7 @@ onMounted(async () => {
 
 <template>
   <main>
-    <Navbar />
+    <MessagePropsMessageBox />
   </main>
 </template>
 

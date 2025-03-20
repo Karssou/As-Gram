@@ -2,7 +2,7 @@
 import { icons } from "@/app/utils/icons";
 
 defineProps<{
-  modelValue: string | number;
+  modelValue: string | number | null;
   options: { value: string | number; label: string }[];
   label?: string;
   placeholder?: string;

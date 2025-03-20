@@ -7,8 +7,8 @@ export const useUserStore = defineStore("user", () => {
     createdAt: number;
     fullName: string;
     biography?: string;
-    gender?: string;
-    birthdate?: string;
+    gender?: string | "female" | "male";
+    birthdate?: string | Date | "";
   }
 
   const user = ref(

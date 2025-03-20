@@ -13,6 +13,8 @@ import DarkModeIcon from "~/components/Icons/DarkModeIcon.vue";
 import LaboIcon from "~/components/Icons/LaboIcon.vue";
 import FriendIcon from "~/components/Icons/FriendIcon.vue";
 import MessageIcon from "~/components/Icons/MessageIcon.vue";
+import EditIcon from "~/components/Icons/EditIcon.vue";
+import DeleteIcon from "~/components/Icons/DeleteIcon.vue";
 
 export const icons: any = {
   home: HomeIcon,
@@ -30,4 +32,6 @@ export const icons: any = {
   labo: LaboIcon,
   friend: FriendIcon,
   message: MessageIcon,
+  edit: EditIcon,
+  delete: DeleteIcon,
 };
