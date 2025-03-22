@@ -1,10 +1,8 @@
 <template>
+  <div id="arrow"></div>
   <div id="messagebox">
-    <p id="message-content">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid maxime
-      labore incidunt dolore! Illum quia optio unde numquam.
-    </p>
-    <span id="message-timestamp"> 19H </span>
+    <p id="message-content">{{ message }}</p>
+    <span id="message-timestamp"> {{ timestamp }} </span>
 
     <div id="menu-on-hover">
       <div id="menu-content">
@@ -28,10 +26,27 @@
 </template>
 
 <script setup lang="ts">
+import socket from "~/plugins/socket";
 import { icons } from "@/app/utils/icons";
 
-const sender = ref();
-const timestamp = ref();
+defineProps({
+  message: {
+    type: String,
+    required: true,
+  },
+  timestamp: {
+    type: String,
+    required: true,
+  },
+  sender: {
+    type: String,
+    required: true,
+  },
+});
+
+onUnmounted(() => {
+  socket.off("message");
+});
 </script>
 
 <style scoped lang="scss">
@@ -39,7 +54,7 @@ const timestamp = ref();
 
 #messagebox {
   max-width: 50%;
-
+  position: relative;
   min-width: 50px;
   height: auto;
   display: flex;
@@ -49,28 +64,46 @@ const timestamp = ref();
   border-radius: 12px;
   background-color: $color-panel;
   position: relative;
+  z-index: 10;
+
+  &::before {
+    content: "";
+    position: absolute;
+    transform: rotate(45deg);
+    border-radius: 0px;
+    top: 20%;
+    left: 95%;
+    width: 15px;
+    height: 15px;
+    background: $color-panel;
+  }
 
   &:hover {
     #menu-on-hover {
-      pointer-events: all;
       opacity: 1;
+      pointer-events: all;
     }
   }
 
   #message-content {
+    z-index: 11;
     color: $color-text;
-    font-size: 16px;
+    font-size: 1rem;
     text-align: right;
     font-weight: 400;
     font-family: "lato";
+    white-space: wrap;
+    line-height: 1.3;
+    word-wrap: break-word;
   }
 
   #message-timestamp {
     color: $color-text;
-    font-size: 10px;
+    font-size: 0.8rem;
     text-align: right;
-    margin-right: 10px;
+    font-style: italic;
     font-family: "lato";
+    user-select: none;
   }
 }
 
@@ -88,6 +121,7 @@ const timestamp = ref();
   left: -30px;
   pointer-events: none;
   transition: all 0.125s ease;
+  z-index: 200;
 
   #menu-content {
     width: 100%;

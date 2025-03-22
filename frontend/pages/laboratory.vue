@@ -8,7 +8,12 @@ onMounted(async () => {
 
 <template>
   <main>
-    <MessagePropsMessageBox />
+    <MessagePropsMessageBox
+      message="sqdkfjsdqm,dsdvmdfcnsdvjfsdnjmfdslfjdsnfmkldsjvfndsjflsdnvfjdslfvndsjvflkdsfvndsjlfvk"
+      timestamp="A l'instant"
+      sender="Michel"
+    />
+    <MessageInputBar />
   </main>
 </template>
 

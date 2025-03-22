@@ -165,7 +165,7 @@ const GenderOptions = [
 
           .input-birthdate {
             width: 300px;
-            font-family: "LAto", sans-serif;
+            font-family: "Lato", sans-serif;
             color: white;
             font-size: 16px;
             line-height: 1;
@@ -176,12 +176,12 @@ const GenderOptions = [
             min-width: 100px;
             height: fit-content;
             min-height: 100px;
-            padding: 5px 10px;
+            padding: 10px;
             border: 1px solid $color-border-discret;
             border-radius: 7px;
             background-color: $color-panel;
             color: $color-text;
-            font-family: "lato", sans-serif;
+            font-family: "Lato", sans-serif;
             resize: none;
           }
         }

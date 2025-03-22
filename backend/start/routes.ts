@@ -20,6 +20,11 @@ router.group(() => {
 })
 
 router
+  .group(() => {})
+  .prefix('/conversation')
+  .use(middleware.auth())
+
+router
   .group(() => {
     router.post('/avatar', [UserController, 'updateAvatar'])
     router.patch('/update-information', [UserController, 'updateInformation'])

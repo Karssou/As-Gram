@@ -15,6 +15,10 @@ import FriendIcon from "~/components/Icons/FriendIcon.vue";
 import MessageIcon from "~/components/Icons/MessageIcon.vue";
 import EditIcon from "~/components/Icons/EditIcon.vue";
 import DeleteIcon from "~/components/Icons/DeleteIcon.vue";
+import SendIcon from "~/components/Icons/SendIcon.vue";
+import AddIcon from "~/components/Icons/AddIcon.vue";
+import PhotoIcon from "~/components/Icons/PhotoIcon.vue";
+import AddFile from "~/components/Icons/AddFile.vue";
 
 export const icons: any = {
   home: HomeIcon,
@@ -34,4 +38,8 @@ export const icons: any = {
   message: MessageIcon,
   edit: EditIcon,
   delete: DeleteIcon,
+  send: SendIcon,
+  plus: AddIcon,
+  addImage: PhotoIcon,
+  addFile: AddFile,
 };
