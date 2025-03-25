@@ -26,7 +26,6 @@
 </template>
 
 <script setup lang="ts">
-import socket from "~/plugins/socket";
 import { icons } from "@/app/utils/icons";
 
 defineProps({
@@ -42,10 +41,6 @@ defineProps({
     type: String,
     required: true,
   },
-});
-
-onUnmounted(() => {
-  socket.off("message");
 });
 </script>
 
@@ -113,8 +108,8 @@ onUnmounted(() => {
   min-height: 50px;
   min-width: 50px;
   max-width: 300px;
-  height: 50%;
-  width: fit-content;
+  height: 100%;
+  width: auto;
   opacity: 0;
   transform-origin: right;
   bottom: 0;
@@ -127,7 +122,8 @@ onUnmounted(() => {
     width: 100%;
     height: 100%;
     display: flex;
-    gap: 10px;
+    gap: 5px;
+    justify-content: flex-end;
     flex-direction: column;
 
     .hover-menu-action-btn {

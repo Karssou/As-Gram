@@ -1,10 +1,12 @@
 import { DateTime } from 'luxon'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, beforeFetch, beforeFind, beforeSave, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, manyToMany } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import type { TimestampKeywords } from '@adonisjs/core/types/logger'
+import type { ManyToMany } from '@adonisjs/lucid/types/relations'
+import Conversation from './conversation.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -47,6 +49,13 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @manyToMany(() => Conversation, {
+    pivotTable: 'conversation_users',
+    pivotTimestamps: true,
+    pivotColumns: ['role'],
+  })
+  public conversations!: ManyToMany<typeof Conversation>
 
   static accessTokens = DbAccessTokensProvider.forModel(User, {
     expiresIn: '1min',

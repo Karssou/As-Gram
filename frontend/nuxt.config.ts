@@ -17,6 +17,8 @@ export default defineNuxtConfig({
     families: {
       Roboto: true,
       Inter: "200..700",
+      Mulish: "200..600"
+      
     },
   },
 

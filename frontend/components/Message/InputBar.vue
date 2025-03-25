@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { icons } from "@/app/utils/icons";
+import PopOver from "../temporary/PopOver.vue";
 
 const messages = ref<string[]>([]);
 const newMessage = ref("");
@@ -12,15 +13,15 @@ const joinMenu = ref(false);
     <div id="message-join">
       <button
         id="join-btn"
-        @click="joinMenu = !joinMenu"
-        @focusout="joinMenu = false"
+        v-on:mouseenter="joinMenu = !joinMenu"
+        v-on:mouseleave="joinMenu = !joinMenu"
+        @click=""
       >
         <component :is="icons['plus']" v-if="icons['plus']" id="join-icon" />
       </button>
+      <PopOver v-if="joinMenu" message="Joindre un fichier" position="null" />
     </div>
-    <div v-if="joinMenu" id="join-menu">
-      <message-props-join-menu />
-    </div>
+
     <div id="input-container">
       <textarea
         id="message-input"

@@ -19,6 +19,9 @@ import SendIcon from "~/components/Icons/SendIcon.vue";
 import AddIcon from "~/components/Icons/AddIcon.vue";
 import PhotoIcon from "~/components/Icons/PhotoIcon.vue";
 import AddFile from "~/components/Icons/AddFile.vue";
+import SearchIcon from "~/components/Icons/SearchIcon.vue";
+import NotificationIconHover from "~/components/Icons/NotificationIconHover.vue";
+import NotificationIcon from "~/components/Icons/NotificationIcon.vue";
 
 export const icons: any = {
   home: HomeIcon,
@@ -42,4 +45,7 @@ export const icons: any = {
   plus: AddIcon,
   addImage: PhotoIcon,
   addFile: AddFile,
+  search: SearchIcon,
+  notificationhover: NotificationIconHover,
+  notification: NotificationIcon,
 };

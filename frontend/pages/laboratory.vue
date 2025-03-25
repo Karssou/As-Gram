@@ -4,16 +4,13 @@ const { fetchUserInformations } = HandleUser();
 onMounted(async () => {
   await fetchUserInformations;
 });
+
+const search = ref("");
 </script>
 
 <template>
   <main>
-    <MessagePropsMessageBox
-      message="sqdkfjsdqm,dsdvmdfcnsdvjfsdnjmfdslfjdsnfmkldsjvfndsjflsdnvfjdslfvndsjvflkdsfvndsjlfvk"
-      timestamp="A l'instant"
-      sender="Michel"
-    />
-    <MessageInputBar />
+    <MessageSidebarConversationContainer />
   </main>
 </template>
 

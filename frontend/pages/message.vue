@@ -1,5 +1,7 @@
 <template>
-  <h1>Page messagerie</h1>
+  <main>
+    <MessagePaneltest />
+  </main>
 </template>
 
 <script setup lang="ts"></script>

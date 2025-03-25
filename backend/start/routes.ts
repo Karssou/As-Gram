@@ -9,6 +9,8 @@
 
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
+import { ConversationService } from '#services/conversation_service'
+const ConvsController = () => import('#controllers/convs_controller')
 const UserController = () => import('#controllers/users_controller')
 const FriendsController = () => import('#controllers/friends_controller')
 const AuthController = () => import('#controllers/auth_controller')
@@ -20,7 +22,34 @@ router.group(() => {
 })
 
 router
-  .group(() => {})
+  .group(() => {
+    router.post('/create', [ConvsController, 'CreateConv'])
+
+    router.post('/:conversationId/users', async ({ request, params }) => {
+      const userId = request.input('userId')
+      return ConversationService.addUserToConversation(Number(params.conversationId), userId)
+    })
+
+    router.get('/:conversationId/users/:userId', async ({ params }) => {
+      return ConversationService.isUserInConversation(
+        Number(params.conversationId),
+        Number(params.userId)
+      )
+    })
+
+    router.delete('/:conversationId/users/:userId', async ({ params }) => {
+      return ConversationService.removeUserFromConversation(
+        Number(params.conversationId),
+        Number(params.userId)
+      )
+    })
+
+    router.delete('/:conversationId/delete', [ConvsController, 'DeleteConv'])
+
+    router.get('/:conversationId/users', async ({ params }) => {
+      return ConversationService.getUsersFromConversation(Number(params.conversationId))
+    })
+  })
   .prefix('/conversation')
   .use(middleware.auth())
 
