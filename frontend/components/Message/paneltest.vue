@@ -7,7 +7,10 @@ const {
   deleteConversation,
   getUserFromConversation,
   addUserToConversation,
+  isUserInConversation,
+  deleteUserFromConversation,
 } = UseConversation();
+
 const userIds = ref("");
 const conversationId = ref("");
 const userId = ref("");
@@ -38,20 +41,16 @@ const AttemptUsersFromConversation = async () => {
 };
 
 const checkUserInConversation = async () => {
-  const res = await fetch(
-    `${apiBaseUrl}/conversation/${conversationId.value}/users/${userId.value}`
-  );
-  responseMessage.value = await res.json();
+  const res = await isUserInConversation(conversationId.value, userId.value);
+  responseMessage.value = await res;
 };
 
 const removeUserFromConversation = async () => {
-  const res = await fetch(
-    `${apiBaseUrl}/conversation/${conversationId.value}/users/${userId.value}`,
-    {
-      method: "DELETE",
-    }
+  const result = await deleteUserFromConversation(
+    conversationId.value,
+    userId.value
   );
-  responseMessage.value = await res.json();
+  responseMessage.value = result;
 };
 </script>
 

@@ -6,20 +6,22 @@
 
     <div id="menu-on-hover">
       <div id="menu-content">
-        <button class="hover-menu-action-btn" id="edit-message-btn">
-          <component
-            :is="icons['edit']"
-            v-if="icons['edit']"
-            class="icon-btn"
-          />
-        </button>
-        <button class="hover-menu-action-btn" id="delete-message-btn">
-          <component
-            :is="icons['delete']"
-            v-if="icons['delete']"
-            class="icon-btn"
-          />
-        </button>
+        <temporary-pop-over message="Modifier">
+          <button class="hover-menu-action-btn" id="edit-message-btn">
+            <component
+              :is="icons['edit']"
+              v-if="icons['edit']"
+              class="icon-btn"
+            /></button
+        ></temporary-pop-over>
+        <temporary-pop-over message="Supprimer">
+          <button class="hover-menu-action-btn" id="delete-message-btn">
+            <component
+              :is="icons['delete']"
+              v-if="icons['delete']"
+              class="icon-btn"
+            /></button
+        ></temporary-pop-over>
       </div>
     </div>
   </div>
@@ -64,12 +66,13 @@ defineProps({
   &::before {
     content: "";
     position: absolute;
-    transform: rotate(45deg);
+
+    transform: translateX(-50%) rotate(45deg);
     border-radius: 0px;
     top: 20%;
-    left: 95%;
-    width: 15px;
-    height: 15px;
+    left: 100%;
+    width: 10px;
+    height: 10px;
     background: $color-panel;
   }
 
@@ -93,7 +96,7 @@ defineProps({
   }
 
   #message-timestamp {
-    color: $color-text;
+    color: $color-text-disabled;
     font-size: 0.8rem;
     text-align: right;
     font-style: italic;
@@ -125,6 +128,7 @@ defineProps({
     gap: 5px;
     justify-content: flex-end;
     flex-direction: column;
+    position: relative;
 
     .hover-menu-action-btn {
       width: 25px;

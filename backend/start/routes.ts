@@ -9,11 +9,13 @@
 
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
-import { ConversationService } from '#services/conversation_service'
+import { MessageService } from '#services/message_service'
+
 const ConvsController = () => import('#controllers/convs_controller')
 const UserController = () => import('#controllers/users_controller')
 const FriendsController = () => import('#controllers/friends_controller')
 const AuthController = () => import('#controllers/auth_controller')
+const MessagesController = () => import('#controllers/messages_controller')
 
 router.group(() => {
   router.post('/register', [AuthController, 'register']).as('auth.register')
@@ -25,32 +27,28 @@ router
   .group(() => {
     router.post('/create', [ConvsController, 'CreateConv'])
 
-    router.post('/:conversationId/users', async ({ request, params }) => {
-      const userId = request.input('userId')
-      return ConversationService.addUserToConversation(Number(params.conversationId), userId)
-    })
+    router.post('/:conversationId/users', [ConvsController, 'AddUserToConv'])
 
-    router.get('/:conversationId/users/:userId', async ({ params }) => {
-      return ConversationService.isUserInConversation(
-        Number(params.conversationId),
-        Number(params.userId)
-      )
-    })
+    router.get('/:conversationId/users/:userId', [ConvsController, 'IsUserInConv'])
 
-    router.delete('/:conversationId/users/:userId', async ({ params }) => {
-      return ConversationService.removeUserFromConversation(
-        Number(params.conversationId),
-        Number(params.userId)
-      )
-    })
+    router.delete('/:conversationId/users/:userId', [ConvsController, 'DeleteUser'])
 
     router.delete('/:conversationId/delete', [ConvsController, 'DeleteConv'])
 
-    router.get('/:conversationId/users', async ({ params }) => {
-      return ConversationService.getUsersFromConversation(Number(params.conversationId))
-    })
+    router.get('/:conversationId/users', [ConvsController, 'GetUserFromConv'])
   })
   .prefix('/conversation')
+  .use(middleware.auth())
+
+router
+  .group(() => {
+    router.get('/get/:conversationId', [MessagesController, 'GetMessages'])
+
+    router.post('/:conversationId/message/send', [MessagesController, 'SendMessage'])
+
+    router.put('/:messageId/edit', [MessagesController, 'EditMessage'])
+  })
+  .prefix('/messages')
   .use(middleware.auth())
 
 router

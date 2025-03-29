@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { icons } from "@/app/utils/icons";
+import PopOver from "~/components/temporary/PopOver.vue";
 </script>
 
 <template>
@@ -13,7 +14,9 @@ import { icons } from "@/app/utils/icons";
     <div id="content">
       <div id="content-header">
         <span>Conversations</span>
-        <MessageSidebarPropsConvInvite />
+        <PopOver message="Notification">
+          <MessageSidebarPropsConvInvite />
+        </PopOver>
       </div>
       <div id="content-panel">
         <h1>PANEL</h1>

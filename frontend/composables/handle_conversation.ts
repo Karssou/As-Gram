@@ -37,10 +37,35 @@ export const UseConversation = () => {
     return request;
   };
 
+  const isUserInConversation = async (
+    conversationId: number,
+    userId: number
+  ) => {
+    const request = await ApiCall(
+      "GET",
+      `conversation/${conversationId}/users/${userId}`
+    );
+    return request;
+  };
+
+  const deleteUserFromConversation = async (
+    conversationId: number,
+    userId: number
+  ) => {
+    const request = await ApiCall(
+      "DELETE",
+      `/conversation/${conversationId}/users/${userId}`
+    );
+
+    return request;
+  };
+
   return {
     createConversation,
     deleteConversation,
     getUserFromConversation,
     addUserToConversation,
+    isUserInConversation,
+    deleteUserFromConversation,
   };
 };

@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+import InputBar from "~/components/Message/InputBar.vue";
+import Bubble from "~/components/Message/props/Bubble.vue";
+import TypingIndicator from "~/components/Message/props/TypingIndicator.vue";
+
 const { fetchUserInformations } = HandleUser();
 
 onMounted(async () => {
@@ -10,7 +14,7 @@ const search = ref("");
 
 <template>
   <main>
-    <MessageSidebarConversationContainer />
+    <MessageChat />
   </main>
 </template>
 

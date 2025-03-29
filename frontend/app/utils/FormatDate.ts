@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 export function timeAgo(timestamp: number): string {
   const now = Date.now();
   const diff = now - timestamp;
@@ -34,4 +36,21 @@ export function formatTimestamp(timestamp: number): string {
   }
 
   return new Intl.DateTimeFormat("fr-FR", { dateStyle: "long" }).format(date);
+}
+
+export function formatRelativeTime(isoDate: string): string {
+  const date = DateTime.fromISO(isoDate);
+  const diff = date.diffNow(["days", "hours", "minutes"]).toObject();
+
+  if (diff.days && diff.days >= 1) {
+    return `il y a ${Math.floor(diff.days)} jour${diff.days > 1 ? "s" : ""}`;
+  } else if (diff.hours && diff.hours >= 1) {
+    return `il y a ${Math.floor(diff.hours)} heure${diff.hours > 1 ? "s" : ""}`;
+  } else if (diff.minutes && diff.minutes >= 1) {
+    return `il y a ${Math.floor(diff.minutes)} minute${
+      diff.minutes > 1 ? "s" : ""
+    }`;
+  } else {
+    return "à l'instant";
+  }
 }

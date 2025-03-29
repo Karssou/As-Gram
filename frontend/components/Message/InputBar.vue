@@ -150,10 +150,9 @@ const joinMenu = ref(false);
 
   #send-container {
     width: 100%;
+    min-height: 40px;
     height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex: 1 1 10%;
 
     #send-btn {
@@ -162,6 +161,7 @@ const joinMenu = ref(false);
       justify-content: center;
       line-height: 0;
       width: 100%;
+      min-height: 40px;
       height: 100%;
       border-radius: 0 12px 12px 0;
       background-color: rgb(47, 47, 47);
