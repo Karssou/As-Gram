@@ -1,14 +1,14 @@
 export const useUserStore = defineStore("user", () => {
   interface User {
-    id: string;
+    id: number;
     username: string;
     password: string;
     email: string;
     createdAt: number;
     fullName: string;
-    biography?: string;
-    gender?: string | "female" | "male";
-    birthdate?: string | Date | "";
+    biography: string;
+    gender: string;
+    birthdate: string | Date | "";
   }
 
   const user = ref(

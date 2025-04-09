@@ -19,18 +19,28 @@ export async function ApiCall<T = unknown>(
 
     return response;
   } catch (error: any) {
+    console.error("Erreur API :", error);
+
     if (error?.response) {
-      if (
-        error.response?.status === 401 &&
-        error.response._data.status === "error"
-      ) {
-        console.warn("Accès refusé, redirection vers le login...");
+      const { status, _data } = error.response;
+
+      if (status === 401 && _data?.status === "error") {
+        console.warn("Accès refusé, redirection vers la connexion...");
         navigateTo("/authentification");
-        return { status: "error", message: "Veuillez vous connectez..." };
+        return Promise.reject({
+          status: "error",
+          message: "Veuillez vous connecter...",
+        });
       }
-      if (error.response?._data) {
-        return error.response._data;
-      }
+
+      return Promise.reject(
+        _data || { status: "error", message: "Une erreur est survenue." }
+      );
     }
+
+    return Promise.reject({
+      status: "error",
+      message: "Erreur inconnue, vérifiez votre connexion.",
+    });
   }
 }

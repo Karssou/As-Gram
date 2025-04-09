@@ -36,5 +36,6 @@ export const UpdateUserValidator = vine.compile(
     fullName: vine.string().optional(),
     biography: vine.string().minLength(6).maxLength(250).optional(),
     gender: vine.string().optional(),
+    birthdate: vine.string().optional(),
   })
 )
