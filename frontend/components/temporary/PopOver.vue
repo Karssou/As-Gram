@@ -6,6 +6,10 @@ defineProps({
     type: String,
     required: true,
   },
+
+  className: {
+    type: String,
+  },
 });
 
 const popoverVisible = ref(false);
@@ -22,7 +26,7 @@ const hidePopover = () => (popoverVisible.value = false);
   >
     <slot></slot>
 
-    <div v-if="popoverVisible" id="menu-container">
+    <div v-if="popoverVisible" :class="['menu-container', className]">
       <div id="menu-content">
         <span id="menu-span">{{ message }}</span>
       </div>
@@ -39,15 +43,15 @@ const hidePopover = () => (popoverVisible.value = false);
   display: inline-block;
 }
 
-#menu-container {
+.menu-container {
   position: absolute;
   top: 106%;
   transform: translateX(-70%);
-  left: 50%;
+  left: 100%;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: fit-content;
   min-width: 80px;
-  padding: 0 2%;
+  padding: 0 5px;
   max-width: 500px;
   min-height: 30px;
   background-color: $color-black;

@@ -22,6 +22,17 @@ import AddFile from "~/components/Icons/AddFile.vue";
 import SearchIcon from "~/components/Icons/SearchIcon.vue";
 import NotificationIconHover from "~/components/Icons/NotificationIconHover.vue";
 import NotificationIcon from "~/components/Icons/NotificationIcon.vue";
+import DoneAllIcon from "~/components/Icons/DoneAllIcon.vue";
+import ConvIcon from "~/components/Icons/ConvIcon.vue";
+import CalendarIcon from "~/components/Icons/CalendarIcon.vue";
+import EllipsisIcon from "~/components/Icons/EllipsisIcon.vue";
+
+import EmojiLaughIcon from "~/components/Icons/EmojiLaughIcon.vue";
+import EmojiSmileIcon from "~/components/Icons/EmojiSmileIcon.vue";
+import EmojiHeartIcon from "~/components/Icons/EmojiHeartIcon.vue";
+import EmojiLikeIcon from "~/components/Icons/EmojiLikeIcon.vue";
+import EmojiIcon from "~/components/Icons/EmojiIcon.vue";
+import ReplyIcon from "~/components/Icons/ReplyIcon.vue";
 
 export const icons: any = {
   home: HomeIcon,
@@ -48,4 +59,14 @@ export const icons: any = {
   search: SearchIcon,
   notificationhover: NotificationIconHover,
   notification: NotificationIcon,
+  doneall: DoneAllIcon,
+  conversation: ConvIcon,
+  calendar: CalendarIcon,
+  ellipsis: EllipsisIcon,
+  reply: ReplyIcon,
+  emoji_laugh: EmojiLaughIcon,
+  emoji_smile: EmojiSmileIcon,
+  emoji_heart: EmojiHeartIcon,
+  emoji_like: EmojiLikeIcon,
+  emoji: EmojiIcon,
 };

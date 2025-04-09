@@ -40,7 +40,9 @@ export function formatTimestamp(timestamp: number): string {
 
 export function formatRelativeTime(isoDate: string): string {
   const date = DateTime.fromISO(isoDate);
-  const diff = date.diffNow(["days", "hours", "minutes"]).toObject();
+  const diff = DateTime.now()
+    .diff(date, ["days", "hours", "minutes"])
+    .toObject();
 
   if (diff.days && diff.days >= 1) {
     return `il y a ${Math.floor(diff.days)} jour${diff.days > 1 ? "s" : ""}`;

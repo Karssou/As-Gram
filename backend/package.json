@@ -61,6 +61,7 @@
     "luxon": "^3.5.0",
     "pg": "^8.13.3",
     "pinia": "^3.0.1",
+    "pusher": "^5.2.0",
     "reflect-metadata": "^0.2.2",
     "socket.io": "^4.8.1"
   },

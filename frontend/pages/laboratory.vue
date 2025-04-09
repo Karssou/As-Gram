@@ -1,23 +1,59 @@
 <script lang="ts" setup>
-import InputBar from "~/components/Message/InputBar.vue";
-import Bubble from "~/components/Message/props/Bubble.vue";
-import TypingIndicator from "~/components/Message/props/TypingIndicator.vue";
+import Chat from "~/components/Message/Chat.vue";
 
-const { fetchUserInformations } = HandleUser();
+const bonjour = () => console.log("Bonjour");
 
-onMounted(async () => {
-  await fetchUserInformations;
-});
+const isTyping = ref(false);
 
-const search = ref("");
+const Emoji = ref();
+
+const ellipsisOptions = [
+  {
+    label: "Bonjour",
+    OnClick: () => {
+      bonjour();
+    },
+  },
+  {
+    label: "Aurevoir",
+    icon: "send",
+    OnClick: () => {
+      console.log("Aurevoir");
+    },
+  },
+];
+
+function handleEmojiSelect(emoji: any) {
+  Emoji.value = emoji;
+}
 </script>
 
 <template>
   <main>
-    <MessageChat />
+    <PostsPostItems />
   </main>
 </template>
 
 <style lang="scss" scoped>
 @use "styles/laboratory.scss";
+
+.salut {
+  width: 25px;
+  height: 25px;
+}
+
+.button {
+  color: whitesmoke;
+  background-color: transparent;
+  border: 1px solid whitesmoke;
+  padding: 10px 20px;
+  border-radius: 7px;
+  font-weight: 600;
+
+  &:hover {
+    cursor: pointer;
+    background-color: whitesmoke;
+    color: black;
+  }
+}
 </style>

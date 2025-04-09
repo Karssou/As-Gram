@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
+      pusherBase: process.env.app_key,
     },
   },
   modules: [
@@ -17,8 +18,7 @@ export default defineNuxtConfig({
     families: {
       Roboto: true,
       Inter: "200..700",
-      Mulish: "200..600"
-      
+      Mulish: "200..600",
     },
   },
 

@@ -5,16 +5,27 @@ const { user } = useUserStore();
 
 const profileForm = ref({ ...user });
 
-async function Attemptupdate() {
-  await updateUserInformations(profileForm.value);
-}
-
-const birthdate = ref("");
-
 const GenderOptions = [
   { value: "male", label: "Homme" },
   { value: "female", label: "Femme" },
 ];
+
+const birthdate = computed({
+  get: () =>
+    profileForm.value.birthdate
+      ? new Date(profileForm.value.birthdate).toISOString().split("T")[0] // "YYYY-MM-DD"
+      : "",
+  set: (value) => {
+    profileForm.value.birthdate = new Date(value).toISOString(); // Convertit en ISO 8601
+  },
+});
+
+watch(
+  () => profileForm.value.birthdate,
+  (newValue) => {
+    console.log("Valeur modifiée :", newValue);
+  }
+);
 </script>
 
 <template>
@@ -23,7 +34,11 @@ const GenderOptions = [
       <h1>Modifier Vos Informations</h1>
     </div>
     <div id="panel-content">
-      <form action="" id="form-panel" @submit.prevent="Attemptupdate()">
+      <form
+        action=""
+        id="form-panel"
+        @submit.prevent="updateUserInformations(profileForm)"
+      >
         <div id="form-content">
           <div class="input-container">
             <span class="span-input"> Modifier votre pseudo</span>
@@ -35,13 +50,14 @@ const GenderOptions = [
           </div>
           <div class="input-container">
             <span class="span-input"> Modifier votre bio </span>
-            <textarea name="area-bio" v-model="profileForm.biography">
-            </textarea>
+            <textarea name="area-bio" v-model="profileForm.biography" />
           </div>
           <div class="input-container">
-            <span class="span-input"> Votre genre </span>
+            <span class="span-input">
+              Votre genre {{ profileForm.gender }}
+            </span>
             <InputsSelectBox
-              :v-model="profileForm.gender"
+              v-model="profileForm.gender"
               :options="GenderOptions"
               className="input-gender"
             />
@@ -50,11 +66,7 @@ const GenderOptions = [
             <span class="span-input">
               Votre date de naissance : {{ birthdate }}
             </span>
-            <input
-              type="date"
-              v-model="profileForm.birthdate"
-              class="input-birthdate"
-            />
+            <input type="date" v-model="birthdate" class="input-birthdate" />
           </div>
           <div class="input-container">
             <span class="span-input"> Votre email </span>

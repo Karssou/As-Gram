@@ -1,15 +1,24 @@
 <script lang="ts" setup>
 import { icons } from "@/app/utils/icons";
 
-defineProps<{
-  modelValue: string | number | null;
+const props = defineProps<{
+  modelValue: string | number | undefined;
   options: { value: string | number; label: string }[];
   label?: string;
   placeholder?: string;
   className?: string;
+  defaultValue?: string | number;
 }>();
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits<{
+  (e: "update:modelValue", value: string | number): void;
+}>();
+
+const selectedValue = computed(() =>
+  props.modelValue !== undefined && props.modelValue !== null
+    ? props.modelValue
+    : ""
+);
 </script>
 
 <template>
@@ -18,22 +27,27 @@ const emit = defineEmits(["update:modelValue"]);
     <div class="select-wrapper">
       <select
         :class="['select-box', className]"
-        :value="modelValue"
+        :value="selectedValue"
         @change="
           emit('update:modelValue', ($event.target as HTMLSelectElement).value)
         "
       >
-        <option value="" disabled selected hidden>
-          {{ placeholder || "Sélectionnez" }}
+        <!-- Option par défaut désactivée -->
+        <option value="" disabled hidden>
+          {{ placeholder || "Sélectionnez un élément" }}
         </option>
+
+        <!-- Options dynamiques -->
         <option
           v-for="option in options"
           :key="option.value"
           :value="option.value"
         >
           {{ option.label }}
-        </option></select
-      ><component
+        </option>
+      </select>
+
+      <component
         :is="icons['arrowbottom']"
         class="custom-arrow"
         v-if="icons['arrowbottom']"

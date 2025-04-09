@@ -1,188 +1,186 @@
 <script lang="ts" setup>
 import { icons } from "@/app/utils/icons";
 import PopOver from "../temporary/PopOver.vue";
+import Pusher from "pusher-js";
 
-const messages = ref<string[]>([]);
-const newMessage = ref("");
+const { sendTypingEvent } = usePusher();
+const { sendMessage } = useMessage();
 
-const joinMenu = ref(false);
+const message = ref("");
+const conversationId = ref(1);
+
+const isTyping = ref(false);
+const typingTimeout = ref<ReturnType<typeof setTimeout> | null>(null);
+
+const emit = defineEmits<{
+  (e: "update:isTyping", value: boolean): void;
+}>();
+
+
+function handleTyping() {
+  if (!isTyping.value) {
+    isTyping.value = true;
+    emit("update:isTyping", true);
+    sendTypingEvent(conversationId.value, 1); 
+  }
+
+
+  if (typingTimeout.value) clearTimeout(typingTimeout.value);
+  typingTimeout.value = setTimeout(() => {
+    isTyping.value = false;
+    emit("update:isTyping", false);
+  }, 2000);
+}
+
+
+const typingUser = ref("");
+const remoteTypingTimeout = ref<ReturnType<typeof setTimeout> | null>(null);
+
+const pusher = new Pusher("1824230dd5421145621d", {
+  cluster: "eu",
+});
+
+const channel = pusher.subscribe(`conversation-${conversationId.value}`);
+
+
+
+channel.bind("user-typing", (data: any) => {
+  typingUser.value = data.userId;
+
+  if (remoteTypingTimeout.value) clearTimeout(remoteTypingTimeout.value);
+  remoteTypingTimeout.value = setTimeout(() => {
+    typingUser.value = "";
+  }, 2000);
+});
 </script>
 
 <template>
-  <div id="message-input-container">
-    <div id="message-join">
-      <button
-        id="join-btn"
-        v-on:mouseenter="joinMenu = !joinMenu"
-        v-on:mouseleave="joinMenu = !joinMenu"
-        @click=""
-      >
-        <component :is="icons['plus']" v-if="icons['plus']" id="join-icon" />
+  <div id="input-bar-container">
+    <pop-over message="Joindre un fichier" class-name="position">
+      <button id="plus-btn">
+        <component :is="icons['plus']" id="plus-icon" />
       </button>
-      <PopOver v-if="joinMenu" message="Joindre un fichier" position="null" />
-    </div>
+    </pop-over>
+    <textarea
+      name="input-message"
+      id="input-message"
+      placeholder="Ecrire un message"
+      @input="handleTyping"
+      v-model="message"
+    />
 
-    <div id="input-container">
-      <textarea
-        id="message-input"
-        placeholder="Ecrire un message..."
-        v-model="newMessage"
-      />
-    </div>
-
-    <div id="send-container">
-      <button id="send-btn" @click="">
-        <component :is="icons['send']" v-if="icons['send']" id="send-icon" />
-      </button>
-    </div>
+    <button
+      type="submit"
+      @click="sendMessage(conversationId, message)"
+      id="send-btn"
+    >
+      <component :is="icons['send']" id="send-icon" />
+    </button>
   </div>
 </template>
 
 <style lang="scss" scoped>
 @use "@/assets/styles/variables.scss" as *;
 
-#message-input-container {
-  width: 100%;
-  height: fit-content;
-  background-color: $color-panel;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: row;
-  position: relative;
+.position {
+  transform: translateX(-80%);
+}
 
-  #message-join {
-    width: 100%;
-    height: 40px;
+#input-bar-container {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  background-color: $color-panel;
+  border-radius: calc(25px + 10px * (var(--height, 1) - 1));
+  padding: 5px 1%;
+
+  #plus-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex: 1 0 40px;
+    flex: 1 1 40px;
+    width: 35px;
+    height: 35px;
+    max-width: 35px;
+    max-height: 35px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+    margin-right: 10px;
+    position: relative;
+    transition: all 0.125s ease;
+    margin-top: auto;
 
-    #join-btn {
-      position: relative;
-      min-height: 30px;
-      min-width: 30px;
-      height: 35px;
-      width: 35px;
-      max-width: 100%;
-      max-height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 7px;
-      border: none;
-      background-color: transparent;
-      transition: all 0.25s ease;
+    #plus-icon {
+      color: $color-text;
+      font-size: 200%;
+      font-weight: 900;
+      transition: color 0.25s ease;
+    }
 
-      &::before {
-        position: absolute;
-        top: 10%;
-        left: 112%;
-        content: "";
-        width: 1.5px;
-        height: 80%;
-        background-color: white;
-      }
+    &::before {
+      position: absolute;
+      top: 10%;
+      left: 110%;
+      content: "";
+      height: 80%;
+      width: 1px;
+      background: white;
+    }
 
-      &:hover {
-        background-color: $color-background-black-similar-hovered;
-        cursor: pointer;
-      }
-
-      #join-icon {
-        color: white;
-        font-size: 200%;
-        margin-right: 10%;
-      }
+    &:hover {
+      cursor: pointer;
+      background-color: $color-panel-secondary;
     }
   }
-  #join-menu {
-    position: absolute;
-    border-radius: 12px;
-    bottom: 112%;
-    left: 0;
-    width: fit-content;
-    height: fit-content;
+  #input-message {
+    flex: 1 1 90%;
+    display: flex;
+    max-height: inherit;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    field-sizing: content;
+    color: $color-text;
+    font-family: "Mulish";
+
+    &::placeholder {
+      font-family: "Mulish";
+      font-size: 0.9rem;
+    }
   }
 
-  #input-container {
-    width: 100%;
-    min-height: 40px;
-    height: fit-content;
+  #send-btn {
+    flex: 1 1 40px;
+    margin-top: auto;
+    height: 35px;
+    width: 35px;
+    max-width: 35px;
+    max-height: 35px;
     display: flex;
     align-items: center;
-    flex: 2 1 80%;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid $color-border-discret;
+    background-color: transparent;
+    transition: background 0.25s ease;
 
-    #message-input {
-      height: 100%;
-      max-height: 40px;
-      width: 100%;
-      max-width: 100%;
-      background-color: transparent;
-      font-family: "Lato";
-      font-size: 16px;
-      border: none;
-      padding: 10px;
-      padding-top: 12px;
-      color: $color-text;
-      resize: none;
-      margin: 0 2px;
-      display: flex;
-      align-items: center;
-
-      &::placeholder {
-        color: $color-text-disabled;
-        padding: 0;
-        font-size: 16px;
-        font-family: "Lato";
-        line-height: 1;
-      }
-
-      &::-webkit-scrollbar-track {
-        background-color: transparent;
-      }
-      &::-webkit-scrollbar-thumb {
-        background-color: $color-text;
-        border-radius: 10px;
-      }
+    &:hover {
+      cursor: pointer;
+      background-color: $color-panel-secondary;
     }
-  }
 
-  #send-container {
-    width: 100%;
-    min-height: 40px;
-    height: 100%;
-    display: flex;
-    flex: 1 1 10%;
-
-    #send-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 0;
-      width: 100%;
-      min-height: 40px;
-      height: 100%;
-      border-radius: 0 12px 12px 0;
-      background-color: rgb(47, 47, 47);
-      border: none;
-      transform-origin: center;
-
-      #send-icon {
-        color: $color-text;
-        font-size: 200%;
-        transition: transform 0.125s ease;
-      }
-
-      &:hover {
-        cursor: pointer;
-        background-color: rgb(68, 68, 68);
-
-        #send-icon {
-          transform: scale(1.05);
-          color: white;
-        }
-      }
+    #send-icon {
+      margin-left: 2px;
+      color: white;
+      font-size: 150%;
     }
   }
 }

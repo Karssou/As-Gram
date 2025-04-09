@@ -5,7 +5,6 @@ import app from '@adonisjs/core/services/app'
 export default class UserController {
   public async updateInformation({ request, auth, response }: HttpContext) {
     try {
-      // Vérifier l'utilisateur connecté
       const user = auth.user
       if (!user) {
         return response.unauthorized({ message: 'Utilisateur non authentifié' })

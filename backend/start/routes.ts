@@ -9,7 +9,8 @@
 
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
-import { MessageService } from '#services/message_service'
+import { PusherService } from '#services/pusher_service'
+import { MessageReactionService } from '#services/message_reaction_service'
 
 const ConvsController = () => import('#controllers/convs_controller')
 const UserController = () => import('#controllers/users_controller')
@@ -47,6 +48,31 @@ router
     router.post('/:conversationId/message/send', [MessagesController, 'SendMessage'])
 
     router.put('/:messageId/edit', [MessagesController, 'EditMessage'])
+
+    router.delete('/:messageId/delete', [MessagesController, 'DeleteMessage'])
+
+    router.delete('/:messageId/react/:userId', async ({ params }) => {
+      const { messageId, userId } = params
+      const reactions = await MessageReactionService.removeReaction(messageId, userId)
+      return reactions
+    })
+
+    router.get('/:messageId/react', async ({ params }) => {
+      const { messageId } = params
+      const reactions = await MessageReactionService.getReactionsForMessage(messageId)
+      return reactions
+    })
+
+    router.post('/:messageId/react/:userId', async ({ params, request }) => {
+      const { reaction } = request.only(['reaction'])
+      const { messageId, userId } = params
+      const reactions = await MessageReactionService.addOrUpdateReaction(
+        messageId,
+        userId,
+        reaction
+      )
+      return reactions
+    })
   })
   .prefix('/messages')
   .use(middleware.auth())
@@ -73,3 +99,15 @@ router
   })
   .use(middleware.auth())
   .prefix('/friends')
+
+router
+  .get('/hello-world', async () => {
+    return { Salut: 'Salut' }
+  })
+  .use(middleware.auth())
+
+router.post('/pusher/typing', async ({ request }) => {
+  const { userId } = request.only(['userId'])
+  const { conversationId } = request.only(['conversationId'])
+  PusherService.sendTyping(Number(conversationId), Number(userId))
+})
