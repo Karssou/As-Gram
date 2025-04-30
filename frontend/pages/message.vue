@@ -1,7 +1,17 @@
 <template>
-  <h1>Page messagerie</h1>
+  <main>
+    <MessageChat />
+  </main>
 </template>
 
 <script setup lang="ts"></script>
 
-<style scope lang="scss"></style>
+<style scoped lang="scss">
+main {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70vw;
+}
+</style>

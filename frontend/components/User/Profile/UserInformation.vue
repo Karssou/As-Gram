@@ -8,25 +8,38 @@ const profileForm = ref({ ...user });
 const GenderOptions = [
   { value: "male", label: "Homme" },
   { value: "female", label: "Femme" },
+  { value: "HOMO", label: "Homosexuel" },
+  { value: "Lesb", label: "Lesbienne" },
+  { value: "HT", label: "homme trans" },
+  { value: "FT", label: "femme trans " },
+  { value: "NB", label: "Non-binaire" },
+  { value: "GF", label: "Genderfluid" },
+  { value: "male", label: "hélicoptère ac130 de combat" },
+  { value: "AD", label: "Agender" },
+  { value: "BD", label: "Bigender" },
+  { value: "DB", label: "Demiboy" },
+  { value: "DG", label: "Demigirl" },
+  { value: "DR", label: "Droval" },
+  { value: "TS", label: "Two-Spirit" },
+  { value: "+", label: "autre " },
 ];
 
-const router = useRouter();
+const birthdate = computed({
+  get: () =>
+    profileForm.value.birthdate
+      ? new Date(profileForm.value.birthdate).toISOString().split("T")[0] // "YYYY-MM-DD"
+      : "",
+  set: (value) => {
+    profileForm.value.birthdate = new Date(value).toISOString(); // Convertit en ISO 8601
+  },
+});
 
-async function Attemptupdate() {
-  await updateUserInformations(profileForm.value);
-
-  router.push({
-    name: 'Profile_type',
-    query: {
-      username: profileForm.value.username,
-      fullName: profileForm.value.fullName,
-      biography: profileForm.value.biography,
-      gender: profileForm.value.gender,
-      birthdate: profileForm.value.birthdate,
-      email: profileForm.value.email,
-    }
-  });
-}
+watch(
+  () => profileForm.value.birthdate,
+  (newValue) => {
+    console.log("Valeur modifiée :", newValue);
+  }
+);
 </script>
 
 
@@ -37,7 +50,11 @@ async function Attemptupdate() {
     </div>
 
     <div id="panel-content">
-      <form id="form-panel">
+      <form
+        action=""
+        id="form-panel"
+        @submit.prevent="updateUserInformations(profileForm)"
+      >
         <div id="form-content">
           <!-- Modifier le pseudo -->
           <div class="input-container">
@@ -53,13 +70,15 @@ async function Attemptupdate() {
 
           <!-- Bio -->
           <div class="input-container">
-            <span class="span-input">Modifier votre bio</span>
-            <textarea v-model="profileForm.biography"></textarea>
+            <span class="span-input"> Modifier votre bio </span>
+            <textarea name="area-bio" v-model="profileForm.biography" />
           </div>
 
           <!-- Genre -->
           <div class="input-container">
-            <span class="span-input">Votre genre</span>
+            <span class="span-input">
+              Votre genre {{ profileForm.gender }}
+            </span>
             <InputsSelectBox
               v-model="profileForm.gender"
               :options="GenderOptions"
@@ -69,8 +88,10 @@ async function Attemptupdate() {
 
           <!-- Date de naissance -->
           <div class="input-container">
-            <span class="span-input">Votre date de naissance : {{ profileForm.birthdate }}</span>
-            <input type="date" v-model="profileForm.birthdate" class="input-birthdate" />
+            <span class="span-input">
+              Votre date de naissance : {{ birthdate }}
+            </span>
+            <input type="date" v-model="birthdate" class="input-birthdate" />
           </div>
 
           <!-- Email -->
@@ -191,7 +212,7 @@ async function Attemptupdate() {
             width: 100%;
             min-width: 100px;
             min-height: 100px;
-            padding: 5px 10px;
+            padding: 10px;
             border: 1px solid $color-border-discret;
             border-radius: 7px;
             background-color: $color-panel;

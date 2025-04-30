@@ -1,10 +1,13 @@
 import { DateTime } from 'luxon'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, beforeFetch, beforeFind, beforeSave, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
-import type { TimestampKeywords } from '@adonisjs/core/types/logger'
+
+import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
+import Conversation from './conversation.js'
+import MessageReaction from './message_reactions.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -34,10 +37,10 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare avatar: string | null
 
   @column()
-  declare birthdate: string | null
+  declare birthdate: string | Date | null
 
   @column()
-  declare lastLogin: TimestampKeywords
+  declare lastLogin: string
 
   @column()
   declare gender: 'female' | 'male'
@@ -47,6 +50,16 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @manyToMany(() => Conversation, {
+    pivotTable: 'conversation_users',
+    pivotTimestamps: true,
+    pivotColumns: ['role'],
+  })
+  public conversations!: ManyToMany<typeof Conversation>
+
+  @hasMany(() => MessageReaction, { foreignKey: 'userId' })
+  public messageReactions!: HasMany<typeof MessageReaction>
 
   static accessTokens = DbAccessTokensProvider.forModel(User, {
     expiresIn: '1min',

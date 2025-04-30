@@ -13,15 +13,12 @@ export function HandleUser() {
   }
 
   async function updateUserInformations(payload: any) {
+    console.log(payload);
     const request: any = await ApiCall(
       "PATCH",
       "/user/update-information",
       payload
     );
-
-    if (request.status === "error") {
-      console.log("PROBLEME AVEC LE UPDATE");
-    }
   }
 
   return { fetchUserInformations, updateUserInformations };
