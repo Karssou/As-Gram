@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import Chat from "~/components/Message/Chat.vue";
-
 const bonjour = () => console.log("Bonjour");
 
-const isTyping = ref(false);
+const postid = ref();
 
-const Emoji = ref();
+const attempt = async (postId: number) => {
+  const req = ApiCall("POST", `/posts/${postId}/like`);
+};
 
 const ellipsisOptions = [
   {
@@ -22,15 +22,18 @@ const ellipsisOptions = [
     },
   },
 ];
-
-function handleEmojiSelect(emoji: any) {
-  Emoji.value = emoji;
-}
 </script>
 
 <template>
   <main>
-    <PostsPostItems />
+    <input
+      type="text"
+      name=""
+      id=""
+      placeholder="ID DU POST"
+      v-model="postid"
+    />
+    <button @click="attempt(postid)">Like Post</button>
   </main>
 </template>
 

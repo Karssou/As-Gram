@@ -120,7 +120,7 @@ const showActionMenu = ref(false);
     span {
       color: $color-text;
       font-family: "Mulish";
-      font-size: 1rem;
+      font-size: 0.8rem;
     }
 
     &:hover {
