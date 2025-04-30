@@ -33,6 +33,13 @@ import EmojiHeartIcon from "~/components/Icons/EmojiHeartIcon.vue";
 import EmojiLikeIcon from "~/components/Icons/EmojiLikeIcon.vue";
 import EmojiIcon from "~/components/Icons/EmojiIcon.vue";
 import ReplyIcon from "~/components/Icons/ReplyIcon.vue";
+import LikeIcon from "~/components/Icons/LikeIcon.vue";
+import CommentIcon from "~/components/Icons/CommentIcon.vue";
+import LoveIcon from "~/components/Icons/LoveIcon.vue";
+import DislikeIcon from "~/components/Icons/DislikeIcon.vue";
+import AttachIcon from "~/components/Icons/AttachIcon.vue";
+import PasswordIcon from "~/components/Icons/PasswordIcon.vue";
+import EmailIcon from "~/components/Icons/EmailIcon.vue";
 
 export const icons: any = {
   home: HomeIcon,
@@ -41,12 +48,14 @@ export const icons: any = {
   check: CheckIcon,
   login: LoginIcon,
   logout: LogoutIcon,
+  password: PasswordIcon,
   arrowbottom: ArrowBottomIcon,
   manageaccount: ManageIcon,
   user: UserIcon,
   settings: SettingsIcon,
   signin: SignInIcon,
   darkmode: DarkModeIcon,
+  email: EmailIcon,
   labo: LaboIcon,
   friend: FriendIcon,
   message: MessageIcon,
@@ -69,4 +78,9 @@ export const icons: any = {
   emoji_heart: EmojiHeartIcon,
   emoji_like: EmojiLikeIcon,
   emoji: EmojiIcon,
+  like: LikeIcon,
+  comment: CommentIcon,
+  dislike: DislikeIcon,
+  love: LoveIcon,
+  attach: AttachIcon,
 };

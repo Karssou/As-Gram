@@ -11,6 +11,7 @@ import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
 import { PusherService } from '#services/pusher_service'
 import { MessageReactionService } from '#services/message_reaction_service'
+import { PostService } from '#services/post_service'
 
 const ConvsController = () => import('#controllers/convs_controller')
 const UserController = () => import('#controllers/users_controller')
@@ -23,6 +24,23 @@ router.group(() => {
   router.post('/login', [AuthController, 'login']).as('auth.login')
   router.delete('/logout', [AuthController, 'logout']).as('auth.logout').use(middleware.auth())
 })
+
+router
+  .group(() => {
+    router.post('/create', async ({ request }) => {
+      const { content } = request.only(['content'])
+      await PostService.createPost(content)
+      return 'Ok'
+    })
+
+    router.post('/:postId/like', async ({ params }) => {
+      const { postId } = params
+      const userId = 1
+      await PostService.likePost(postId, userId)
+      return 'Ok'
+    })
+  })
+  .prefix('posts')
 
 router
   .group(() => {
@@ -54,12 +72,6 @@ router
     router.delete('/:messageId/react/:userId', async ({ params }) => {
       const { messageId, userId } = params
       const reactions = await MessageReactionService.removeReaction(messageId, userId)
-      return reactions
-    })
-
-    router.get('/:messageId/react', async ({ params }) => {
-      const { messageId } = params
-      const reactions = await MessageReactionService.getReactionsForMessage(messageId)
       return reactions
     })
 

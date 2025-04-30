@@ -1,12 +1,4 @@
-<script lang="ts" setup>
-import { useAuthStore } from "~/stores/auth";
-
-const { logout } = HandleAuth();
-
-async function Logout() {
-  console.log(logout());
-}
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <main id="page-content">
