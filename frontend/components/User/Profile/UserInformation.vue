@@ -8,6 +8,20 @@ const profileForm = ref({ ...user });
 const GenderOptions = [
   { value: "male", label: "Homme" },
   { value: "female", label: "Femme" },
+  { value: "HOMO", label: "Homosexuel" },
+  { value: "Lesb", label: "Lesbienne" },
+  { value: "HT", label: "homme trans" },
+  { value: "FT", label: "femme trans " },
+  { value: "NB", label: "Non-binaire" },
+  { value: "GF", label: "Genderfluid" },
+  { value: "male", label: "hélicoptère ac130 de combat" },
+  { value: "AD", label: "Agender" },
+  { value: "BD", label: "Bigender" },
+  { value: "DB", label: "Demiboy" },
+  { value: "DG", label: "Demigirl" },
+  { value: "DR", label: "Droval" },
+  { value: "TS", label: "Two-Spirit" },
+  { value: "+", label: "autre " },
 ];
 
 const birthdate = computed({
