@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-const { user } = useUserStore();// ou ton chemin réel
+const { user } = useUserStore();
 const { updateUserInformations} = HandleUser();
 const profileForm = ref({ ...user });
 
