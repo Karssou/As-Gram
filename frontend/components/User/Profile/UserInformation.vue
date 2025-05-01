@@ -70,7 +70,7 @@ async function Attemptupdate() {
 
           <div class="input-container">
             <span class="span-input">Modifier votre bio</span>
-            <textarea name="area-bio" v-model="profileForm.biography" />
+            <textarea name="area-bio" v-model="user.biography" ></textarea>
           </div>
 
           <div class="input-container">
@@ -96,6 +96,7 @@ async function Attemptupdate() {
         <div id="form-footer">
           <button id="send-btn" type="submit"> <NuxtLink to="../Profile_type">Enregistrez</NuxtLink></button>
         </div>
+        
       </form>
     </div>
   </div>
@@ -214,28 +215,52 @@ async function Attemptupdate() {
       }
 
       #form-footer {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 2% 10px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2% 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none !important;
+}
 
-        #send-btn {
-          padding: 5px 10px;
-          border-radius: 5px;
-          border: 2px solid white;
-          background-color: transparent;
-          color: white;
-          transition: all 0.3s ease;
+/* Style direct pour le bouton/lien */
+#send-btn {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 2px solid white;
+  background-color: transparent;
+  color: white;
+  transition: all 0.3s ease;
+  text-decoration: none !important; /* Supprime le soulignement */
+  display: inline-block;
+  cursor: pointer;
+}
 
-          &:hover {
-            cursor: pointer;
-            background-color: white;
-            color: black;
-          }
+/* Si #send-btn contient un lien (ex: <a> ou <NuxtLink>) */
+#send-btn,
+#send-btn a {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+/* Hover */
+#send-btn:hover {
+  background-color: white;
+  color: red;
+}
+
+#send-btn:hover a {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+  
+
+
         }
       }
     }
-  }
-}
 </style>

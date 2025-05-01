@@ -8,7 +8,7 @@ const user = userStore.user;
   <div class="profile-container">
     <div class="profile-header">
       <img 
-  src="https://upload.wikimedia.org/wikipedia/en/7/7d/Garfield_cat.png" 
+  src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Garfield_screaming_%28Jon%2C_1977-07-28%29_%28cropped%2C_transparent%29.png/120px-Garfield_screaming_%28Jon%2C_1977-07-28%29_%28cropped%2C_transparent%29.png" 
   alt="avatar" 
   class="avatar"
   onerror="this.onerror=null; this.src='https:/preview.redd.it/instagram-default-user-profile-pic-flip-flops-v0-g983oflfeg4d1.jpg?width=262&format=pjpg&auto=webp&s=c6ec2305199c633fc6d460238d0409f41812fe75';" 
@@ -16,17 +16,18 @@ const user = userStore.user;
       <h1>{{ user.username }}</h1>
     </div>
 
-    <div class="UserName"><span>Nom: {{ user.fullName }}</span></div>
+    <div class="UserName"><span>{{ user.fullName }}</span></div>
+<br>
+    <div class="Biography"><span style="font-size: 70%;">{{ user.biography }}</span></div>
+
 <br>
     <div class="profile-stats">
-      
       <span>publication : {{ user.publications }}</span>
       <span>followers : {{ user.followers }}</span>
       <span>suivie : {{ user.following }}</span>
     </div>
     <div class="profile-actions">
       <NuxtLink to="/modifier_profile" class="profile-btn">modifier profile</NuxtLink>
-      <button class="profile-btn">partager profil</button>
     </div>
   </div>
 </template>
