@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { icons } from "@/app/utils/icons";
-import PopOver from "../temporary/PopOver.vue";
+import PopOver from "../Shared/PopOver.vue";
 import Pusher from "pusher-js";
 
 const { sendTypingEvent } = usePusher();
@@ -16,14 +16,12 @@ const emit = defineEmits<{
   (e: "update:isTyping", value: boolean): void;
 }>();
 
-
 function handleTyping() {
   if (!isTyping.value) {
     isTyping.value = true;
     emit("update:isTyping", true);
-    sendTypingEvent(conversationId.value, 1); 
+    sendTypingEvent(conversationId.value, 1);
   }
-
 
   if (typingTimeout.value) clearTimeout(typingTimeout.value);
   typingTimeout.value = setTimeout(() => {
@@ -31,7 +29,6 @@ function handleTyping() {
     emit("update:isTyping", false);
   }, 2000);
 }
-
 
 const typingUser = ref("");
 const remoteTypingTimeout = ref<ReturnType<typeof setTimeout> | null>(null);
@@ -41,8 +38,6 @@ const pusher = new Pusher("1824230dd5421145621d", {
 });
 
 const channel = pusher.subscribe(`conversation-${conversationId.value}`);
-
-
 
 channel.bind("user-typing", (data: any) => {
   typingUser.value = data.userId;

@@ -16,7 +16,6 @@ onMounted(async () => {
   const req: any = await getMessages(1);
   console.log(req);
   messages.value = req;
-  
 
   const channel = pusher.subscribe(`conversation-1`);
   channel.bind("new-message", (message: Message) => {
@@ -30,38 +29,32 @@ onMounted(async () => {
 onUnmounted(() => {
   pusher.unsubscribe(`conversation-1`);
 });
-
-
-
-
-
 </script>
 
 <template>
   <div id="message-container">
-    <ClientOnly>
-      <ul id="message-list">
-        <TransitionGroup name="bubble">
-          <li
-            class="message"
-            :class="{
-              sent: message.senderId === user?.id,
-              received: message.senderId !== user?.id,
-            }"
-            v-for="message in messages"
-            :key="message.id"
-          >
-            <MessagePropsBubble
-              :message="message.content"
-              :timestamp="formatRelativeTime(message.createdAt)"
-              :sender="message.senderId === user?.id"
-              :id="message.id"
-              :timestamp-update="message.updatedAt"
-              :reactions="message.reactions"
-            />
-          </li>
-        </TransitionGroup></ul
-    ></ClientOnly>
+    <ul id="message-list">
+      <TransitionGroup name="bubble">
+        <li
+          class="message"
+          :class="{
+            sent: message.senderId === user?.id,
+            received: message.senderId !== user?.id,
+          }"
+          v-for="message in messages"
+          :key="message.id"
+        >
+          <MessagePropsBubble
+            :message="message.content"
+            :timestamp="formatRelativeTime(message.createdAt)"
+            :sender="message.senderId === user?.id"
+            :id="message.id"
+            :timestamp-update="message.updatedAt"
+            :reactions="message.reactions"
+          />
+        </li>
+      </TransitionGroup>
+    </ul>
   </div>
 </template>
 

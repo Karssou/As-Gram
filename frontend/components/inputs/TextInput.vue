@@ -1,8 +1,9 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   className?: string;
   ModelValue?: string | number | undefined;
   placeholder?: string;
+  type?: string;
 }>();
 
 const emit = defineEmits<{
@@ -13,7 +14,7 @@ const emit = defineEmits<{
 <template>
   <div :class="['input-container', className]">
     <input
-      type="text"
+      :type="props.type || 'text'"
       :placeholder="placeholder"
       @input="
         emit('update:modelValue', ($event.target as HTMLInputElement).value)

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { TemporaryConfirmDialog } from "#components";
 import { icons } from "@/app/utils/icons";
 import ReactionInterface from "./ReactionInterface.vue";
+import TemporaryConfirmDialog from "@/components/Shared/ConfirmDialog.vue";
 
 const props = defineProps({
   message: {
@@ -115,7 +115,7 @@ const handleMessageAction = async (action: "edit" | "delete") => {
       </div>
       <div v-if="sender" id="menu-on-hover">
         <div id="menu-content">
-          <temporary-pop-over
+          <shared-pop-over
             :message="IsEditing ? 'Annuler modification' : 'Modifier'"
           >
             <button
@@ -134,9 +134,9 @@ const handleMessageAction = async (action: "edit" | "delete") => {
                 class="icon-btn"
               />
             </button>
-          </temporary-pop-over>
+          </shared-pop-over>
 
-          <temporary-pop-over message="Supprimer">
+          <shared-pop-over message="Supprimer">
             <button
               class="hover-menu-action-btn"
               id="delete-message-btn"
@@ -144,7 +144,7 @@ const handleMessageAction = async (action: "edit" | "delete") => {
             >
               <component :is="icons['delete']" class="icon-btn" />
             </button>
-          </temporary-pop-over>
+          </shared-pop-over>
           <TemporaryConfirmDialog ref="confirmDialogRef" />
         </div>
       </div>
