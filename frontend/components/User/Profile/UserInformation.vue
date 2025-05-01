@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
+
+const router = useRouter();
 const { user } = useUserStore();
-const { updateUserInformations} = HandleUser();
+const { updateUserInformations } = HandleUser();
 const profileForm = ref({ ...user });
 
 const GenderOptions = [
@@ -27,10 +29,10 @@ const GenderOptions = [
 const birthdate = computed({
   get: () =>
     profileForm.value.birthdate
-      ? new Date(profileForm.value.birthdate).toISOString().split("T")[0] // "YYYY-MM-DD"
+      ? new Date(profileForm.value.birthdate).toISOString().split("T")[0]
       : "",
   set: (value) => {
-    profileForm.value.birthdate = new Date(value).toISOString(); // Convertit en ISO 8601
+    profileForm.value.birthdate = new Date(value).toISOString();
   },
 });
 
@@ -40,8 +42,12 @@ watch(
     console.log("Valeur modifiée :", newValue);
   }
 );
-</script>
 
+async function Attemptupdate() {
+  await updateUserInformations(profileForm.value);
+
+}
+</script>
 
 <template>
   <div id="user-informations-container">
@@ -50,35 +56,25 @@ watch(
     </div>
 
     <div id="panel-content">
-      <form
-        action=""
-        id="form-panel"
-        @submit.prevent="updateUserInformations(profileForm)"
-      >
+      <form id="form-panel" @submit.prevent="Attemptupdate">
         <div id="form-content">
-          <!-- Modifier le pseudo -->
           <div class="input-container">
             <span class="span-input">Modifier votre pseudo</span>
-            <input type="text" v-model="profileForm.username" />
+            <input type="text" v-model="user.username" />
           </div>
 
-          <!-- Nom complet -->
           <div class="input-container">
             <span class="span-input">Nom complet</span>
-            <input type="text" v-model="profileForm.fullName" />
+            <input type="text" v-model="user.fullName" />
           </div>
 
-          <!-- Bio -->
           <div class="input-container">
-            <span class="span-input"> Modifier votre bio </span>
+            <span class="span-input">Modifier votre bio</span>
             <textarea name="area-bio" v-model="profileForm.biography" />
           </div>
 
-          <!-- Genre -->
           <div class="input-container">
-            <span class="span-input">
-              Votre genre {{ profileForm.gender }}
-            </span>
+            <span class="span-input">Votre genre {{ profileForm.gender }}</span>
             <InputsSelectBox
               v-model="profileForm.gender"
               :options="GenderOptions"
@@ -86,25 +82,19 @@ watch(
             />
           </div>
 
-          <!-- Date de naissance -->
           <div class="input-container">
-            <span class="span-input">
-              Votre date de naissance : {{ birthdate }}
-            </span>
+            <span class="span-input">Votre date de naissance : {{ birthdate }}</span>
             <input type="date" v-model="birthdate" class="input-birthdate" />
           </div>
 
-          <!-- Email -->
           <div class="input-container">
             <span class="span-input">Votre email</span>
             <input type="email" v-model="profileForm.email" />
           </div>
         </div>
 
-        <!-- Bouton d'enregistrement -->
         <div id="form-footer">
-          <button id="send-btn" type="button" @click="Attemptupdate()">Enregistrer</button>
-
+          <button id="send-btn" type="submit"> <NuxtLink to="../Profile_type">Enregistrez</NuxtLink></button>
         </div>
       </form>
     </div>

@@ -1,19 +1,35 @@
+import { defineStore } from "pinia";
+import { ref } from "vue";
+
 export const useUserStore = defineStore("user", () => {
   interface User {
-    id: number;
     username: string;
-    password: string;
-    email: string;
-    createdAt: number;
     fullName: string;
     biography: string;
     gender: string;
-    birthdate: string | Date | "";
+    birthdate: string;
+    email: string;
+    publications: number;
+    followers: string;
+    following: number;
   }
 
-  const user = ref(
-    useCookie<User | null>("user_information", { default: () => null })
-  );
+  // Valeurs par défaut
+  const user = ref<User>({
+    username: "a",
+    fullName: "",
+    biography: "",
+    gender: "",
+    birthdate: "",
+    email: "",
+    publications: 0,
+    followers: "1M",
+    following: 0,
+  });
 
-  return { user };
+  function updateUser(data: Partial<User>) {
+    user.value = { ...user.value, ...data };
+  }
+
+  return { user, updateUser };
 });
