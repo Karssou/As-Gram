@@ -4,10 +4,11 @@ import type { HttpContext } from '@adonisjs/core/http'
 export default class ConvsController {
   async CreateConv({ request, auth, response }: HttpContext) {
     const userIds = request.input('userIds')
+    const type = request.input('type')
     const creatorId = auth.user!.id
 
     try {
-      const conv = await ConversationService.createConversation(userIds, creatorId, 'private')
+      const conv = await ConversationService.createConversation(userIds, creatorId, type)
       return response.ok({
         status: 'success',
         message: 'Conversation créer avec succès',

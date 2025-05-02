@@ -1,9 +1,10 @@
 export const UseConversation = () => {
   const API_URL = useRuntimeConfig().public.apiBase;
 
-  const createConversation = async (userIds: number[]) => {
+  const createConversation = async (userIds: number[], type: string) => {
     const request = await ApiCall("POST", `/conversation/create`, {
       userIds: userIds,
+      type: type,
     });
     return request;
   };
