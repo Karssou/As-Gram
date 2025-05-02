@@ -6,7 +6,7 @@ export class ConversationService {
   public static async createConversation(
     userIds: number[],
     creatorId: number,
-    type: 'private' | 'group' = 'private'
+    type: 'private' | 'group'
   ) {
     if (!Array.isArray(userIds) || userIds.length === 0) {
       throw new Error('La liste des utilisateurs ne peut pas être vide.')
@@ -144,5 +144,15 @@ export class ConversationService {
 
     await conversation.delete()
     return 'Conversation supprimée avec succès.'
+  }
+
+  public static async GetUserConv(userId: number) {
+    const query = await Conversation.query()
+      .whereHas('users', (queryTable) => {
+        queryTable.where('users.id', userId)
+      })
+      .preload('users')
+
+    return query
   }
 }

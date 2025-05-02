@@ -26,14 +26,7 @@ const ellipsisOptions = [
 
 <template>
   <main>
-    <input
-      type="text"
-      name=""
-      id=""
-      placeholder="ID DU POST"
-      v-model="postid"
-    />
-    <button @click="attempt(postid)">Like Post</button>
+    <MessageConvPanel />
   </main>
 </template>
 

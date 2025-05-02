@@ -12,6 +12,7 @@ import { middleware } from './kernel.js'
 import { PusherService } from '#services/pusher_service'
 import { MessageReactionService } from '#services/message_reaction_service'
 import { PostService } from '#services/post_service'
+import { ConversationService } from '#services/conversation_service'
 
 const ConvsController = () => import('#controllers/convs_controller')
 const UserController = () => import('#controllers/users_controller')
@@ -55,6 +56,12 @@ router
     router.delete('/:conversationId/delete', [ConvsController, 'DeleteConv'])
 
     router.get('/:conversationId/users', [ConvsController, 'GetUserFromConv'])
+
+    router.get('/:userId/conversation', async ({ params }) => {
+      const { userId } = params
+      const lala = await ConversationService.GetUserConv(userId)
+      return lala
+    })
   })
   .prefix('/conversation')
   .use(middleware.auth())
