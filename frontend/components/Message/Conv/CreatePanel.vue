@@ -90,7 +90,7 @@ function removeUser(userId: string) {
       <button
         id="create-conv-btn"
         :disabled="userList.length === 0"
-        @click="test"
+        @click="createConv"
       >
         Créer la conversation
       </button>

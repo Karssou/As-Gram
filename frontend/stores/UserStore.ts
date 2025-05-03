@@ -3,33 +3,17 @@ import { ref } from "vue";
 
 export const useUserStore = defineStore("user", () => {
   interface User {
+    id: number;
     username: string;
     fullName: string;
     biography: string;
     gender: string;
-    birthdate: string;
-    email: string;
-    publications: number;
-    followers: string;
-    following: number;
+    birthdate: string | Date | "";
   }
 
-  // Valeurs par défaut
-  const user = ref<User>({
-    username: "a",
-    fullName: "",
-    biography: "",
-    gender: "",
-    birthdate: "",
-    email: "",
-    publications: 0,
-    followers: "1M",
-    following: 0,
-  });
+  const user = ref(
+    useCookie<User | null>("user_information", { default: () => null })
+  );
 
-  function updateUser(data: Partial<User>) {
-    user.value = { ...user.value, ...data };
-  }
-
-  return { user, updateUser };
+  return { user };
 });

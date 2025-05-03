@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, computed, watch } from "vue";
+import { useRouter } from "vue-router";
 
 const router = useRouter();
 const { user } = useUserStore();
@@ -21,7 +21,7 @@ const GenderOptions = [
   { value: "BD", label: "Bigender" },
   { value: "DB", label: "Demiboy" },
   { value: "DG", label: "Demigirl" },
-  { value: "DR", label: "Droval" },
+  // PLUS JAMAIS
   { value: "TS", label: "Two-Spirit" },
   { value: "+", label: "autre " },
 ];
@@ -45,7 +45,6 @@ watch(
 
 async function Attemptupdate() {
   await updateUserInformations(profileForm.value);
-
 }
 </script>
 
@@ -70,7 +69,7 @@ async function Attemptupdate() {
 
           <div class="input-container">
             <span class="span-input">Modifier votre bio</span>
-            <textarea name="area-bio" v-model="user.biography" ></textarea>
+            <textarea name="area-bio" v-model="user.biography"></textarea>
           </div>
 
           <div class="input-container">
@@ -83,7 +82,9 @@ async function Attemptupdate() {
           </div>
 
           <div class="input-container">
-            <span class="span-input">Votre date de naissance : {{ birthdate }}</span>
+            <span class="span-input"
+              >Votre date de naissance : {{ birthdate }}</span
+            >
             <input type="date" v-model="birthdate" class="input-birthdate" />
           </div>
 
@@ -94,7 +95,9 @@ async function Attemptupdate() {
         </div>
 
         <div id="form-footer">
-          <button id="send-btn" type="submit"> <NuxtLink to="../Profile_type">Enregistrez</NuxtLink></button>
+          <button id="send-btn" type="submit">
+            <NuxtLink to="../Profile_type">Enregistrez</NuxtLink>
+          </button>
         </div>
         
       </form>
@@ -185,6 +188,7 @@ async function Attemptupdate() {
 
           input {
             min-width: 100px;
+            width: 300px;
             border-radius: 5px;
             padding: 7px 10px;
             border: 1px solid $color-border-discret;
@@ -215,52 +219,48 @@ async function Attemptupdate() {
       }
 
       #form-footer {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 2% 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  color: inherit;
-  text-decoration: none !important;
-}
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 2% 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        color: inherit;
+        text-decoration: none !important;
+      }
 
-/* Style direct pour le bouton/lien */
-#send-btn {
-  padding: 5px 10px;
-  border-radius: 5px;
-  border: 2px solid white;
-  background-color: transparent;
-  color: white;
-  transition: all 0.3s ease;
-  text-decoration: none !important; /* Supprime le soulignement */
-  display: inline-block;
-  cursor: pointer;
-}
+      /* Style direct pour le bouton/lien */
+      #send-btn {
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: 2px solid white;
+        background-color: transparent;
+        color: white;
+        transition: all 0.3s ease;
+        text-decoration: none !important; /* Supprime le soulignement */
+        display: inline-block;
+        cursor: pointer;
+      }
 
-/* Si #send-btn contient un lien (ex: <a> ou <NuxtLink>) */
-#send-btn,
-#send-btn a {
-  text-decoration: none !important;
-  color: inherit !important;
-}
+      /* Si #send-btn contient un lien (ex: <a> ou <NuxtLink>) */
+      #send-btn,
+      #send-btn a {
+        text-decoration: none !important;
+        color: inherit !important;
+      }
 
-/* Hover */
-#send-btn:hover {
-  background-color: white;
-  color: red;
-}
+      /* Hover */
+      #send-btn:hover {
+        background-color: white;
+        color: red;
+      }
 
-#send-btn:hover a {
-  color: inherit !important;
-  text-decoration: none !important;
-}
-
-  
-
-
-        }
+      #send-btn:hover a {
+        color: inherit !important;
+        text-decoration: none !important;
       }
     }
+  }
+}
 </style>

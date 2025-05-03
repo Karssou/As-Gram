@@ -12,8 +12,6 @@ const { isAuthenticated } = useAuthStore();
   <DevNavbar />
 
   <NuxtPage />
-
-  <TemporaryNotifications />
 </template>
 
 <style lang="scss" scoped>

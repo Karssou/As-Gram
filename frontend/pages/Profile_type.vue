@@ -20,7 +20,7 @@ const user = userStore.user;
 <br>
     <div class="Biography"><span style="font-size: 70%;">{{ user.biography }}</span></div>
 
-<br>
+<br>}
     <div class="profile-stats">
       <span>publication : {{ user.publications }}</span>
       <span>followers : {{ user.followers }}</span>

@@ -6,7 +6,7 @@ const links = {
   labo: { path: "/laboratory", icon: "labo" },
   index: { path: "/", icon: "home" },
   friends: { path: "/friends", icon: "friend" },
-  profile: { path: "/profil/[id]", icon: "manageaccount" },
+  profile: { path: "/profil/3", icon: "manageaccount" },
   message: { path: "/message", icon: "message" },
 };
 </script>

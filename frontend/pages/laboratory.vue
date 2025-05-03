@@ -26,7 +26,7 @@ const ellipsisOptions = [
 
 <template>
   <main>
-    <MessageConvPanel />
+    <ProfileUserProfileHeader />
   </main>
 </template>
 

@@ -13,22 +13,22 @@ const { getMessages } = useMessage();
 const messages = ref<Message[]>();
 
 onMounted(async () => {
-  const req: any = await getMessages(1);
+  const req: any = await getMessages(3);
   console.log(req);
   messages.value = req;
 
-  const channel = pusher.subscribe(`conversation-1`);
-  channel.bind("new-message", (message: Message) => {
-    console.log("[PUSHER] Nouveau message reçu :", message);
-    if (messages.value) {
-      messages.value.push(message);
-    }
-  });
+  // const channel = pusher.subscribe(`conversation-1`);
+  // channel.bind("new-message", (message: Message) => {
+  //   console.log("[PUSHER] Nouveau message reçu :", message);
+  //   if (messages.value) {
+  //     messages.value.push(message);
+  //   }
+  // });
 });
 
-onUnmounted(() => {
-  pusher.unsubscribe(`conversation-1`);
-});
+// onUnmounted(() => {
+//   pusher.unsubscribe(`conversation-1`);
+// });
 </script>
 
 <template>

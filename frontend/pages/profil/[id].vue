@@ -1,16 +1,13 @@
 <script lang="ts" setup>
 const { fetchUserInformations } = HandleUser();
-import { UserProfileUserInformation } from "#components";
-import { onMounted } from "vue";
 
-onMounted(async () => {
-  await fetchUserInformations();
-});
+const route = useRoute();
+const userId = route.params.id;
 </script>
 
 <template>
   <div id="page-content">
-    <UserProfileUserInformation />
+    <ProfileUserProfileHeader />
   </div>
 </template>
 

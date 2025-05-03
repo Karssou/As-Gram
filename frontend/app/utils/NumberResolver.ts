@@ -1,0 +1,1 @@
+/// Tout ce qui est gération des grands nombre EX : 100000000 => 1 milliards
