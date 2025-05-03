@@ -7,14 +7,14 @@ const userID = route.params.id;
 const { data: userinfo } = useAsyncData(
   `user-information-${userID}`,
   async () => {
-    return fetchUserInformations();
+    return fetchUserInformations(Number(userID));
   }
 );
 </script>
 
 <template>
   <div id="page-content">
-    <ProfileUserProfileHeader :user="userinfo.user" />
+    <ProfileUserProfileHeader v-if="userinfo" :user="userinfo" />
   </div>
 </template>
 
