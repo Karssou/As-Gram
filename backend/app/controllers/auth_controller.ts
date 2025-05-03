@@ -18,7 +18,7 @@ export default class AuthController {
       })
     }
   }
-  // Fonction pour le LOGIN
+
   async login({ request, response }: HttpContext) {
     try {
       const { email, password } = await request.validateUsing(LoginValidator)

@@ -6,6 +6,7 @@ export function HandleUser() {
       const request: any = await ApiCall("GET", "user/me");
       if (request.user) {
         userstore.user = request.user;
+        return request;
       }
     } catch (error) {
       console.error("Erreur lors de la récupération de l'utilisateur", error);

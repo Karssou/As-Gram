@@ -1,22 +1,41 @@
 <script lang="ts" setup>
 import { icons } from "@/app/utils/icons";
+import type { User } from "~/types/User";
+
+const props = defineProps<{
+  user?: User;
+}>();
+
+const { user: Userinfo } = useUserStore();
 
 const IsFriend = ref(false);
 const Followed = ref(false);
+const IsUser = ref(false);
+
+if (Userinfo?.id === props.user?.id) {
+  IsUser.value = true;
+}
 </script>
 
 <template>
   <section id="profil-header">
+    <div id="settings" v-if="IsUser">
+      <shared-pop-over message="Paramètres">
+        <button id="settings-btn">
+          <component :is="icons['settings']" id="settings-icon" />
+        </button>
+      </shared-pop-over>
+    </div>
     <div id="header">
       <div id="pp"></div>
       <div id="user-info">
-        <span id="name">Alexandre Larue</span>
-        <span id="username">@Karssou</span>
+        <span id="name">{{ props.user?.fullName }}</span>
+        <span id="username">@{{ props.user?.username }}</span>
       </div>
     </div>
     <div id="content">
       <span id="follower"><strong>10K</strong> abonnés</span>
-      <span id="followed"><strong>100</strong>Abonnements</span>
+      <span id="followed"><strong>100</strong> abonnements</span>
       <span id="posts"><strong>37</strong> publications</span>
     </div>
     <div id="bio">
@@ -39,11 +58,46 @@ const Followed = ref(false);
   background-color: $color-panel;
   border-radius: 12px;
   border: 1px solid $color-border-discret;
-  padding: 2% 4%;
+  padding: 15px 20px;
   display: flex;
   flex-direction: column;
   gap: 5px;
   font-family: "Mulish";
+  position: relative;
+
+  #settings {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
+    #settings-btn {
+      width: 25px;
+      height: 25px;
+      background-color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      border-radius: 7px;
+      transition: background 0.2s ease;
+
+      #settings-icon {
+        margin: 0;
+        color: $color-text;
+        flex-shrink: 0;
+        font-size: 1.2rem;
+        transition: color 0.125s ease-out;
+      }
+
+      &:hover {
+        cursor: pointer;
+        background-color: $color-text;
+        #settings-icon {
+          color: rgb(24, 24, 24);
+        }
+      }
+    }
+  }
 
   #header {
     display: flex;
@@ -66,6 +120,7 @@ const Followed = ref(false);
 
       span {
         font-family: "Mulish";
+        text-overflow: ellipsis;
       }
 
       #name {

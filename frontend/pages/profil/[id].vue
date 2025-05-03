@@ -1,13 +1,20 @@
 <script lang="ts" setup>
 const { fetchUserInformations } = HandleUser();
-
+const { user } = useUserStore();
 const route = useRoute();
-const userId = route.params.id;
+const userID = route.params.id;
+
+const { data: userinfo } = useAsyncData(
+  `user-information-${userID}`,
+  async () => {
+    return fetchUserInformations();
+  }
+);
 </script>
 
 <template>
   <div id="page-content">
-    <ProfileUserProfileHeader />
+    <ProfileUserProfileHeader :user="userinfo.user" />
   </div>
 </template>
 
