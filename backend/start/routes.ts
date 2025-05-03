@@ -13,6 +13,7 @@ import { PusherService } from '#services/pusher_service'
 import { MessageReactionService } from '#services/message_reaction_service'
 import { PostService } from '#services/post_service'
 import { ConversationService } from '#services/conversation_service'
+import { UserService } from '#services/user_service'
 
 const ConvsController = () => import('#controllers/convs_controller')
 const UserController = () => import('#controllers/users_controller')
@@ -34,10 +35,10 @@ router
       return 'Ok'
     })
 
-    router.post('/:postId/like', async ({ params }) => {
-      const { postId } = params
-      const userId = 1
-      await PostService.likePost(postId, userId)
+    router.post('/:postId/like', async () => {
+      // const { postId } = params
+      // const userId = 1
+      // await PostService.likePost(postId, userId)
       return 'Ok'
     })
   })
@@ -101,6 +102,10 @@ router
     router.post('/avatar', [UserController, 'updateAvatar'])
     router.patch('/update-information', [UserController, 'updateInformation'])
     router.get('/me', [AuthController, 'me']).as('auth.me')
+    router.get('/get/:userId', async ({ params }) => {
+      const { userId } = params
+      return await UserService.getUserInformations(userId)
+    })
   })
   .prefix('/user')
   .use(middleware.auth())

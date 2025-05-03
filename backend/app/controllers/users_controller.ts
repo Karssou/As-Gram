@@ -1,3 +1,4 @@
+import { UserService } from '#services/user_service'
 import { UpdateUserValidator } from '#validators/user_update'
 import type { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
@@ -34,32 +35,19 @@ export default class UserController {
 
   public async updateAvatar({ request, auth, response }: HttpContext) {
     const user = auth.user!
+    const avatar = request.file('avatar')
 
-    const avatar = request.file('avatar', {
-      extnames: ['jpg', 'png', 'jpeg', 'webp'],
-      size: '2mb',
-    })
-
-    if (!avatar) {
+    try {
+      const avatarUrl = await UserService.updateAvatar(user, avatar!)
+      return response.ok({
+        message: 'Avatar mis à jour',
+        avatar: avatarUrl,
+      })
+    } catch (err) {
       return response.badRequest({
-        message: 'Veuillez envoyez une photo de profil',
         status: 'error',
+        message: err.message,
       })
     }
-
-    const fileName = `${user.id}_${Date.now()}.${avatar.extname}`
-
-    await avatar.move(app.makePath('storage/avatar'), {
-      name: fileName,
-      overwrite: true,
-    })
-
-    user.avatar = `/uploads/${fileName}`
-    await user.save()
-
-    return response.ok({
-      message: 'Avatar mis à jour avec succès',
-      avatar: user.avatar,
-    })
   }
 }

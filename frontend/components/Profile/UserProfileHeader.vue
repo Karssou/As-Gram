@@ -39,14 +39,16 @@ if (Userinfo?.id === props.user?.id) {
       <span id="posts"><strong>37</strong> publications</span>
     </div>
     <div id="bio">
-      <p id="user-bio">Bonjour je me nomme Alexandre et je suis un gamer</p>
+      <p id="user-bio">{{ props.user?.biography }}</p>
     </div>
     <div id="footer">
       <button id="follow-btn"><span>Suivre</span></button>
       <button id="message-btn"><span>Message</span></button>
-      <button id="add-friend-btn">
-        <component :is="icons['addfriend']" id="friend-icon" />
-      </button>
+      <shared-pop-over message="Ajouter">
+        <button id="add-friend-btn">
+          <component :is="icons['addfriend']" id="friend-icon" />
+        </button>
+      </shared-pop-over>
     </div>
   </section>
 </template>
@@ -140,6 +142,18 @@ if (Userinfo?.id === props.user?.id) {
     align-items: center;
     gap: 15px;
     margin-bottom: 15px;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: -7px;
+      left: -2.5%;
+      width: 105%;
+      height: 1px;
+      border-radius: 12px;
+      background-color: $color-border-discret;
+    }
 
     span {
       color: $color-text;
@@ -193,10 +207,6 @@ if (Userinfo?.id === props.user?.id) {
       }
     }
 
-    #message-btn {
-      margin-right: auto;
-    }
-
     #add-friend-btn {
       padding: 5px 6px;
       #friend-icon {
@@ -206,6 +216,7 @@ if (Userinfo?.id === props.user?.id) {
     }
 
     #follow-btn {
+      margin-right: auto;
     }
   }
 }

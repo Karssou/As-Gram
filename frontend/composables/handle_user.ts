@@ -1,7 +1,10 @@
+import type { User } from "~/types/User";
+
 export function HandleUser() {
   const userstore = useUserStore();
+  const API_URL = `${useRuntimeConfig().public.apiBase}/user`;
 
-  async function fetchUserInformations() {
+  async function fetchMyInformations() {
     try {
       const request: any = await ApiCall("GET", "user/me");
       if (request.user) {
@@ -22,5 +25,10 @@ export function HandleUser() {
     );
   }
 
-  return { fetchUserInformations, updateUserInformations };
+  const fetchUserInformations = async (userId: number): Promise<User> => {
+    const request: any = await ApiCall("GET", `${API_URL}/get/${userId}`);
+    return request;
+  };
+
+  return { fetchMyInformations, updateUserInformations, fetchUserInformations };
 }

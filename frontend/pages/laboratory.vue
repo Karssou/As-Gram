@@ -22,11 +22,38 @@ const ellipsisOptions = [
     },
   },
 ];
+
+const selectedFile = ref<File | null>(null);
+
+function onFileChange(event: Event) {
+  const input = event.target as HTMLInputElement;
+  if (input.files?.length) {
+    selectedFile.value = input.files[0];
+  }
+}
+
+async function submit() {
+  const formData = new FormData();
+  if (selectedFile.value) {
+    formData.append("avatar", selectedFile.value);
+  }
+  const req = await ApiCall(
+    "POST",
+    `${useRuntimeConfig().public.apiBase}/user/avatar`,
+    formData,
+    false
+  );
+  console.log(req);
+  return req;
+}
 </script>
 
 <template>
   <main>
-    <ProfileUserProfileHeader />
+    <form @submit.prevent="submit">
+      <input type="file" name="file" id="pp" @change="onFileChange" />
+      <button type="submit">Mettre à jour l'avatar</button>
+    </form>
   </main>
 </template>
 
