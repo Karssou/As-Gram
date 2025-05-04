@@ -18,8 +18,6 @@ export default class MessagesController {
   public async GetMessages({ response, params, request }: HttpContext) {
     try {
       const { conversationId } = params
-      const limit = request.input('limit', 50)
-      const page = request.input('page', 1)
       const message: Object = await MessageService.getMessages(Number(conversationId))
       return response.ok(message)
     } catch (error) {
