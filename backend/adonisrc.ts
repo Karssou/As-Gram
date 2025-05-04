@@ -32,6 +32,7 @@ export default defineConfig({
     () => import('@adonisjs/cors/cors_provider'),
     () => import('@adonisjs/lucid/database_provider'),
     () => import('@adonisjs/auth/auth_provider'),
+    () => import('@adonisjs/static/static_provider')
   ],
 
   /*
@@ -42,7 +43,11 @@ export default defineConfig({
   | List of modules to import before starting the application.
   |
   */
-  preloads: [() => import('#start/routes'), () => import('#start/kernel'), () => import('#start/ws')],
+  preloads: [
+    () => import('#start/routes'),
+    () => import('#start/kernel'),
+    () => import('#start/ws'),
+  ],
 
   /*
   |--------------------------------------------------------------------------
@@ -53,6 +58,7 @@ export default defineConfig({
   | and add additional suites.
   |
   */
+
   tests: {
     suites: [
       {
@@ -68,6 +74,10 @@ export default defineConfig({
     ],
     forceExit: false,
   },
+  metaFiles: [{
+    pattern: 'public/**',
+    reloadServer: false,
+  }]
 })
 
 export const providers = ['@adonisjs/drive/providers/drive_provider']

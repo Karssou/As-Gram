@@ -7,6 +7,8 @@ export default class AuthController {
     try {
       const data = await request.validateUsing(registerValidator)
       const user = await User.create(data)
+      user.avatar = 'public/uploads/avatar/default.png'
+      user.save()
 
       return await User.accessTokens.create(user, ['*'], {
         expiresIn: '30days',

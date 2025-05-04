@@ -5,4 +5,5 @@ export interface User {
   biography: string;
   gender: string;
   birthdate: string | Date | "";
+  avatar: string;
 }

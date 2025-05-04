@@ -3,7 +3,7 @@ import { icons } from "@/app/utils/icons";
 import type { User } from "~/types/User";
 
 const props = defineProps<{
-  user?: User;
+  user: User;
 }>();
 
 const { user: Userinfo } = useUserStore();
@@ -15,6 +15,12 @@ const IsUser = ref(false);
 if (Userinfo?.id === props.user?.id) {
   IsUser.value = true;
 }
+
+const AVATAR_PATH = `${useRuntimeConfig().public.apiBase}/${
+  props.user?.avatar
+}`;
+
+console.warn("PATH AVATAR :", AVATAR_PATH);
 </script>
 
 <template>
@@ -27,7 +33,9 @@ if (Userinfo?.id === props.user?.id) {
       </shared-pop-over>
     </div>
     <div id="header">
-      <div id="pp"></div>
+      <div id="pp">
+        <img :src="AVATAR_PATH" alt="avatar" />
+      </div>
       <div id="user-info">
         <span id="name">{{ props.user?.fullName }}</span>
         <span id="username">@{{ props.user?.username }}</span>
@@ -108,9 +116,15 @@ if (Userinfo?.id === props.user?.id) {
     #pp {
       width: 50px;
       height: 50px;
+      overflow: hidden;
       background-color: grey;
       border-radius: 50%;
       margin-right: 15px;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
 
     #user-info {
