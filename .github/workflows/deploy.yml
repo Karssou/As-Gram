@@ -29,14 +29,4 @@ jobs:
               pm2 restart backend
             EOF      
             
-      - name: 🚀 Déployer Frontend
-        if: contains(github.event.head_commit.modified, 'frontend/')
-        run: |
-          ssh user@82.29.175.212 << 'EOF'
-            cd /home/user/As-Gram/frontend
-            git pull origin main
-            npm install
-            npm run build
-            pm2 restart frontend
-          EOF
-      
+    
