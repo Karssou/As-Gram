@@ -1,4 +1,4 @@
-import User from '#models/user'
+
 import { AuthService } from '#services/auth_service'
 import type { HttpContext } from '@adonisjs/core/http'
 
