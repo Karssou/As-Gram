@@ -1,4 +1,5 @@
 import type { User } from "~/types/User";
+import type { UserInformation } from "~/types/UserInformations";
 
 export function HandleUser() {
   const userstore = useUserStore();
@@ -25,7 +26,9 @@ export function HandleUser() {
     );
   }
 
-  const fetchUserInformations = async (userId: number): Promise<User> => {
+  const fetchUserInformations = async (
+    userId: number
+  ): Promise<UserInformation> => {
     const request: any = await ApiCall("GET", `${API_URL}/get/${userId}`);
     return request;
   };
