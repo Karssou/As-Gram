@@ -14,6 +14,7 @@ import { MessageReactionService } from '#services/message_reaction_service'
 import { PostService } from '#services/post_service'
 import { ConversationService } from '#services/conversation_service'
 import { UserService } from '#services/user_service'
+import { SubscriptionService } from '#services/subscription_service'
 
 const ConvsController = () => import('#controllers/convs_controller')
 const UserController = () => import('#controllers/users_controller')
@@ -101,12 +102,35 @@ router
 
 router
   .group(() => {
+    router.get('/isfollowTo/:followId', async ({ params, auth }) => {
+      const { followId } = params
+      const userId = auth.user?.id
+      return await SubscriptionService.isSubscribed(userId, followId)
+    })
+
+    router.post('subscribe/:followId', async ({ params, auth }) => {
+      const { followId } = params
+      const userId = auth.user?.id
+      return await SubscriptionService.subscribeToUser(userId, followId)
+    })
+    router.post('unsubscribe/:followId', async ({ params, auth }) => {
+      const { followId } = params
+      const userId = auth.user?.id
+      return await SubscriptionService.unsubscribeFromUser(userId, followId)
+    })
+  })
+  .prefix('/follow')
+  .use(middleware.auth())
+
+router
+  .group(() => {
     router.post('/avatar', [UserController, 'updateAvatar'])
     router.patch('/update-information', [UserController, 'updateInformation'])
     router.get('/me', [AuthController, 'me']).as('auth.me')
-    router.get('/get/:userId', async ({ params }) => {
+    router.get('/get/:userId', async ({ params, auth }) => {
       const { userId } = params
-      return await UserService.getUserInformations(userId)
+      const id = auth.user?.id
+      return await UserService.getUserInformations(userId, id)
     })
   })
   .prefix('/user')

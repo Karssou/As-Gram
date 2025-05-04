@@ -4,21 +4,51 @@ import type { User } from "~/types/User";
 
 const props = defineProps<{
   user: User;
+  IsFollowToUser: boolean;
+  IsFollowByUser: boolean;
 }>();
 
 const { user: Userinfo } = useUserStore();
 
-const IsFriend = ref(false);
-const Followed = ref(false);
-const IsUser = ref(false);
+const { subscribeToUser, unsubscribeToUser } = useSubscription();
 
+const isFollowing = ref(props.IsFollowToUser);
+const IsFriend = ref(false);
+const IsUser = ref(false);
 if (Userinfo?.id === props.user?.id) {
   IsUser.value = true;
 }
 
+const btnText = computed(() =>
+  isFollowing.value ? "Ne plus suivre" : "Suivre"
+);
+const btnClass = computed(() =>
+  isFollowing.value ? "following" : "not-following"
+);
+
 const AVATAR_PATH = `${useRuntimeConfig().public.apiBase}/${
   props.user?.avatar
 }`;
+
+const toggleFollow = async () => {
+  if (isFollowing.value) {
+    const { status } = await useAsyncData(
+      `unfollow-to-${props.user.id}`,
+      async () => {
+        return await unsubscribeToUser(props.user.id);
+      }
+    );
+    if (status.value === "success") isFollowing.value = false;
+  } else {
+    const { status } = await useAsyncData(
+      `follow-to-${props.user.id}`,
+      async () => {
+        return await subscribeToUser(props.user.id);
+      }
+    );
+    if (status.value === "success") isFollowing.value = true;
+  }
+};
 </script>
 
 <template>
@@ -48,7 +78,9 @@ const AVATAR_PATH = `${useRuntimeConfig().public.apiBase}/${
       <p id="user-bio">{{ props.user?.biography }}</p>
     </div>
     <div id="footer">
-      <button id="follow-btn"><span>Suivre</span></button>
+      <button id="follow-btn" @click="toggleFollow" :class="btnClass">
+        <span>{{ btnText }}</span>
+      </button>
       <button id="message-btn"><span>Message</span></button>
       <shared-pop-over message="Ajouter">
         <button id="add-friend-btn">
@@ -216,6 +248,12 @@ const AVATAR_PATH = `${useRuntimeConfig().public.apiBase}/${
         cursor: pointer;
         background-color: $color-text;
         color: black;
+
+        &.following {
+          background-color: $color-warning;
+          border-color: $color-warning;
+          color: $color-text;
+        }
       }
     }
 

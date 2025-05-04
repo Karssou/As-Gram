@@ -1,14 +1,27 @@
+import Subscription from '#models/subscription'
 import User from '#models/user'
 import { MultipartFile } from '@adonisjs/core/bodyparser'
+import { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
 import { unlink } from 'node:fs/promises'
 import { join } from 'node:path'
 
 export class UserService {
-  public static async getUserInformations(userId: number) {
+  public static async getUserInformations(userId: number, myid: number) {
     try {
       const user = await User.find(userId)
-      return user
+
+      const isSubscribedToUser = await Subscription.query()
+        .where('user_id', myid)
+        .andWhere('subscribed_to', userId)
+        .first()
+
+      // Vérifier si cet utilisateur (userId) suit l'utilisateur courant (myid)
+      const isUserSubscribed = await Subscription.query()
+        .where('user_id', userId)
+        .andWhere('subscribed_to', myid)
+        .first()
+      return { user, IsFollowByUser: !!isUserSubscribed, isFollowToUser: !!isSubscribedToUser }
     } catch (error) {
       console.log("Erreur lors de la récupération de l'utilisateur", error)
       throw new Error("Impossible de récupérer l'utilisateur")

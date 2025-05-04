@@ -46,14 +46,43 @@ async function submit() {
   console.log(req);
   return req;
 }
+
+const followId = ref();
+
+const Isfollow = async () => {
+  return await ApiCall(
+    "GET",
+    `${useRuntimeConfig().public.apiBase}/follow/isfollowTo/${followId.value}`
+  );
+};
+
+const Subscribe = async () => {
+  return await ApiCall(
+    "POST",
+    `${useRuntimeConfig().public.apiBase}/follow/subscribe/${followId.value}`
+  );
+};
+
+const unsubscribe = async () => {
+  return await ApiCall(
+    "POST",
+    `${useRuntimeConfig().public.apiBase}/follow/unsubscribe/${followId.value}`
+  );
+};
 </script>
 
 <template>
   <main>
-    <form @submit.prevent="submit">
+    <!-- <form @submit.prevent="submit">
       <input type="file" name="file" id="pp" @change="onFileChange" />
       <button type="submit">Mettre à jour l'avatar</button>
-    </form>
+    </form> -->
+
+    <InputsTextInput placeholder="ID du mec" v-model="followId" />
+
+    <button @click="Subscribe">S'abonner</button>
+    <button @click="Isfollow">Je suis abonné ?</button>
+    <button @click="unsubscribe">Se désabonner</button>
   </main>
 </template>
 

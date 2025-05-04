@@ -13,7 +13,12 @@ const { data: userinfo } = useAsyncData(
 
 <template>
   <div id="page-content">
-    <ProfileUserProfileHeader v-if="userinfo" :user="userinfo" />
+    <ProfileUserProfileHeader
+      v-if="userinfo"
+      :user="userinfo?.user"
+      :IsFollowToUser="userinfo.isFollowToUser"
+      :IsFollowByUser="userinfo.IsFollowByUser"
+    />
   </div>
 </template>
 
