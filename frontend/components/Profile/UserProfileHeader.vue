@@ -4,14 +4,17 @@ import type { User } from "~/types/User";
 
 const props = defineProps<{
   user: User;
+  IsFollowToUser: boolean;
+  IsFollowByUser: boolean;
 }>();
 
 const { user: Userinfo } = useUserStore();
+const { subscribeToUser, unsubscribeToUser } = useSubscription();
 
-const IsFriend = ref(false);
-const Followed = ref(false);
+
+const isFollowing = ref(props.IsFollowToUser);
+
 const IsUser = ref(false);
-
 if (Userinfo?.id === props.user?.id) {
   IsUser.value = true;
 }
@@ -19,6 +22,43 @@ if (Userinfo?.id === props.user?.id) {
 const AVATAR_PATH = `${useRuntimeConfig().public.apiBase}/${
   props.user?.avatar
 }`;
+
+
+
+const btnText = computed(() =>
+  isFollowing.value ? "Ne plus suivre" : "Suivre"
+);
+const btnClass = computed(() =>
+  isFollowing.value ? "following" : "not-following"
+);
+const FollowLoading = ref(false);
+
+const toggleFollow = async () => {
+  if (isFollowing.value) {
+    FollowLoading.value = true;
+    const { status } = await useAsyncData(
+      `unfollow-to-${props.user.id}`,
+      async () => {
+        return await unsubscribeToUser(props.user.id);
+      }
+    );
+
+    FollowLoading.value = false;
+    if (status.value === "pending") FollowLoading.value = true;
+    if (status.value === "success") isFollowing.value = false;
+    
+  } else {
+    FollowLoading.value = true;
+    const { status } = await useAsyncData(
+      `follow-to-${props.user.id}`,
+      async () => {
+        return await subscribeToUser(props.user.id);
+      }
+    );
+    if (status.value === "success") isFollowing.value = true;
+    FollowLoading.value = false;
+  }
+};
 </script>
 
 <template>
@@ -48,7 +88,10 @@ const AVATAR_PATH = `${useRuntimeConfig().public.apiBase}/${
       <p id="user-bio">{{ props.user?.biography }}</p>
     </div>
     <div id="footer">
-      <button id="follow-btn"><span>Suivre</span></button>
+      <button id="follow-btn" @click="toggleFollow" :class="btnClass">
+        <loading-wheel v-if="FollowLoading" className="loading-wheel" />
+        <span v-else>{{ btnText }}</span>
+      </button>
       <button id="message-btn"><span>Message</span></button>
       <shared-pop-over message="Ajouter">
         <button id="add-friend-btn">
@@ -61,6 +104,12 @@ const AVATAR_PATH = `${useRuntimeConfig().public.apiBase}/${
 
 <style lang="scss" scoped>
 @use "@/assets/styles/variables.scss" as *;
+
+.loading-wheel {
+  width: 15px;
+  height: 15px;
+  border-width: 2px;
+}
 
 #profil-header {
   background-color: $color-panel;
@@ -216,6 +265,12 @@ const AVATAR_PATH = `${useRuntimeConfig().public.apiBase}/${
         cursor: pointer;
         background-color: $color-text;
         color: black;
+
+        &.following {
+          background-color: $color-warning;
+          border-color: $color-warning;
+          color: $color-text;
+        }
       }
     }
 

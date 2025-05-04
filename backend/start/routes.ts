@@ -15,6 +15,7 @@ import { PostService } from '#services/post_service'
 import { ConversationService } from '#services/conversation_service'
 import { UserService } from '#services/user_service'
 
+const SubscriptionsController = () => import('#controllers/subscriptions_controller')
 const ConvsController = () => import('#controllers/convs_controller')
 const UserController = () => import('#controllers/users_controller')
 const FriendsController = () => import('#controllers/friends_controller')
@@ -28,6 +29,8 @@ router
     router.delete('/logout', [AuthController, 'logout']).as('auth.logout').use(middleware.auth())
   })
   .prefix('/auth')
+
+// POSTS
 
 router
   .group(() => {
@@ -45,6 +48,8 @@ router
     })
   })
   .prefix('posts')
+
+// CONVERSATIONS
 
 router
   .group(() => {
@@ -68,6 +73,8 @@ router
   })
   .prefix('/conversation')
   .use(middleware.auth())
+
+// MESSAGES
 
 router
   .group(() => {
@@ -99,14 +106,27 @@ router
   .prefix('/messages')
   .use(middleware.auth())
 
+// ABONNEMENTS
+
+router
+  .group(() => {
+    router.post('subscribe/:followId', [SubscriptionsController, 'FollowUser'])
+    router.post('unsubscribe/:followId', [SubscriptionsController, 'UnfollowUser'])
+  })
+  .prefix('/follow')
+  .use(middleware.auth())
+
+// USERS
+
 router
   .group(() => {
     router.post('/avatar', [UserController, 'updateAvatar'])
     router.patch('/update-information', [UserController, 'updateInformation'])
     router.get('/me', [AuthController, 'me']).as('auth.me')
-    router.get('/get/:userId', async ({ params }) => {
+    router.get('/get/:userId', async ({ params, auth }) => {
       const { userId } = params
-      return await UserService.getUserInformations(userId)
+      const id = auth.user?.id
+      return await UserService.getUserInformations(userId, id)
     })
   })
   .prefix('/user')
