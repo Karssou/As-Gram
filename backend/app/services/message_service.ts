@@ -26,7 +26,7 @@ export class MessageService {
     return message
   }
 
-  public static async getMessages(conversationId: number, limit = 50, page = 1) {
+  public static async getMessages(conversationId: number) {
     const conversation = await Conversation.find(conversationId)
     if (!conversation) {
       throw new Error('Conversation non trouvée.')
