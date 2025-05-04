@@ -9,15 +9,21 @@ const props = defineProps<{
 }>();
 
 const { user: Userinfo } = useUserStore();
-
 const { subscribeToUser, unsubscribeToUser } = useSubscription();
 
+
 const isFollowing = ref(props.IsFollowToUser);
-const IsFriend = ref(false);
+
 const IsUser = ref(false);
 if (Userinfo?.id === props.user?.id) {
   IsUser.value = true;
 }
+
+const AVATAR_PATH = `${useRuntimeConfig().public.apiBase}/${
+  props.user?.avatar
+}`;
+
+
 
 const btnText = computed(() =>
   isFollowing.value ? "Ne plus suivre" : "Suivre"
@@ -25,21 +31,24 @@ const btnText = computed(() =>
 const btnClass = computed(() =>
   isFollowing.value ? "following" : "not-following"
 );
-
-const AVATAR_PATH = `${useRuntimeConfig().public.apiBase}/${
-  props.user?.avatar
-}`;
+const FollowLoading = ref(false);
 
 const toggleFollow = async () => {
   if (isFollowing.value) {
+    FollowLoading.value = true;
     const { status } = await useAsyncData(
       `unfollow-to-${props.user.id}`,
       async () => {
         return await unsubscribeToUser(props.user.id);
       }
     );
+
+    FollowLoading.value = false;
+    if (status.value === "pending") FollowLoading.value = true;
     if (status.value === "success") isFollowing.value = false;
+    
   } else {
+    FollowLoading.value = true;
     const { status } = await useAsyncData(
       `follow-to-${props.user.id}`,
       async () => {
@@ -47,6 +56,7 @@ const toggleFollow = async () => {
       }
     );
     if (status.value === "success") isFollowing.value = true;
+    FollowLoading.value = false;
   }
 };
 </script>
@@ -79,7 +89,8 @@ const toggleFollow = async () => {
     </div>
     <div id="footer">
       <button id="follow-btn" @click="toggleFollow" :class="btnClass">
-        <span>{{ btnText }}</span>
+        <loading-wheel v-if="FollowLoading" className="loading-wheel" />
+        <span v-else>{{ btnText }}</span>
       </button>
       <button id="message-btn"><span>Message</span></button>
       <shared-pop-over message="Ajouter">
@@ -93,6 +104,12 @@ const toggleFollow = async () => {
 
 <style lang="scss" scoped>
 @use "@/assets/styles/variables.scss" as *;
+
+.loading-wheel {
+  width: 15px;
+  height: 15px;
+  border-width: 2px;
+}
 
 #profil-header {
   background-color: $color-panel;

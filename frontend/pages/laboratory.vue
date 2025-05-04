@@ -73,10 +73,10 @@ const unsubscribe = async () => {
 
 <template>
   <main>
-    <!-- <form @submit.prevent="submit">
+    <form @submit.prevent="submit">
       <input type="file" name="file" id="pp" @change="onFileChange" />
       <button type="submit">Mettre à jour l'avatar</button>
-    </form> -->
+    </form>
 
     <InputsTextInput placeholder="ID du mec" v-model="followId" />
 

@@ -14,8 +14,8 @@ import { MessageReactionService } from '#services/message_reaction_service'
 import { PostService } from '#services/post_service'
 import { ConversationService } from '#services/conversation_service'
 import { UserService } from '#services/user_service'
-import { SubscriptionService } from '#services/subscription_service'
 
+const SubscriptionsController = () => import('#controllers/subscriptions_controller')
 const ConvsController = () => import('#controllers/convs_controller')
 const UserController = () => import('#controllers/users_controller')
 const FriendsController = () => import('#controllers/friends_controller')
@@ -29,6 +29,8 @@ router
     router.delete('/logout', [AuthController, 'logout']).as('auth.logout').use(middleware.auth())
   })
   .prefix('/auth')
+
+// POSTS
 
 router
   .group(() => {
@@ -46,6 +48,8 @@ router
     })
   })
   .prefix('posts')
+
+// CONVERSATIONS
 
 router
   .group(() => {
@@ -69,6 +73,8 @@ router
   })
   .prefix('/conversation')
   .use(middleware.auth())
+
+// MESSAGES
 
 router
   .group(() => {
@@ -100,27 +106,17 @@ router
   .prefix('/messages')
   .use(middleware.auth())
 
+// ABONNEMENTS
+
 router
   .group(() => {
-    router.get('/isfollowTo/:followId', async ({ params, auth }) => {
-      const { followId } = params
-      const userId = auth.user?.id
-      return await SubscriptionService.isSubscribed(userId, followId)
-    })
-
-    router.post('subscribe/:followId', async ({ params, auth }) => {
-      const { followId } = params
-      const userId = auth.user?.id
-      return await SubscriptionService.subscribeToUser(userId, followId)
-    })
-    router.post('unsubscribe/:followId', async ({ params, auth }) => {
-      const { followId } = params
-      const userId = auth.user?.id
-      return await SubscriptionService.unsubscribeFromUser(userId, followId)
-    })
+    router.post('subscribe/:followId', [SubscriptionsController, 'FollowUser'])
+    router.post('unsubscribe/:followId', [SubscriptionsController, 'UnfollowUser'])
   })
   .prefix('/follow')
   .use(middleware.auth())
+
+// USERS
 
 router
   .group(() => {
