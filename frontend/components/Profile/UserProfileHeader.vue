@@ -1,18 +1,19 @@
 <script lang="ts" setup>
 import { icons } from "@/app/utils/icons";
+import type { relations } from "~/types/Relations";
+import type { Stats } from "~/types/Stats";
 import type { User } from "~/types/User";
 
 const props = defineProps<{
   user: User;
-  IsFollowToUser: boolean;
-  IsFollowByUser: boolean;
+  stats: Stats;
+  relations: relations;
 }>();
 
 const { user: Userinfo } = useUserStore();
 const { subscribeToUser, unsubscribeToUser } = useSubscription();
 
-
-const isFollowing = ref(props.IsFollowToUser);
+const isFollowing = ref(props.relations.isFollowedByYou);
 
 const IsUser = ref(false);
 if (Userinfo?.id === props.user?.id) {
@@ -23,7 +24,7 @@ const AVATAR_PATH = `${useRuntimeConfig().public.apiBase}/${
   props.user?.avatar
 }`;
 
-
+const SETTINGS_PATH = `/modify-profile/${Userinfo?.id}`;
 
 const btnText = computed(() =>
   isFollowing.value ? "Ne plus suivre" : "Suivre"
@@ -46,7 +47,6 @@ const toggleFollow = async () => {
     FollowLoading.value = false;
     if (status.value === "pending") FollowLoading.value = true;
     if (status.value === "success") isFollowing.value = false;
-    
   } else {
     FollowLoading.value = true;
     const { status } = await useAsyncData(
@@ -66,7 +66,9 @@ const toggleFollow = async () => {
     <div id="settings" v-if="IsUser">
       <shared-pop-over message="Paramètres">
         <button id="settings-btn">
-          <component :is="icons['settings']" id="settings-icon" />
+          <NuxtLink :to="SETTINGS_PATH" class="param-link">
+            <component :is="icons['settings']" id="settings-icon" />
+          </NuxtLink>
         </button>
       </shared-pop-over>
     </div>
@@ -80,9 +82,15 @@ const toggleFollow = async () => {
       </div>
     </div>
     <div id="content">
-      <span id="follower"><strong>10K</strong> abonnés</span>
-      <span id="followed"><strong>100</strong> abonnements</span>
-      <span id="posts"><strong>37</strong> publications</span>
+      <span id="follower"
+        ><strong> {{ props.stats.followersCount }}</strong> abonnés</span
+      >
+      <span id="followed"
+        ><strong>{{ props.stats.followingCount }}</strong> abonnements</span
+      >
+      <span id="posts"
+        ><strong>{{ props.stats.postsCount }}</strong> publications</span
+      >
     </div>
     <div id="bio">
       <p id="user-bio">{{ props.user?.biography }}</p>
@@ -124,8 +132,8 @@ const toggleFollow = async () => {
 
   #settings {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 10px;
+    right: 10px;
 
     #settings-btn {
       width: 25px;
@@ -137,6 +145,16 @@ const toggleFollow = async () => {
       border: none;
       border-radius: 7px;
       transition: background 0.2s ease;
+
+      .param-link {
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex-shrink: 0;
+      }
 
       #settings-icon {
         margin: 0;

@@ -1,3 +1,4 @@
+import Post from '#models/post'
 import Subscription from '#models/subscription'
 import User from '#models/user'
 import { MultipartFile } from '@adonisjs/core/bodyparser'
@@ -7,21 +8,41 @@ import { unlink } from 'node:fs/promises'
 import { join } from 'node:path'
 
 export class UserService {
-  public static async getUserInformations(userId: number, myid: number) {
+  public static async getUserInformations(userId: number, currentUserId: number) {
     try {
       const user = await User.find(userId)
 
-      const isSubscribedToUser = await Subscription.query()
-        .where('user_id', myid)
-        .andWhere('subscribed_to', userId)
-        .first()
+      const followersCount = await Subscription.query()
+        .where('subscribed_to', userId)
+        .count('* as total')
+      const followingCount = await Subscription.query().where('user_id', userId).count('* as total')
+      const postsCount = await Post.query().where('user_id', userId).count('* as total')
 
-      // Vérifier si cet utilisateur (userId) suit l'utilisateur courant (myid)
-      const isUserSubscribed = await Subscription.query()
+      const isFollowedByYou = !!(await Subscription.query()
+        .where('user_id', currentUserId)
+        .andWhere('subscribed_to', userId)
+        .first())
+
+      const isFollowingYou = !!(await Subscription.query()
         .where('user_id', userId)
-        .andWhere('subscribed_to', myid)
-        .first()
-      return { user, IsFollowByUser: !!isUserSubscribed, isFollowToUser: !!isSubscribedToUser }
+        .andWhere('subscribed_to', currentUserId)
+        .first())
+
+      const isFriend = !!isFollowingYou && !!isFollowedByYou
+
+      return {
+        user,
+        stats: {
+          followersCount: Number(followersCount[0].$extras.total),
+          followingCount: Number(followingCount[0].$extras.total),
+          postsCount: Number(postsCount[0].$extras.total),
+        },
+        relations: {
+          isFollowedByYou,
+          isFollowingYou,
+          isFriend,
+        },
+      }
     } catch (error) {
       console.log("Erreur lors de la récupération de l'utilisateur", error)
       throw new Error("Impossible de récupérer l'utilisateur")
