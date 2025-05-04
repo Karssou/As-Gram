@@ -8,7 +8,7 @@ export class PostService {
       UserId: creatorId,
       Content: content,
     })
-
+    console.log(createPost)
     return createPost
   }
 
