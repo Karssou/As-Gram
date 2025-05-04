@@ -1,7 +1,7 @@
 import { UserService } from '#services/user_service'
 import { UpdateUserValidator } from '#validators/user_update'
 import type { HttpContext } from '@adonisjs/core/http'
-import app from '@adonisjs/core/services/app'
+
 
 export default class UserController {
   public async updateInformation({ request, auth, response }: HttpContext) {
