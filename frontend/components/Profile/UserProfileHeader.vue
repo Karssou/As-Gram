@@ -19,8 +19,6 @@ if (Userinfo?.id === props.user?.id) {
 const AVATAR_PATH = `${useRuntimeConfig().public.apiBase}/${
   props.user?.avatar
 }`;
-
-console.warn("PATH AVATAR :", AVATAR_PATH);
 </script>
 
 <template>
