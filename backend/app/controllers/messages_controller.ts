@@ -15,7 +15,7 @@ export default class MessagesController {
     }
   }
 
-  public async GetMessages({ response, params, request }: HttpContext) {
+  public async GetMessages({ response, params }: HttpContext) {
     try {
       const { conversationId } = params
       const message: Object = await MessageService.getMessages(Number(conversationId))
