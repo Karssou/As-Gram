@@ -24,6 +24,8 @@ const AVATAR_PATH = `${useRuntimeConfig().public.apiBase}/${
   props.user?.avatar
 }`;
 
+const SETTINGS_PATH = `/modify-profile/${Userinfo?.id}`;
+
 const btnText = computed(() =>
   isFollowing.value ? "Ne plus suivre" : "Suivre"
 );
@@ -64,7 +66,9 @@ const toggleFollow = async () => {
     <div id="settings" v-if="IsUser">
       <shared-pop-over message="Paramètres">
         <button id="settings-btn">
-          <component :is="icons['settings']" id="settings-icon" />
+          <NuxtLink :to="SETTINGS_PATH" class="param-link">
+            <component :is="icons['settings']" id="settings-icon" />
+          </NuxtLink>
         </button>
       </shared-pop-over>
     </div>
@@ -128,8 +132,8 @@ const toggleFollow = async () => {
 
   #settings {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 10px;
+    right: 10px;
 
     #settings-btn {
       width: 25px;
@@ -141,6 +145,16 @@ const toggleFollow = async () => {
       border: none;
       border-radius: 7px;
       transition: background 0.2s ease;
+
+      .param-link {
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex-shrink: 0;
+      }
 
       #settings-icon {
         margin: 0;
