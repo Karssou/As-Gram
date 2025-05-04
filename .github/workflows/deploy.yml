@@ -3,7 +3,7 @@ name: 🚀 Déploiement sur VPS
 on:
   push:
     branches:
-      - main  
+      - main
 
 jobs:
   deploy:
@@ -12,21 +12,11 @@ jobs:
       - name: 📥 Récupérer le dépôt
         uses: actions/checkout@v3
 
-      - name: 🔑 Configurer SSH
+      - name: 🔑 Installer sshpass
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H 82.29.175.212 >> ~/.ssh/known_hosts
-          
-      - name: 🚀 Déployer Backend  
+          sudo apt-get install -y sshpass
+
+      - name: 🚀 Déployer Backend
         if: contains(github.event.head_commit.modified, 'backend/')
         run: |
-           ssh alexandre@82.29.175.212 << 'EOF'
-              cd /home/user/As-Gram/backend
-              git pull origin main
-              npm install
-              pm2 restart backend
-            EOF      
-            
-    
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no alexandre@82.29.175.212 "cd /home/user/As-Gram/backend && git pull origin main && npm install && pm2 restart backend"
