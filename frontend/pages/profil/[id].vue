@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 const { fetchUserInformations } = HandleUser();
-const { user } = useUserStore();
 const route = useRoute();
 const userID = route.params.id;
 

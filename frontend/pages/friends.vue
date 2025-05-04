@@ -1,12 +1,9 @@
 <script lang="ts" setup>
 const { indexRequest } = HandleFriendRequest();
-const { fetchUserInformations } = HandleUser();
-import { onMounted } from "vue";
+const { fetchMyInformations } = HandleUser();
 
-onMounted(async () => {
-  await indexRequest();
-  await fetchUserInformations();
-});
+await indexRequest();
+await fetchMyInformations();
 </script>
 
 <template>

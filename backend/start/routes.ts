@@ -21,11 +21,13 @@ const FriendsController = () => import('#controllers/friends_controller')
 const AuthController = () => import('#controllers/auth_controller')
 const MessagesController = () => import('#controllers/messages_controller')
 
-router.group(() => {
-  router.post('/register', [AuthController, 'register']).as('auth.register')
-  router.post('/login', [AuthController, 'login']).as('auth.login')
-  router.delete('/logout', [AuthController, 'logout']).as('auth.logout').use(middleware.auth())
-})
+router
+  .group(() => {
+    router.post('/register', [AuthController, 'register']).as('auth.register')
+    router.post('/login', [AuthController, 'login']).as('auth.login')
+    router.delete('/logout', [AuthController, 'logout']).as('auth.logout').use(middleware.auth())
+  })
+  .prefix('/auth')
 
 router
   .group(() => {

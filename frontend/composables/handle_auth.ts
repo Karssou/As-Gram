@@ -5,45 +5,34 @@ export function HandleAuth() {
 
   function authenticate(result: any) {
     if (result?.token) {
-      authstore.token = result.token;
-    } else {
-      console.error("[AUTH ERROR] Aucun token reçu !");
+      authstore.token = result.token.token;
+    }
+
+    if (result?.user) {
+      userstore.user = result.user;
     }
   }
 
   async function login(payload: Record<string, any>) {
-    const result: any = await ApiCall("POST", "/login", payload);
+    const result: any = await ApiCall("POST", "auth/login", payload);
 
-    if (result.status === "error") {
-      if (result.message) {
-        addNotification(result.message, result.status);
-      }
-    } else {
-      if (result.message) {
-        addNotification(result.message, result.status);
-      }
-      authenticate(result);
-    }
+    authenticate(result);
   }
 
   async function register(payload: Record<string, any>) {
-    const result: any = await ApiCall("POST", "/register", payload);
-    if (result.status === "error") {
-      addNotification(result.message, "error");
-    } else {
-      authenticate(result);
-    }
+    const request: any = await ApiCall("POST", "auth/register", payload);
+
+    authenticate(request);
   }
 
   async function logout() {
-    const result: any = ApiCall("DELETE", "/logout");
+    await ApiCall("DELETE", "auth/logout");
 
-    if (result.status === "error") {
-      addNotification(result.message, "error");
-    } else {
-      addNotification(result.message, "success");
-
+    if (authstore.token) {
       authstore.token = null;
+    }
+
+    if (userstore.user) {
       userstore.user = null;
     }
   }
