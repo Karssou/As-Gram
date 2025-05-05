@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 const { removeNotification } = useNotificationStore();
 const { notifications } = storeToRefs(useNotificationStore());
+import { icons } from "@/app/utils/icons";
 
-const IconNotifications = {
-  error: "ri:error-warning-fill",
-  success: "ri:checkbox-circle-fill",
+const IconNotifications: any = {
+  error: "error",
+  success: "",
 };
 
 const RemoveNotif = (notifid: number) => {
@@ -16,16 +17,10 @@ const RemoveNotif = (notifid: number) => {
   <div id="notifications-container">
     <TransitionGroup name="notification-move" tag="div">
       <div v-for="notif in notifications" :key="notif.id" id="notification">
-        <Icon
-          :name="IconNotifications[notif.type]"
-          :style="{
-            '--notif-icon-color': notif.type === 'error' ? 'red' : 'green',
-          }"
-          id="notif-icon"
-        />
+        <component :is="icons[IconNotifications[notif.type]]" id="notif-icon" />
         <h1 id="notif-title">{{ notif.message }}</h1>
         <button @click="RemoveNotif(notif.id)" id="notif-remove-btn">
-          <Icon name="ri:close-line" id="notif-icon-btn" />
+          <component :is="icons['close']" id="notif-icon-btn" />
         </button>
       </div>
     </TransitionGroup>
@@ -33,6 +28,8 @@ const RemoveNotif = (notifid: number) => {
 </template>
 
 <style lang="scss" scoped>
+@use "@/assets/styles/variables.scss" as *;
+
 #notifications-container {
   position: fixed;
   bottom: 0.5%;
@@ -63,9 +60,9 @@ const RemoveNotif = (notifid: number) => {
   }
 
   #notification {
-    min-width: 400px;
+    min-width: 350px;
     max-width: 10vw;
-    height: 60px;
+    height: 55px;
     border-radius: 7px;
     display: flex;
     align-items: center;
@@ -73,25 +70,28 @@ const RemoveNotif = (notifid: number) => {
     justify-content: flex-start;
     margin-bottom: 7px;
     transition: all 0.2s ease;
-    border: 1px solid rgba(255, 255, 255, 0.3); // Effet glossy
-    background: rgba(255, 255, 255, 0.08);
+    background: $color-black;
     backdrop-filter: blur(10px);
-    padding: 16px;
+    padding: 0 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 
     #notif-title {
-      margin: 0 auto 0 5px;
+      margin: 0 auto 0 10px;
       width: 100%;
-      max-height: 50px;
-      color: white;
+
+      color: $color-text;
+      text-overflow: ellipsis;
       overflow: hidden;
       font-size: 0.9rem;
       font-family: "Ubuntu";
+      word-wrap: break-word;
+      white-space: nowrap;
     }
 
     #notif-icon {
-      width: 25px;
-      height: 25px;
+      width: 32px;
+      height: 32px;
+      color: $color-text;
     }
 
     #notif-remove-btn {
@@ -103,18 +103,22 @@ const RemoveNotif = (notifid: number) => {
       justify-content: center;
       width: 25px;
       height: 25px;
+      flex-shrink: 0;
       padding: 0;
       transition: all 0.125s ease;
 
       #notif-icon-btn {
         width: 20px;
         height: 20px;
-        color: var(--notif-icon-color);
+        color: $color-text;
       }
 
       &:hover {
         cursor: pointer;
         background: rgb(212, 212, 212);
+        #notif-icon-btn {
+          color: black;
+        }
       }
     }
   }

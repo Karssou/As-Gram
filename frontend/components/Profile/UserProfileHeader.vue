@@ -10,6 +10,8 @@ const props = defineProps<{
   relations: relations;
 }>();
 
+const { addNotification } = useNotificationStore();
+
 const { user: Userinfo } = useUserStore();
 const { subscribeToUser, unsubscribeToUser } = useSubscription();
 
@@ -46,7 +48,10 @@ const toggleFollow = async () => {
 
     FollowLoading.value = false;
     if (status.value === "pending") FollowLoading.value = true;
-    if (status.value === "success") isFollowing.value = false;
+    if (status.value === "success") {
+      isFollowing.value = false;
+      addNotification("Vous ne suivez plus l'utilisateur", "success");
+    }
   } else {
     FollowLoading.value = true;
     const { status } = await useAsyncData(
@@ -55,7 +60,10 @@ const toggleFollow = async () => {
         return await subscribeToUser(props.user.id);
       }
     );
-    if (status.value === "success") isFollowing.value = true;
+    if (status.value === "success") {
+      isFollowing.value = true;
+      addNotification("Vous suivez l'utilisateur", "success");
+    }
     FollowLoading.value = false;
   }
 };

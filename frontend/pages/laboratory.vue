@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import Notifications from "~/components/Shared/notifications.vue";
+
 const bonjour = () => console.log("Bonjour");
 
 const postid = ref();
@@ -47,6 +49,8 @@ async function submit() {
   return req;
 }
 
+const { fetchUserInformations } = HandleUser();
+
 const followId = ref();
 
 const Isfollow = async () => {
@@ -73,16 +77,10 @@ const unsubscribe = async () => {
 
 <template>
   <main>
-    <form @submit.prevent="submit">
+    <!-- <form @submit.prevent="submit">
       <input type="file" name="file" id="pp" @change="onFileChange" />
       <button type="submit">Mettre à jour l'avatar</button>
-    </form>
-
-    <InputsTextInput placeholder="ID du mec" v-model="followId" />
-
-    <button @click="Subscribe">S'abonner</button>
-    <button @click="Isfollow">Je suis abonné ?</button>
-    <button @click="unsubscribe">Se désabonner</button>
+    </form> -->
   </main>
 </template>
 
