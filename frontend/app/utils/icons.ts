@@ -41,6 +41,7 @@ import AttachIcon from "~/components/Icons/AttachIcon.vue";
 import PasswordIcon from "~/components/Icons/PasswordIcon.vue";
 import EmailIcon from "~/components/Icons/EmailIcon.vue";
 import AddFriend from "~/components/Icons/AddFriend.vue";
+import WarningIcon from "~/components/Icons/WarningIcon.vue";
 
 export const icons: any = {
   home: HomeIcon,
@@ -85,4 +86,5 @@ export const icons: any = {
   love: LoveIcon,
   attach: AttachIcon,
   addfriend: AddFriend,
+  error: WarningIcon,
 };

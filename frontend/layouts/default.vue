@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import DevNavbar from "~/components/navbar/DevNavbar.vue";
+import Notifications from "~/components/Shared/notifications.vue";
 
 const { isAuthenticated } = useAuthStore();
 </script>
@@ -10,6 +11,8 @@ const { isAuthenticated } = useAuthStore();
     <h1 v-else>Status : Hors Ligne</h1>
   </div>
   <DevNavbar />
+
+  <Notifications />
 
   <NuxtPage />
 </template>
