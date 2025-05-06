@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-/// <reference types="../../node_modules/.vue-global-types/vue_3.5_0_0_0.d.ts" />
 import type { UserInformation } from "~/types/UserInformations";
 
 const { fetchUserInformations } = HandleUser();
@@ -26,5 +25,5 @@ const { data: userinfo } = useAsyncData<UserInformation>(
 </template>
 
 <style lang="scss" scoped>
-@use "styles/profil.scss";
+@use "../styles/profil.scss";
 </style>

@@ -105,8 +105,8 @@ const toggleFollow = async () => {
     </div>
     <div id="footer">
       <button id="follow-btn" @click="toggleFollow" :class="btnClass">
+        <span>{{ btnText }}</span>
         <loading-wheel v-if="FollowLoading" className="loading-wheel" />
-        <span v-else>{{ btnText }}</span>
       </button>
       <button id="message-btn"><span>Message</span></button>
       <shared-pop-over message="Ajouter">
@@ -125,6 +125,7 @@ const toggleFollow = async () => {
   width: 15px;
   height: 15px;
   border-width: 2px;
+  margin-left: 10px;
 }
 
 #profil-header {
