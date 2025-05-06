@@ -15,7 +15,7 @@ const { addNotification } = useNotificationStore();
 const { user: Userinfo } = useUserStore();
 const { subscribeToUser, unsubscribeToUser } = useSubscription();
 
-const isFollowing = ref(props.relations.isFollowedByYou);
+const isFollowing = ref(props.relations?.isFollowedByYou);
 
 const IsUser = ref(false);
 if (Userinfo?.id === props.user?.id) {
