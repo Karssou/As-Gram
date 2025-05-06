@@ -52,27 +52,6 @@ async function submit() {
 const { fetchUserInformations } = HandleUser();
 
 const followId = ref();
-
-const Isfollow = async () => {
-  return await ApiCall(
-    "GET",
-    `${useRuntimeConfig().public.apiBase}/follow/isfollowTo/${followId.value}`
-  );
-};
-
-const Subscribe = async () => {
-  return await ApiCall(
-    "POST",
-    `${useRuntimeConfig().public.apiBase}/follow/subscribe/${followId.value}`
-  );
-};
-
-const unsubscribe = async () => {
-  return await ApiCall(
-    "POST",
-    `${useRuntimeConfig().public.apiBase}/follow/unsubscribe/${followId.value}`
-  );
-};
 </script>
 
 <template>
@@ -81,6 +60,8 @@ const unsubscribe = async () => {
       <input type="file" name="file" id="pp" @change="onFileChange" />
       <button type="submit">Mettre à jour l'avatar</button>
     </form> -->
+
+    <AuthScreenLogin />
   </main>
 </template>
 
