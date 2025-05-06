@@ -1,12 +1,15 @@
 <script lang="ts" setup>
 import { icons } from "@/app/utils/icons";
 
+const { user } = useUserStore();
+
 const links = {
   auth: { path: "/authentification", icon: "user" },
   labo: { path: "/laboratory", icon: "labo" },
-  index: { path: "/", icon: "home" },
+  accueil: { path: "/", icon: "home" },
   friends: { path: "/friends", icon: "friend" },
-  profile: { path: "/profil/3", icon: "manageaccount" },
+
+  profile: { path: `/profil/${user?.id}`, icon: "user" },
   message: { path: "/message", icon: "message" },
 };
 </script>
