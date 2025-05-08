@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref, computed, watch } from "vue";
 import { useRouter } from "vue-router";
+import type { User } from "~/types/User";
 
-const router = useRouter();
 const { user } = useUserStore();
 const { updateUserInformations } = HandleUser();
-const profileForm = ref({ ...user });
+const profileForm = ref<User>({ ...user! });
 
 const GenderOptions = [
   { value: "male", label: "Homme" },
@@ -36,13 +36,6 @@ const birthdate = computed({
   },
 });
 
-watch(
-  () => profileForm.value.birthdate,
-  (newValue) => {
-    console.log("Valeur modifiée :", newValue);
-  }
-);
-
 async function Attemptupdate() {
   await updateUserInformations(profileForm.value);
 }
@@ -59,21 +52,24 @@ async function Attemptupdate() {
         <div id="form-content">
           <div class="input-container">
             <span class="span-input">Modifier votre pseudo</span>
-            <input type="text" v-model="user.username" />
+            <input type="text" v-model="profileForm.username" />
           </div>
 
           <div class="input-container">
             <span class="span-input">Nom complet</span>
-            <input type="text" v-model="user.fullName" />
+            <input type="text" v-model="profileForm.fullName" />
           </div>
 
           <div class="input-container">
             <span class="span-input">Modifier votre bio</span>
-            <textarea name="area-bio" v-model="user.biography"></textarea>
+            <textarea
+              name="area-bio"
+              v-model="profileForm.biography"
+            ></textarea>
           </div>
 
           <div class="input-container">
-            <span class="span-input">Votre genre {{ profileForm.gender }}</span>
+            <span class="span-input">Votre genre </span>
             <InputsSelectBox
               v-model="profileForm.gender"
               :options="GenderOptions"
@@ -99,7 +95,6 @@ async function Attemptupdate() {
             <NuxtLink to="../Profile_type">Enregistrez</NuxtLink>
           </button>
         </div>
-        
       </form>
     </div>
   </div>
